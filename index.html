@@ -5,7 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Junghyun Kim - Portfolio</title>
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  /* ══ 전역 설정 (터치 하이라이트 제거 포함) ══ */
+  *, *::before, *::after { 
+    margin: 0; padding: 0; box-sizing: border-box; 
+    -webkit-tap-highlight-color: transparent; /* 모바일 터치 시 파란색 효과 제거 */
+  }
+  
   :root {
     --black: #111; --gray: #999; --bg: #fff; --line: #eee;
     --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -121,26 +126,25 @@
   @media (max-width: 800px)  { .mb-masonry { grid-template-columns: repeat(4, 1fr); } }
   @media (max-width: 500px)  { .mb-masonry { grid-template-columns: repeat(2, 1fr); } }
 
-  /* ══ MOBILE OPTIMIZATION (중앙 정렬 및 여백 제거) ══ */
+  /* ══ MOBILE OPTIMIZATION ══ */
   @media (max-width: 800px) {
-    :root { --side: 0; } /* 22%의 좌우 밀림을 제거하여 중앙으로 복귀 */
+    :root { --side: 0; } 
     .wrap {
       width: 100%;
-      padding: 0 20px; /* 로고 라인에 맞춤 */
+      padding: 0 20px; 
       margin: 0 auto;
     }
     .slideshow {
-      background: transparent; /* 회색 배경 제거 */
+      background: transparent; 
     }
     .project-info {
-      grid-template-columns: 1fr; /* 2단에서 1단 정렬로 변경 */
+      grid-template-columns: 1fr; 
       gap: 12px;
     }
     .about-grid {
       grid-template-columns: 1fr;
       gap: 40px;
     }
-    /* 모바일에서 시계와 무드보드 라벨은 방해되지 않게 숨기거나 조절 가능 (필요시) */
     .mid-label { font-size: 11px; }
   }
 
@@ -183,7 +187,7 @@
   .lb-img-wrap .mb-real { max-width: 90vw; max-height: 75vh; width: auto !important; height: auto !important; }
   .lb-info { display: none; }
 
-  /* ══ 복사 방지 (텍스트 선택 및 이미지 드래그 차단) ══ */
+  /* ══ 복사 방지 ══ */
   body {
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -211,7 +215,6 @@
 <!-- BOTTOM BAR -->
 <div class="bottom-bar">
   <div id="bottom-bar-content" style="display:flex;justify-content:space-between;align-items:center;width:100%">
-    <!-- [가이드 3] 지메일 CM 링크 설정 -->
     <a href="https://mail.google.com/mail/?view=cm&fs=1&to=10069236@network.rca.ac.uk" target="_blank">Email</a>
     <a href="https://instagram.com/bi2ter" target="_blank">IG ↗</a>
   </div>
@@ -228,7 +231,6 @@
   <section>
     <div class="wrap">
       <div class="hero">
-        <!-- [가이드 1] 메인 대문 글씨 수정 영역 -->
         <div class="hero-text">PORT<br>FOLIO</div>
       </div>
     </div>
@@ -237,7 +239,6 @@
   <!-- PROJECT 1: DENDI -->
   <section class="project-section">
     <div class="wrap">
-      <!-- [가이드 2] 이미지 수정 영역 -->
       <div class="slideshow" id="ss1" data-cur="0">
         <div class="slide active">
           <img src="1-2.png" alt="Dendi" class="slide-img">
@@ -254,7 +255,6 @@
         <div class="slide-counter">0 / 0</div>
       </div>
       
-      <!-- [가이드 2] 텍스트 정보 수정 영역 -->
       <div class="project-info">
         <div>
           <div class="pname">Dendi</div>
@@ -331,7 +331,7 @@
           <div class="cv-entry">
             <div class="cv-place">SADI</div>
             <div class="cv-place">Product Design</div>
-            <div class="cv-year">2025 — Top of the class</div>
+            <div class="cv-year">2025 — Graduated top of the class</div>
           </div>
         </div>
         <div class="about-col">
@@ -440,7 +440,6 @@
     });
 
     function onScroll() {
-      // 프로젝트 애니메이션
       document.querySelectorAll('.project-section .wrap').forEach(w => {
         const r = w.getBoundingClientRect(), vh = window.innerHeight;
         if (r.top < vh * 0.85 && r.bottom > vh * 0.05) w.classList.remove('below', 'above');
@@ -448,7 +447,6 @@
         else if (r.bottom <= vh * 0.05) { w.classList.remove('below'); w.classList.add('above'); }
       });
 
-      // 무드보드 애니메이션
       if (document.body.classList.contains('on-moodboard')) {
         const vh = window.innerHeight;
         document.querySelectorAll('.mb-item').forEach((it, i) => {
