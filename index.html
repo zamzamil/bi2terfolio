@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio</title>
+<title>Junghyun Kim - Portfolio</title>
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
@@ -97,7 +97,7 @@
   }
   body.edit-mode .add-slide-btn { display: block; }
   .add-slide-btn:hover { background: #111; }
-  .empty-hint { font-size: 12px; color: var(--gray); }
+  .empty-hint { font-size: 12px; color: var(--gray); text-align: center; line-height: 1.6; }
 
   .slide-counter { position: absolute; bottom: 10px; right: 14px; font-size: 11px; color: #aaa; pointer-events: none; z-index: 4; }
   .zone { position: absolute; top: 0; bottom: 0; width: 50%; z-index: 5; }
@@ -246,7 +246,6 @@
     background: var(--drop);
   }
 
-  /* delete buttons / project toolbar — hidden unless edit mode */
   .del-btn, .project-toolbar, #add-project-btn { display: none; }
   body.edit-mode .del-btn {
     display: block;
@@ -298,8 +297,6 @@
   }
   body.edit-mode .project-block.dragging { opacity: 0.4; cursor: grabbing; }
   body.edit-mode .mb-item.dragging { opacity: 0.4; }
-
-  /* hide zone clicks during edit */
   body.edit-mode .zone { pointer-events: none; }
 
   /* ══ EDIT TOOLBAR ══ */
@@ -333,7 +330,6 @@
   #save-status { font-size: 11px; opacity: 0.7; padding: 0 10px; min-width: 56px; text-align: center; }
   #edit-toolbar .label { padding: 0 10px; opacity: 0.6; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
 
-  /* edit hint (shown when not editing) */
   #edit-hint {
     position: fixed;
     bottom: calc(var(--bar) + 14px);
@@ -375,73 +371,124 @@
 <div class="mid-label mid-left" id="mb-btn" style="cursor:pointer">Moodboard</div>
 <div class="mid-label mid-right" id="clock">00:00:00</div>
 
-
 <!-- ════════════════ PORTFOLIO PAGE ════════════════ -->
 <div id="page-portfolio">
 
-  <!-- HERO (text only) -->
+  <!-- HERO -->
   <section>
     <div class="wrap">
       <div class="hero">
-        <div class="hero-text">PORT
-FOLIO</div>
+        <div class="hero-text">PORT<br>FOLIO</div>
       </div>
     </div>
   </section>
-  </section>
 
-  <!-- PROJECT 1 -->
+  <!-- PROJECT 1: DENDI -->
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss1" data-cur="0">
-        <div class="slide active empty-slide"><div class="empty-hint">이미지를 드래그하거나 클릭하세요</div></div>
+        
+        <!-- 👇👇👇 [이미지 추가 가이드 - 여기를 읽어주세요!] 👇👇👇
+             1. 이미지를 넣으시려면 아래의 <div class="slide active empty-slide">...</div> 부분을 통째로 지우세요.
+             2. 그리고 주석 처리된 <!-- [이미지 추가 예시] --> <!-- 부분의 코드를 주석 해제해서 사용하시면 됩니다.
+             3. src="..." 부분에 사용할 이미지(렌더링 등)의 정확한 파일명을 적어주세요.
+             4. 맨 처음 보여야 할 첫 번째 이미지에만 꼭 class="slide active" 라고 'active'를 넣어주셔야 합니다!
+        -->
+        
+        <!-- [이미지 추가 예시: 아래 코드를 활용하세요]
+        <div class="slide active">
+          <img src="images/dendi_render_01.jpg" alt="Dendi 메인 렌더링" class="slide-img">
+        </div>
+        <div class="slide">
+          <img src="images/dendi_soil_detail.png" alt="Dendi 흙 디테일" class="slide-img">
+        </div>
+        -->
+        
+        <div class="slide active empty-slide">
+          <div class="empty-hint">
+            <strong>여기에 이미지가 들어갑니다.</strong><br>
+            HTML 코드의 주석 가이드를 참고하여<br>
+            &lt;img&gt; 태그를 추가해 보세요.
+          </div>
+        </div>
+
         <div class="zone zone-l" onclick="slide('ss1',-1)"></div>
         <div class="zone zone-r" onclick="slide('ss1',1)"></div>
         <div class="slide-counter">0 / 0</div>
       </div>
       <div class="project-info">
-        <div><div class="pname">Project Name</div><div class="pyear">2047</div></div>
+        <div><div class="pname">Dendi</div><div class="pyear">2026</div></div>
         <div>
-          <div class="ptags">Dolor Nostrud<br>Consectetur dolor<br>Aute Ipsum de Amet</div>
-          <div class="pdesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porta ex a porta blandit. Suspendisse feugiat justo at mauris molestie molestie. Ut mattis urna sed sem pulvinar, vitae rutrum nulla ultrices.</div>
+          <div class="ptags">Sustainable Design<br>Bio-materials<br>Behavioral Change</div>
+          <div class="pdesc">Domestic dog waste management system using terracotta and living dandelions. The dandelion roots act as a visual indicator of soil health while facilitating microbial activation.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PROJECT 2 -->
+  <!-- PROJECT 2: ROOOPIE -->
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss2" data-cur="0">
-        <div class="slide active empty-slide"><div class="empty-hint">이미지를 드래그하거나 클릭하세요</div></div>
+        
+        <!-- [이미지 추가 예시: 프로젝트 2]
+        <div class="slide active">
+          <img src="images/rooopie_main.jpg" alt="Rooopie 메인 뷰" class="slide-img">
+        </div>
+        <div class="slide">
+          <img src="images/rooopie_solar.png" alt="태양광 패널 디테일" class="slide-img">
+        </div>
+        -->
+        <div class="slide active empty-slide">
+          <div class="empty-hint">
+            <strong>여기에 이미지가 들어갑니다.</strong><br>
+            HTML 코드의 주석 가이드를 참고하세요.
+          </div>
+        </div>
+
         <div class="zone zone-l" onclick="slide('ss2',-1)"></div>
         <div class="zone zone-r" onclick="slide('ss2',1)"></div>
         <div class="slide-counter">0 / 0</div>
       </div>
       <div class="project-info">
-        <div><div class="pname">Surface Study</div><div class="pyear">2046</div></div>
+        <div><div class="pname">Rooopie</div><div class="pyear">2026</div></div>
         <div>
-          <div class="ptags">Aliquam Nostrud<br>Vestibulum dolor<br>Porta Ipsum de Amet</div>
-          <div class="pdesc">Cras ut dictum mi. Sed quis lorem semper, elementum mauris vitae, consectetur orci. Aenean fermentum arcu mauris, eu faucibus nisl blandit ac.</div>
+          <div class="ptags">Non-violent Prevention<br>Renewable Energy<br>Urban Ecology</div>
+          <div class="pdesc">A non-violent pigeon prevention system utilizing rotating triangular prisms. The system integrates solar panels to ensure technical self-sufficiency and independent energy generation.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PROJECT 3 -->
+  <!-- PROJECT 3: YUN-DON-BAN -->
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss3" data-cur="0">
-        <div class="slide active empty-slide"><div class="empty-hint">이미지를 드래그하거나 클릭하세요</div></div>
+        
+        <!-- [이미지 추가 예시: 프로젝트 3]
+        <div class="slide active">
+          <img src="images/yundonban_tier1.jpg" alt="Yun-don-ban 1단" class="slide-img">
+        </div>
+        <div class="slide">
+          <img src="images/yundonban_full.jpg" alt="Yun-don-ban 3단 조립" class="slide-img">
+        </div>
+        -->
+        <div class="slide active empty-slide">
+          <div class="empty-hint">
+            <strong>여기에 이미지가 들어갑니다.</strong><br>
+            HTML 코드의 주석 가이드를 참고하세요.
+          </div>
+        </div>
+
         <div class="zone zone-l" onclick="slide('ss3',-1)"></div>
         <div class="zone zone-r" onclick="slide('ss3',1)"></div>
         <div class="slide-counter">0 / 0</div>
       </div>
       <div class="project-info">
-        <div><div class="pname">Vessel Series</div><div class="pyear">2045</div></div>
+        <div><div class="pname">Yun-don-ban</div><div class="pyear">2026</div></div>
         <div>
-          <div class="ptags">Euismod Nostrud<br>Suspendisse dolor<br>Congue Ipsum de Amet</div>
-          <div class="pdesc">Quisque vulputate mauris quis tellus ultrices euismod. Quisque eu purus convallis, gravida.</div>
+          <div class="ptags">Cultural Fusion<br>Product Design<br>Social Interaction</div>
+          <div class="pdesc">A 3-tier tray and traditional Korean soban hybrid designed to facilitate social interaction. The project reimagines the traditional Soban through the lens of British tea culture in London.</div>
         </div>
       </div>
     </div>
@@ -453,61 +500,35 @@ FOLIO</div>
       <div class="about-grid">
         <div class="about-col">
           <div class="about-col-title">Information</div>
-          <a href="#">Untitled (Profile)</a>
+          <a href="#">Junghyun Kim</a>
           <a href="#">hello@example.com</a>
           <a href="#">Instagram</a>
-          <p class="bio">Cras ut dictum mi. Sed quis lorem semper, elementum mauris vitae, consectetur orci. Cras volutpat eget elit porta facilisis. Aenean fermentum arcu mauris, eu faucibus nisl blandit ac. Proin eget euismod mauris. Quisque vulputate mauris quis tellus ultrices euismod. Quisque eu purus convallis, gravida.</p>
+          <p class="bio">Multidisciplinary designer and founder of Heavywise Inc., operating between Seoul and London. Currently studying at the Royal College of Art (RCA), exploring how physical objects and behavior-based design can guide human behavior in sustainable directions. Focusing on upcycling, bio-materials, and the fusion of traditional cultural elements with modern industrial design.</p>
         </div>
         <div class="about-col">
           <div class="about-col-title">Education</div>
           <div class="cv-entry">
-            <div class="cv-place">Vestibulum Euismod (Ultrices)</div>
-            <div class="cv-place">Suspendisse Aenean Lec</div>
-            <div class="cv-year">2023</div>
+            <div class="cv-place">Royal College of Art (RCA)</div>
+            <div class="cv-place">Product Design</div>
+            <div class="cv-year">Present</div>
           </div>
           <div class="cv-entry">
-            <div class="cv-place">Aliquam Faucibus Tellus</div>
-            <div class="cv-place">Vestibulum Ultricies</div>
-            <div class="cv-place">Suspendisse Aenean Vestibulum</div>
-          </div>
-          <div class="about-col-title" style="margin-top:20px">Solo Shows</div>
-          <div class="cv-entry">
-            <div class="cv-place">(upcoming) Tincidunt TBA</div>
-            <div class="cv-place">Ultricies Ultricies, Congue Nisl</div>
-            <div class="cv-year">2026</div>
-          </div>
-          <div class="cv-entry">
-            <div class="cv-italic">Suspendisse</div>
-            <div class="cv-place">Molestie Aenean, Facilisis Tellus</div>
-            <div class="cv-year">2024</div>
-          </div>
-          <div class="cv-entry">
-            <div class="cv-italic">Ultrices</div>
-            <div class="cv-place">Parturient Felis, Pharetra Nibh</div>
-            <div class="cv-year">2023</div>
+            <div class="cv-place">Samsung Art & Design Institute (SADI)</div>
+            <div class="cv-place">Product Design</div>
+            <div class="cv-year">Graduated</div>
           </div>
         </div>
         <div class="about-col">
-          <div class="about-col-title">Group Shows</div>
+          <div class="about-col-title">Awards & Leadership</div>
           <div class="cv-entry">
-            <div class="cv-place">Eu &amp; Fringilla, Collaborative</div>
-            <div class="cv-place">Imperdiet with Quam Sodales</div>
-            <div class="cv-year">2023</div>
+            <div class="cv-place">Grand Prize & Citizens’ Choice Award</div>
+            <div class="cv-place">Seoul Tourism Souvenir Contest</div>
+            <div class="cv-year">2021</div>
           </div>
           <div class="cv-entry">
-            <div class="cv-italic">Semper</div>
-            <div class="cv-place">Cursus Tempus, Porta Libero</div>
-            <div class="cv-year">2023</div>
-          </div>
-          <div class="cv-entry">
-            <div class="cv-italic">Rhoncus Congue</div>
-            <div class="cv-place">Ullamcorper Suspendisse</div>
-            <div class="cv-year">2023</div>
-          </div>
-          <div class="cv-entry">
-            <div class="cv-italic">Pellentesque Ornare</div>
-            <div class="cv-place">Porttitor Ultrices, Sagittis Tempor</div>
-            <div class="cv-year">2022</div>
+            <div class="cv-italic">Crowdfunding Leadership</div>
+            <div class="cv-place">Heavywise Inc. (£295,000 Raised)</div>
+            <div class="cv-year">2021-2025</div>
           </div>
         </div>
       </div>
@@ -522,9 +543,9 @@ FOLIO</div>
 
 </div><!-- /page-portfolio -->
 
-
 <!-- ════════════════ MOODBOARD PAGE ════════════════ -->
 <div id="page-moodboard">
+  <!-- (기존 무드보드 코드 동일) -->
   <div class="mb-item">
     <div class="mb-ph" style="padding-bottom:140%;background:#b5c4d4;display:flex;align-items:center;justify-content:center;"><span style="font-size:28px;font-weight:900;color:#c0392b;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">LENS</span></div>
     <div class="mb-info"><div class="mb-code">2-34</div><div class="mb-author">F. Kuenstler</div><div class="mb-src">SRC</div></div>
@@ -541,56 +562,7 @@ FOLIO</div>
     <div class="mb-ph" style="padding-bottom:65%;background:#ece8e0;"></div>
     <div class="mb-info"><div class="mb-code">65-4</div><div class="mb-author">Printed Card</div><div class="mb-src">SRC</div></div>
   </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:130%;background:#e8c840;"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;text-align:center;line-height:1.2">PLÄNE<br>I–XXX</span></div>
-    <div class="mb-info"><div class="mb-code">6785</div><div class="mb-author">T. Schütte</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:90%;background:#e8e4de;"></div>
-    <div class="mb-info"><div class="mb-code">23-4</div><div class="mb-author">T. De Cordier</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:140%;background:#d0c8b8;"></div>
-    <div class="mb-info"><div class="mb-code">3-3</div><div class="mb-author">J. Rhoades</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:100%;background:#e05030;"></div>
-    <div class="mb-info"><div class="mb-code">8J</div><div class="mb-author">G. Debord</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:100%;background:#c8b890;"></div>
-    <div class="mb-info"><div class="mb-code">SS88</div><div class="mb-author">S. Ford</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:140%;background:#e8e4dc;"></div>
-    <div class="mb-info"><div class="mb-code">345</div><div class="mb-author">R. Filliou</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:80%;background:#e8e8e0;"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:10px;font-size:10px;font-weight:700;text-align:center;line-height:1.4">THE POEM AT THE BOTTOM OF THE LAKE</span></div>
-    <div class="mb-info"><div class="mb-code">001AB</div><div class="mb-author">W. Elliott</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:120%;background:#dcd8d0;"></div>
-    <div class="mb-info"><div class="mb-code">98DF</div><div class="mb-author">M. Broodthaers</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:150%;background:#111;"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;text-align:center;line-height:1.2">MULLICAN<br>DEATH</span></div>
-    <div class="mb-info"><div class="mb-code">000</div><div class="mb-author">M. Mullican</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:90%;background:#d4c8c0;"></div>
-    <div class="mb-info"><div class="mb-code">TT5</div><div class="mb-author">K. Bosse</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:130%;background:#3a6040;"></div>
-    <div class="mb-info"><div class="mb-code">999U</div><div class="mb-author">T. Raworth</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:110%;background:#2c3a58;"></div>
-    <div class="mb-info"><div class="mb-code">HD001</div><div class="mb-author">H. Darboven</div><div class="mb-src">SRC</div></div>
-  </div>
 </div><!-- /page-moodboard -->
-
 
 <!-- ════════════════ LIGHTBOX ════════════════ -->
 <div class="lb" id="lb">
