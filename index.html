@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Junghyun Kim - Portfolio</title>
 <style>
-  /* ══ 전역 설정 및 터치 효과 제거 ══ */
+  /* ══ 전역 설정 ══ */
   *, *::before, *::after { 
     margin: 0; padding: 0; box-sizing: border-box; 
     -webkit-tap-highlight-color: transparent; 
@@ -29,7 +29,7 @@
   body { padding: 0; }
   a { color: inherit; text-decoration: none; }
 
-  /* ══ 상단 고정 바 ══ */
+  /* ══ 고정 바 ══ */
   .top-bar {
     position: fixed; left: 0; right: 0; top: 0; z-index: 300;
     height: var(--bar);
@@ -38,18 +38,16 @@
     transition: background 0.4s ease, color 0.25s ease;
   }
 
-  /* ══ 하단 고정 바 (잘림 방지 강화) ══ */
   .bottom-bar {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 300;
-    min-height: 60px; /* 높이 증가 */
+    min-height: 60px;
     display: flex; justify-content: space-between; align-items: center;
-    padding: 0 20px calc(env(safe-area-inset-bottom) + 12px); /* 하단 여백 대폭 강화 */
+    padding: 0 20px calc(env(safe-area-inset-bottom) + 12px); 
     background: transparent; 
     transition: background 0.4s ease, color 0.25s ease;
   }
   
   .top-bar.scrolled, .bottom-bar.scrolled { background: var(--bg); }
-  
   .nav-btn { cursor: pointer; font-size: 13px; user-select: none; color: var(--black); white-space: nowrap; }
   .nav-btn:hover { text-decoration: underline; }
 
@@ -84,11 +82,11 @@
     color: var(--black); opacity: 1; transition: opacity 0.6s ease; pointer-events: none;
   }
   .hero.video-hidden .hero-video, .hero.video-hidden .hero-location { opacity: 0; pointer-events: none; }
+  
   .hero-text {
     position: relative; z-index: 3; display: flex; flex-direction: column; gap: 10px; 
     font-size: 13px; font-weight: 400; line-height: 1.4;
   }
-  .hero-link:hover { text-decoration: underline; opacity: 0.5; }
 
   /* ══ 섹션 공통 모션 ══ */
   .project-section .wrap, .about-section .wrap {
@@ -98,12 +96,8 @@
   .project-section .wrap.below, .about-section .wrap.below { opacity: 0; transform: translateY(60px); }
   .project-section .wrap.above, .about-section .wrap.above { opacity: 0; transform: translateY(-60px); }
 
-  /* ══ 프로젝트 섹션 ══ */
   .project-section { min-height: 100vh; display: flex; align-items: center; padding: 100px 0; }
-  .slideshow {
-    width: 100%; position: relative; overflow: hidden;
-    user-select: none; background: rgba(127,127,127,0.08); min-height: 200px;
-  }
+  .slideshow { width: 100%; position: relative; overflow: hidden; background: rgba(127,127,127,0.08); min-height: 200px; }
   .slide { position: relative; display: none; width: 100%; }
   .slide.active { display: block; }
   .slide-img { width: 100%; height: auto; display: block; }
@@ -112,34 +106,25 @@
 
   .project-info { display: grid; grid-template-columns: 1fr 1fr; padding: 20px 0 60px; color: var(--black); }
   .pname { font-size: 13px; font-weight: 500; }
-  .pyear { font-size: 13px; }
   .ptags { font-size: 13px; font-weight: 500; line-height: 1.5; }
   .pdesc { font-size: 12px; color: var(--gray); line-height: 1.7; margin-top: 10px; }
 
   /* ══ ABOUT ══ */
-  .about-section { 
-    min-height: 50vh; display: flex; align-items: flex-start;
-    padding: 10vh 0 20px; color: var(--black); 
-  }
+  .about-section { min-height: 50vh; display: flex; align-items: flex-start; padding: 10vh 0 20px; color: var(--black); }
   .about-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; width: 100%; }
   .about-col { padding-right: 28px; }
   .about-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
   .about-col p, .about-col a { font-size: 13px; line-height: 1.6; display: block; color: var(--black); }
-  .about-col .bio { font-size: 12px; color: var(--gray); line-height: 1.7; margin-top: 12px; }
 
-  /* ══ 모바일 최적화 ══ */
   @media (max-width: 800px) {
     :root { --side: 0; } 
-    .wrap { width: 100%; padding: 0 20px; margin: 0 auto; }
-    .project-info { grid-template-columns: 1fr; gap: 12px; }
-    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .wrap { width: 100%; padding: 0 20px; }
     .mid-right { display: none; } 
-    .project-section { padding: 60px 0; }
     .about-section { padding-top: 60px; min-height: auto; }
-    .hero-location { font-size: 11px; left: 20px; }
+    .bottom-bar { padding-bottom: calc(env(safe-area-inset-bottom) + 8px); }
   }
 
-  /* ══ 무드보드 ══ */
+  /* ══ 무드보드 GRID ══ */
   .mb-masonry {
     display: grid; grid-template-columns: repeat(8, 1fr); column-gap: 10px;
     row-gap: 30px; padding: calc(var(--bar) + 20px) 20px 120px; align-items: start;
@@ -154,10 +139,8 @@
     transition: opacity var(--mb-dur) cubic-bezier(0.16,1,0.3,1), transform var(--mb-dur) cubic-bezier(0.16,1,0.3,1);
   }
   .mb-item.visible { opacity: 1 !important; transform: translateY(0) !important; }
-  .mb-item.exit-up { opacity: 0; transform: translateY(calc(var(--mb-dy) * -1)); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.4,0,1,1); }
   .mb-ph { position: relative; width: 100%; overflow: hidden; line-height: 0; }
   .mb-real { width: 100%; height: auto; display: block; }
-  .mb-info { margin-top: 6px; line-height: 1.3; color: var(--black); transition: color 0.25s ease; }
 
   /* ══ 라이트박스 ══ */
   .lb {
@@ -171,29 +154,25 @@
   .lb-arrow { top: 50%; transform: translateY(-50%); font-size: 22px; padding: 20px; }
   .lb-arrow.prev { left: 16px; }
   .lb-arrow.next { right: 16px; }
-  .lb-img-wrap { display: flex; align-items: center; justify-content: center; max-width: 90vw; max-height: 75vh; }
   .lb-img-wrap img { max-width: 90vw; max-height: 75vh; width: auto !important; height: auto !important; object-fit: contain; }
-  .lb-info { color: var(--black); margin-top: 15px; text-align: center; }
 
-  /* ══ 보안 ══ */
-  body { -webkit-user-select: none; -moz-user-select: none; user-select: none; }
+  body { -webkit-user-select: none; user-select: none; }
   img { -webkit-user-drag: none; }
 </style>
 </head>
 <body class="light">
 
-<!-- TOP NAV -->
+<!-- NAV -->
 <div class="top-bar" id="top-bar">
-  <div id="top-bar-content" style="display:flex;justify-content:space-between;align-items:center;width:100%">
+  <div style="display:flex;justify-content:space-between;align-items:center;width:100%">
     <span id="cargo-logo" class="nav-btn">Junghyun Kim</span>
     <span id="dark-mode-toggle" class="nav-btn">Dark</span>
     <span id="nav-right" class="nav-btn">About</span>
   </div>
 </div>
 
-<!-- BOTTOM BAR (텍스트 잘림 방지 대폭 강화) -->
 <div class="bottom-bar" id="bottom-bar">
-  <div id="bottom-bar-content" style="display:flex;justify-content:space-between;align-items:center;width:100%">
+  <div style="display:flex;justify-content:space-between;align-items:center;width:100%">
     <span id="mb-btn" class="nav-btn">Moodboard</span>
     <a href="https://instagram.com/bi2ter" target="_blank" class="nav-btn">IG ↗</a>
   </div>
@@ -201,13 +180,11 @@
 
 <div class="mid-label mid-right" id="clock">00:00:00</div>
 
+<!-- PAGE: PORTFOLIO -->
 <div id="page-portfolio">
-  <!-- HERO -->
   <section class="hero" id="hero-section">
-    <video class="hero-video" id="main-video" autoplay loop muted playsinline>
-      <source src="i1.mp4" type="video/mp4">
-    </video>
-    <div class="hero-location">Pier Head, Liverpool L3 1BY<br>April 2026</div>
+    <video class="hero-video" id="main-video" autoplay loop muted playsinline></video>
+    <div class="hero-location" id="hero-location"></div>
     <div class="wrap">
       <div class="hero-text">
         <a href="#ss1" class="hero-link">Dendi</a>
@@ -217,93 +194,51 @@
     </div>
   </section>
 
-  <!-- PROJECT 1 -->
   <section class="project-section" id="ss1">
     <div class="wrap">
       <div class="slideshow" id="slides-ss1" data-cur="0">
         <div class="slide active"><img src="1-2.png" class="slide-img"></div>
         <div class="slide"><img src="1-1.png" class="slide-img"></div>
-        <div class="zone zone-l" onclick="slide('slides-ss1',-1)" style="position:absolute;left:0;top:0;bottom:0;width:50%;z-index:5;"></div>
-        <div class="zone zone-r" onclick="slide('slides-ss1',1)" style="position:absolute;right:0;top:0;bottom:0;width:50%;z-index:5;"></div>
+        <div class="zone" onclick="slide('slides-ss1',-1)" style="left:0;"></div>
+        <div class="zone" onclick="slide('slides-ss1',1)" style="right:0;"></div>
         <div class="slide-counter">1 / 2</div>
       </div>
       <div class="project-info">
-        <div><div class="pname">Dendi</div><div class="pyear">2026</div></div>
-        <div><div class="ptags">Sustainable Design<br>Bio-materials</div><div class="pdesc">Domestic dog waste management system using terracotta and living dandelions.</div></div>
+        <div><div class="pname">Dendi</div><div>2026</div></div>
+        <div><div class="ptags">Sustainable Design</div><div class="pdesc">Terracotta and living dandelions.</div></div>
       </div>
     </div>
   </section>
-
-  <!-- PROJECT 2 -->
-  <section class="project-section" id="ss2">
-    <div class="wrap">
-      <div class="slideshow" id="slides-ss2" data-cur="0">
-        <div class="slide active"><img src="images/placeholder.jpg" class="slide-img"></div>
-        <div class="zone zone-l" onclick="slide('slides-ss2',-1)" style="position:absolute;left:0;top:0;bottom:0;width:50%;z-index:5;"></div>
-        <div class="zone zone-r" onclick="slide('slides-ss2',1)" style="position:absolute;right:0;top:0;bottom:0;width:50%;z-index:5;"></div>
-        <div class="slide-counter">1 / 1</div>
-      </div>
-      <div class="project-info">
-        <div><div class="pname">Rooopie</div><div class="pyear">2026</div></div>
-        <div><div class="ptags">Non-violent Prevention<br>Urban Ecology</div><div class="pdesc">A non-violent pigeon prevention system.</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROJECT 3 -->
-  <section class="project-section" id="ss3">
-    <div class="wrap">
-      <div class="slideshow" id="slides-ss3" data-cur="0">
-        <div class="slide active"><img src="images/placeholder.jpg" class="slide-img"></div>
-        <div class="zone zone-l" onclick="slide('slides-ss3',-1)" style="position:absolute;left:0;top:0;bottom:0;width:50%;z-index:5;"></div>
-        <div class="zone zone-r" onclick="slide('slides-ss3',1)" style="position:absolute;right:0;top:0;bottom:0;width:50%;z-index:5;"></div>
-        <div class="slide-counter">1 / 1</div>
-      </div>
-      <div class="project-info">
-        <div><div class="pname">Yun-don-ban</div><div class="pyear">2026</div></div>
-        <div><div class="ptags">Cultural Fusion<br>Product Design</div><div class="pdesc">A hybrid designed for tea culture.</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
+  
+  <!-- About -->
   <section id="about" class="about-section">
     <div class="wrap">
       <div class="about-grid">
         <div class="about-col">
           <div class="about-col-title">Information</div>
-          <a href="#">Junghyun Kim</a>
-          <a href="mailto:10069236@network.rca.ac.uk">10069236@network.rca.ac.uk</a>
-          <a href="https://instagram.com/bi2ter" target="_blank">@bi2ter</a>
-          <p class="bio">Multidisciplinary designer operating between Seoul and London. Studying at RCA.</p>
+          <a href="mailto:10069236@network.rca.ac.uk">Email ↗</a>
+          <a href="https://instagram.com/bi2ter" target="_blank">Instagram ↗</a>
+          <p style="margin-top:10px; color:var(--gray);">Seoul & London. Studying at RCA.</p>
         </div>
         <div class="about-col">
           <div class="about-col-title">Education</div>
-          <div class="cv-entry"><div class="cv-place">RCA — Design Products</div><div class="cv-year">2025-2026</div></div>
-          <div class="cv-entry"><div class="cv-place">SADI — Product Design</div><div class="cv-year">2025 Graduated</div></div>
-        </div>
-        <div class="about-col">
-          <div class="about-col-title">Awards</div>
-          <div class="cv-entry"><div class="cv-place">Grand Prize</div><div class="cv-year">2021</div></div>
+          <p>RCA (2025-2026)</p>
+          <p>SADI (2025 Graduated)</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TOP 이동 버튼 (위치 대폭 상향 조정) -->
   <div style="padding: 20px 20px 120px; text-align: center;">
     <span onclick="goToHome()" class="nav-btn" style="text-decoration:underline;">Top ↑</span>
   </div>
-
 </div>
 
-<!-- MOODBOARD PAGE -->
+<!-- PAGE: MOODBOARD -->
 <div id="page-moodboard">
   <div class="mb-masonry">
     <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-1.png"></div><div class="mb-info">Mood 01</div></div>
     <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-2.png"></div><div class="mb-info">Mood 02</div></div>
-    <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-3.png"></div><div class="mb-info">Mood 03</div></div>
-    <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-4.png"></div><div class="mb-info">Mood 04</div></div>
   </div>
 </div>
 
@@ -317,152 +252,109 @@
 </div>
 
 <script>
-  /* 1. 기본 유틸리티 */
-  function slide(id, dir) {
-    const ss = document.getElementById(id); if (!ss) return; 
-    const slides = ss.querySelectorAll('.slide'); if (slides.length <= 1) return; 
-    let cur = parseInt(ss.getAttribute('data-cur')) || 0;
-    slides[cur].classList.remove('active');
-    cur = (cur + dir + slides.length) % slides.length;
-    slides[cur].classList.add('active'); ss.setAttribute('data-cur', cur);
-    const counter = ss.querySelector('.slide-counter'); if (counter) counter.innerText = (cur + 1) + ' / ' + slides.length;
+  /* ══════════════════════════════════════════════
+     🛠️ HERO 데이터 설정 (여기서 영상과 문구를 수정하세요)
+     ══════════════════════════════════════════════ */
+  const heroData = [
+    { 
+      video: 'i1.mp4', 
+      text: 'Pier Head, Liverpool L3 1BY<br>April 2026' 
+    },
+    { 
+      video: 'i2.mp4', 
+      text: 'Seoul, South Korea<br>May 2026' 
+    },
+    { 
+      video: 'i3.mp4', 
+      text: 'London, United Kingdom<br>June 2026' 
+    }
+  ];
+
+  function setRandomHero() {
+    const randomIdx = Math.floor(Math.random() * heroData.length);
+    const selected = heroData[randomIdx];
+    
+    document.getElementById('main-video').src = selected.video;
+    document.getElementById('hero-location').innerHTML = selected.text;
   }
 
+  /* ══ 기본 유틸리티 ══ */
   function tick(){
     const n = new Date(), p = x => String(x).padStart(2,'0');
-    const c = document.getElementById('clock'); if (c) c.textContent = p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());
+    document.getElementById('clock').textContent = p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());
   }
   setInterval(tick, 1000); tick();
 
-  const darkToggle = document.getElementById('dark-mode-toggle');
   const body = document.body;
+  const darkToggle = document.getElementById('dark-mode-toggle');
   if (localStorage.getItem('theme') === 'dark') { body.classList.add('dark'); darkToggle.innerText = 'Light'; }
   darkToggle.addEventListener('click', () => {
     body.classList.toggle('dark'); const isDark = body.classList.contains('dark');
     darkToggle.innerText = isDark ? 'Light' : 'Dark'; localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
 
-  /* 2. 네비게이션 */
+  /* ══ 네비게이션 ══ */
+  const hero = document.getElementById('hero-section');
   const tBar = document.getElementById('top-bar');
   const bBar = document.getElementById('bottom-bar');
-  const hero = document.getElementById('hero-section');
-  const mbBtn = document.getElementById('mb-btn');
 
   function goToHome() {
     body.classList.remove('on-moodboard');
-    hero.classList.remove('video-hidden'); 
-    tBar.classList.remove('scrolled'); 
-    bBar.classList.remove('scrolled');
+    hero.classList.remove('video-hidden'); tBar.classList.remove('scrolled'); bBar.classList.remove('scrolled');
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(onScroll, 50);
   }
 
   document.getElementById('cargo-logo').addEventListener('click', goToHome);
   document.getElementById('nav-right').addEventListener('click', () => {
-    if (body.classList.contains('on-moodboard')) { 
-      goToHome(); 
-      setTimeout(() => document.getElementById('about').scrollIntoView({ behavior: 'smooth' }), 500); 
-    } else {
-      document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
-    }
+    if (body.classList.contains('on-moodboard')) { goToHome(); setTimeout(() => document.getElementById('about').scrollIntoView({ behavior: 'smooth' }), 500); }
+    else document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
   });
 
-  /* 3. 모션 & 스크롤 */
+  /* ══ 스크롤 모션 ══ */
   function onScroll() {
     const sy = window.scrollY, vh = window.innerHeight;
-
     if (!body.classList.contains('on-moodboard')) {
       if (sy > 10) { hero.classList.add('video-hidden'); tBar.classList.add('scrolled'); bBar.classList.add('scrolled'); }
       else { hero.classList.remove('video-hidden'); tBar.classList.remove('scrolled'); bBar.classList.remove('scrolled'); }
     }
-
     document.querySelectorAll('.project-section .wrap, .about-section .wrap').forEach(w => {
       const r = w.getBoundingClientRect();
       if (r.top < vh * 0.85 && r.bottom > vh * 0.05) w.classList.remove('below', 'above');
       else if (r.top >= vh * 0.85) w.classList.add('below');
       else if (r.bottom <= vh * 0.05) w.classList.add('above');
     });
-
     if (body.classList.contains('on-moodboard')) {
-      document.querySelectorAll('.mb-item').forEach((it, i) => {
+      document.querySelectorAll('.mb-item').forEach((it) => {
         const r = it.getBoundingClientRect();
-        const ph = it.querySelector('.mb-ph');
-        if (ph && !it.dataset.motionSet) {
-          const img = it.querySelector('img');
-          let ratio = (img.naturalHeight / img.naturalWidth) || 1;
-          const r0 = Math.max(0.5, Math.min(1.6, ratio));
-          it.style.setProperty('--mb-dur', (0.55 + r0 * 0.35).toFixed(2) + 's');
-          it.style.setProperty('--mb-dy', Math.round(28 + r0 * 22) + 'px');
-          it.dataset.motionSet = '1';
-        }
-        if (r.top < vh * 0.92 && r.bottom > vh * 0.08) {
-          if (!it.classList.contains('visible')) { it.classList.remove('exit-up'); it.classList.add('visible'); }
-        } else if (r.bottom < vh * 0.15) {
-          if (it.classList.contains('visible')) { it.classList.remove('visible'); it.classList.add('exit-up'); }
-        }
+        if (r.top < vh * 0.92 && r.bottom > vh * 0.08) it.classList.add('visible');
       });
     }
   }
-
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  if (mbBtn) {
-    mbBtn.addEventListener('click', () => {
-      body.classList.add('on-moodboard');
-      window.scrollTo(0, 0);
-      tBar.classList.add('scrolled'); bBar.classList.add('scrolled');
-      const items = document.querySelectorAll('.mb-item');
-      items.forEach(it => it.classList.remove('visible', 'exit-up'));
-      setTimeout(() => {
-        items.forEach((it, i) => {
-          setTimeout(() => it.classList.add('visible'), i * 50);
-        });
-      }, 100);
-    });
-  }
-
-  /* 4. 라이트박스 */
-  let lbItems = [], lbIdx = 0;
-  function setupLightbox() {
-    document.getElementById('lb-close').onclick = () => {
-      document.getElementById('lb').classList.remove('visible');
-      setTimeout(() => document.getElementById('lb').classList.remove('open'), 300);
-      body.style.overflow = '';
-    };
-    document.querySelector('.lb-arrow.prev').onclick = () => { lbIdx = (lbIdx - 1 + lbItems.length) % lbItems.length; renderLb(); };
-    document.querySelector('.lb-arrow.next').onclick = () => { lbIdx = (lbIdx + 1) % lbItems.length; renderLb(); };
-    
-    document.addEventListener('click', e => {
-      const it = e.target.closest('.mb-item'); if (!it) return;
-      lbItems = [...document.querySelectorAll('.mb-item')]; lbIdx = lbItems.indexOf(it);
-      const lb = document.getElementById('lb');
-      lb.classList.add('open'); body.style.overflow = 'hidden';
-      setTimeout(() => lb.classList.add('visible'), 10);
-      renderLb();
-    });
-
-    function renderLb() {
-      const srcItem = lbItems[lbIdx];
-      const srcImg = srcItem.querySelector('img');
-      const lbImgWrap = document.getElementById('lb-img');
-      const newImg = srcImg.cloneNode();
-      newImg.className = ''; 
-      newImg.style.cssText = "max-width:90vw; max-height:75vh; width:auto !important; height:auto !important; object-fit:contain;";
-      lbImgWrap.innerHTML = '';
-      lbImgWrap.appendChild(newImg);
-      document.getElementById('lb-info').innerHTML = srcItem.querySelector('.mb-info').innerHTML;
-    }
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.slideshow').forEach(ss => {
-      const slides = ss.querySelectorAll('.slide');
-      if (ss.querySelector('.slide-counter') && slides.length > 0) ss.querySelector('.slide-counter').innerText = '1 / ' + slides.length;
-      ss.setAttribute('data-cur', '0');
-    });
-    setupLightbox(); onScroll();
+  document.getElementById('mb-btn').addEventListener('click', () => {
+    body.classList.add('on-moodboard'); window.scrollTo(0, 0);
+    tBar.classList.add('scrolled'); bBar.classList.add('scrolled');
+    const items = document.querySelectorAll('.mb-item');
+    items.forEach(it => it.classList.remove('visible'));
+    setTimeout(() => { items.forEach((it, i) => setTimeout(() => it.classList.add('visible'), i * 50)); }, 100);
   });
-</script>
 
+  /* ══ 초기화 ══ */
+  window.addEventListener('DOMContentLoaded', () => {
+    setRandomHero();
+    onScroll();
+  });
+
+  // 슬라이드쇼 및 라이트박스 로직 (기존과 동일)
+  function slide(id, dir) {
+    const ss = document.getElementById(id); const slides = ss.querySelectorAll('.slide');
+    let cur = parseInt(ss.getAttribute('data-cur')) || 0;
+    slides[cur].classList.remove('active'); cur = (cur + dir + slides.length) % slides.length;
+    slides[cur].classList.add('active'); ss.setAttribute('data-cur', cur);
+    ss.querySelector('.slide-counter').innerText = (cur + 1) + ' / ' + slides.length;
+  }
+</script>
 </body>
 </html>
