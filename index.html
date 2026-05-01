@@ -16,12 +16,10 @@
     --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --bar: 44px; --side: 22%;
   }
-  /* 다크모드 변수 정의 */
   body.dark {
     --black: #f5f5f5; --gray: #888; --bg: #0a0a0a; --line: #222;
   }
 
-  /* 페이지 전체 배경 및 색상 설정 */
   html, body { 
     background: var(--bg); 
     color: var(--black);
@@ -41,7 +39,7 @@
     height: var(--bar);
     display: flex; justify-content: space-between; align-items: center;
     padding: 0 20px; 
-    background: var(--bg); /* 변수 연동 */
+    background: var(--bg); 
     transition: background 0.25s ease, color 0.25s ease;
   }
   .top-bar { top: 0; }
@@ -71,12 +69,23 @@
     position: relative;
   }
 
-  /* ══ 대문(HERO) ══ */
+  /* ══ 대문(HERO) 영상 배경 설정 ══ */
   .hero { 
     height: calc(100vh - var(--bar)); 
+    position: relative;
     display: flex; align-items: center; justify-content: center; text-align: center;
+    overflow: hidden; /* 영상이 삐져나가지 않게 차단 */
+  }
+  .hero-video {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; /* 영상이 화면에 꽉 차게 설정 */
+    z-index: 1;
   }
   .hero-text {
+    position: relative;
+    z-index: 2; /* 영상보다 위에 보이게 설정 */
     display: flex; flex-direction: column; gap: 10px; 
     font-size: 13px; font-weight: 400; line-height: 1.4;
   }
@@ -88,7 +97,7 @@
   /* ══ 슬라이드쇼 ══ */
   .slideshow {
     width: 100%; position: relative; overflow: hidden;
-    user-select: none; background: rgba(127,127,127,0.08); /* 다크모드 대응 배경 */
+    user-select: none; background: rgba(127,127,127,0.08);
     min-height: 200px;
   }
   .slide { position: relative; display: none; width: 100%; }
@@ -129,11 +138,11 @@
     .slideshow { background: transparent; }
     .project-info { grid-template-columns: 1fr; gap: 12px; }
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
-    .mid-right { display: none; } /* 시간 숨김 */
+    .mid-right { display: none; } 
     .hero { height: calc(100vh - var(--bar)); }
   }
 
-  /* ══ 무드보드 GRID (다크모드 완벽 대응) ══ */
+  /* ══ 무드보드 GRID ══ */
   .mb-masonry {
     display: grid; grid-template-columns: repeat(8, 1fr); column-gap: 10px;
     row-gap: calc((100vh - var(--bar)*2 - var(--mb-row-h)*2) / 3);
@@ -159,10 +168,10 @@
   .mb-code { font-size: 12px; }
   .mb-author { font-size: 12px; opacity: 0.6; }
 
-  /* ══ 라이트박스 다크모드 대응 ══ */
+  /* ══ 라이트박스 ══ */
   .lb {
     display: none; position: fixed; inset: 0; z-index: 1000; 
-    background: var(--bg); /* 변수 연동 */
+    background: var(--bg); 
     flex-direction: column; align-items: center; justify-content: center;
     opacity: 0; transition: opacity 0.3s ease, background 0.25s ease;
   }
@@ -179,7 +188,7 @@
   .lb-img-wrap { display: flex; align-items: center; justify-content: center; max-width: 90vw; max-height: 75vh; }
   .lb-info { color: var(--black); margin-top: 15px; text-align: center; display: block !important; }
 
-  /* ══ 복사 방지 ══ */
+  /* ══ 복사 방지 설정 ══ */
   body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
   img { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; }
 </style>
@@ -207,8 +216,14 @@
 
 <!-- ════════════════ PORTFOLIO PAGE ════════════════ -->
 <div id="page-portfolio">
-  <!-- HERO (프로젝트 리스트) -->
+  
+  <!-- HERO (영상 배경 적용) -->
   <section class="hero">
+    <!-- 👇 영상 배경 태그 👇 -->
+    <video class="hero-video" autoplay loop muted playsinline>
+      <source src="i1.mp4" type="video/mp4">
+    </video>
+    
     <div class="wrap">
       <div class="hero-text">
         <a href="#ss1" class="hero-link">Dendi</a>
@@ -218,7 +233,7 @@
     </div>
   </section>
 
-  <!-- PROJECT 1 -->
+  <!-- 프로젝트 섹션들 (기존과 동일) -->
   <section class="project-section" id="ss1">
     <div class="wrap">
       <div class="slideshow" id="slides-ss1" data-cur="0">
@@ -239,7 +254,6 @@
     </div>
   </section>
 
-  <!-- PROJECT 2 -->
   <section class="project-section" id="ss2">
     <div class="wrap">
       <div class="slideshow" id="slides-ss2" data-cur="0">
@@ -258,7 +272,6 @@
     </div>
   </section>
 
-  <!-- PROJECT 3 -->
   <section class="project-section" id="ss3">
     <div class="wrap">
       <div class="slideshow" id="slides-ss3" data-cur="0">
@@ -306,7 +319,7 @@
   </div>
 </div>
 
-<!-- ════════════════ MOODBOARD PAGE ════════════════ -->
+<!-- MOODBOARD PAGE -->
 <div id="page-moodboard">
   <div class="mb-masonry">
     <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-1.png" alt=""></div><div class="mb-info"><div class="mb-code">Caption 01</div><div class="mb-author">Junghyun Kim</div></div></div>
@@ -314,7 +327,7 @@
   </div>
 </div>
 
-<!-- ════════════════ LIGHTBOX ════════════════ -->
+<!-- LIGHTBOX -->
 <div class="lb" id="lb">
   <button class="lb-close" id="lb-close">×</button>
   <button class="lb-arrow prev">‹</button>
