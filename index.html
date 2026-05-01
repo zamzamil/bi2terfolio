@@ -8,7 +8,7 @@
   /* ══ 전역 설정 (터치 하이라이트 제거 포함) ══ */
   *, *::before, *::after { 
     margin: 0; padding: 0; box-sizing: border-box; 
-    -webkit-tap-highlight-color: transparent; /* 모바일 터치 시 파란색 효과 제거 */
+    -webkit-tap-highlight-color: transparent; 
   }
   
   :root {
@@ -38,7 +38,7 @@
   }
   .top-bar { top: 0; }
   .bottom-bar { bottom: 0; }
-  .bottom-bar a:hover { text-decoration: underline; }
+  .bottom-bar a:hover, .bottom-bar span:hover { text-decoration: underline; }
 
   /* ══ MID LABELS ══ */
   .mid-label {
@@ -46,7 +46,6 @@
     top: 50%; transform: translateY(-50%);
     font-size: 13px;
   }
-  .mid-left { left: 20px; }
   .mid-right { right: 20px; font-variant-numeric: tabular-nums; pointer-events: none; }
 
   /* ══ PAGES ══ */
@@ -215,13 +214,14 @@
 <!-- BOTTOM BAR -->
 <div class="bottom-bar">
   <div id="bottom-bar-content" style="display:flex;justify-content:space-between;align-items:center;width:100%">
-    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=10069236@network.rca.ac.uk" target="_blank">Email</a>
+    <!-- 👇 무드보드 버튼이 이메일 자리로 이동했습니다. 👇 -->
+    <span id="mb-btn" style="cursor:pointer">Moodboard</span>
     <a href="https://instagram.com/bi2ter" target="_blank">IG ↗</a>
   </div>
 </div>
 
 <!-- MID LABELS -->
-<div class="mid-label mid-left" id="mb-btn" style="cursor:pointer">Moodboard</div>
+<!-- 좌측 무드보드 라벨은 제거되었습니다. -->
 <div class="mid-label mid-right" id="clock">00:00:00</div>
 
 <!-- ════════════════ PORTFOLIO PAGE ════════════════ -->
