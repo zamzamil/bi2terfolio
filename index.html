@@ -44,7 +44,6 @@
   .top-bar { top: 0; }
   .bottom-bar { bottom: 0; }
   
-  /* 모든 상하단 버튼 스타일 통일 */
   .nav-btn { cursor: pointer; font-size: 13px; user-select: none; }
   .nav-btn:hover { text-decoration: underline; }
 
@@ -146,7 +145,10 @@
     .slideshow { background: transparent; }
     .project-info { grid-template-columns: 1fr; gap: 12px; }
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
-    .mid-label { font-size: 11px; }
+    
+    /* 👇 모바일에서만 시계를 숨기는 코드 👇 */
+    .mid-right { display: none; } 
+    
     .hero { height: calc(100vh - var(--bar)); }
   }
 
@@ -194,16 +196,13 @@
   .lb-img-wrap { display: flex; align-items: center; justify-content: center; max-width: 90vw; max-height: 75vh; }
 </style>
 </head>
-<body class="light"> <!-- 초기 클래스 설정 -->
+<body class="light">
 
 <!-- TOP NAV -->
 <div class="top-bar">
   <div id="top-bar-content" style="display:flex;justify-content:space-between;align-items:center;width:100%">
     <span id="cargo-logo" class="nav-btn">Junghyun Kim</span>
-    
-    <!-- 👇 다크모드 버튼 추가 👇 -->
     <span id="dark-mode-toggle" class="nav-btn">Dark</span>
-    
     <span id="nav-right" class="nav-btn">About</span>
   </div>
 </div>
@@ -340,7 +339,7 @@
 </div>
 
 <script>
-  // 1. 슬라이드쇼 넘기기
+  // 1. 슬라이드쇼 넘기기[cite: 1]
   function slide(id, dir) {
     const ss = document.getElementById(id);
     if (!ss) return; 
@@ -355,7 +354,7 @@
     if (counter) counter.innerText = (cur + 1) + ' / ' + slides.length;
   }
 
-  // 2. 실시간 시계
+  // 2. 실시간 시계[cite: 1]
   function tick(){
     const n = new Date(), p = x => String(x).padStart(2,'0');
     const c = document.getElementById('clock');
@@ -364,16 +363,13 @@
   setInterval(tick, 1000);
   tick();
 
-  // 3. 다크모드 전환 로직
+  // 3. 다크모드 전환[cite: 1]
   const darkToggle = document.getElementById('dark-mode-toggle');
   const body = document.body;
-
-  // 저장된 설정 불러오기
   if (localStorage.getItem('theme') === 'dark') {
     body.classList.add('dark');
     darkToggle.innerText = 'Light';
   }
-
   darkToggle.addEventListener('click', () => {
     body.classList.toggle('dark');
     const isDark = body.classList.contains('dark');
@@ -381,7 +377,7 @@
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
 
-  // 4. 네비게이션 및 화면 전환
+  // 4. 네비게이션 및 화면 전환[cite: 1]
   const cargo = document.getElementById('cargo-logo');
   const mbBtn = document.getElementById('mb-btn');
   const navRight = document.getElementById('nav-right');
@@ -392,7 +388,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
-
   if (navRight) {
     navRight.addEventListener('click', () => {
       if (document.body.classList.contains('on-moodboard')) {
@@ -404,7 +399,7 @@
     });
   }
 
-  // 5. 모션 및 스크롤 로직
+  // 5. 모션 및 스크롤 로직[cite: 1]
   function setupScrollMotion() {
     document.querySelectorAll('.project-section .wrap').forEach(w => {
       const r = w.getBoundingClientRect();
@@ -418,7 +413,6 @@
         else if (r.top >= vh * 0.85) { w.classList.remove('above'); w.classList.add('below'); }
         else if (r.bottom <= vh * 0.05) { w.classList.remove('below'); w.classList.add('above'); }
       });
-
       if (document.body.classList.contains('on-moodboard')) {
         const vh = window.innerHeight;
         document.querySelectorAll('.mb-item').forEach((it, i) => {
@@ -443,7 +437,6 @@
         });
       }
     }
-
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     if (mbBtn) {
@@ -457,7 +450,7 @@
     setTimeout(onScroll, 30);
   }
 
-  // 6. 라이트박스 로직
+  // 6. 라이트박스 로직[cite: 1]
   let lbItems = [], lbIdx = 0;
   function setupLightbox() {
     document.getElementById('lb-close').onclick = () => {
@@ -488,7 +481,7 @@
     }
   }
 
-  // 7. 복사 방지 로직 (우클릭, 드래그, 단축키 차단)
+  // 7. 복사 방지 로직[cite: 1]
   document.addEventListener('contextmenu', e => e.preventDefault()); 
   document.addEventListener('dragstart', e => e.preventDefault()); 
   document.addEventListener('keydown', e => {
