@@ -212,6 +212,7 @@
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss1" data-cur="0">
+        
         <div class="slide active">
           <img src="1-2.png" alt="Dendi 메인 렌더링" class="slide-img">
         </div>
@@ -222,6 +223,7 @@
           <img src="1-2.png" alt="태양광 패널 디테일" class="slide-img">
         </div>
         
+        <!-- 클릭 시 이전/다음 이미지로 넘겨주는 영역 (id를 slideshow id와 일치시키세요) -->
         <div class="zone zone-l" onclick="slide('ss1',-1)"></div>
         <div class="zone zone-r" onclick="slide('ss1',1)"></div>
         <div class="slide-counter">0 / 0</div>
@@ -253,7 +255,9 @@
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss2" data-cur="0">
+        
         <div class="slide active">
+          <!-- TODO: 실제 이미지 파일 경로로 수정하세요 (예: images/rooopie.jpg) -->
           <img src="images/placeholder.jpg" alt="Rooopie Image" class="slide-img">
         </div>
 
@@ -261,12 +265,8 @@
         <div class="zone zone-r" onclick="slide('ss2',1)"></div>
         <div class="slide-counter">0 / 0</div>
       </div>
-      
       <div class="project-info">
-        <div>
-          <div class="pname">Rooopie</div>
-          <div class="pyear">2026</div>
-        </div>
+        <div><div class="pname">Rooopie</div><div class="pyear">2026</div></div>
         <div>
           <div class="ptags">Non-violent Prevention<br>Renewable Energy<br>Urban Ecology</div>
           <div class="pdesc">A non-violent pigeon prevention system utilizing rotating triangular prisms. The system integrates solar panels to ensure technical self-sufficiency and independent energy generation.</div>
@@ -279,7 +279,9 @@
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss3" data-cur="0">
+        
         <div class="slide active">
+          <!-- TODO: 실제 이미지 파일 경로로 수정하세요 (예: images/yundonban.jpg) -->
           <img src="images/placeholder.jpg" alt="Yun-don-ban Image" class="slide-img">
         </div>
 
@@ -287,12 +289,8 @@
         <div class="zone zone-r" onclick="slide('ss3',1)"></div>
         <div class="slide-counter">0 / 0</div>
       </div>
-      
       <div class="project-info">
-        <div>
-          <div class="pname">Yun-don-ban</div>
-          <div class="pyear">2026</div>
-        </div>
+        <div><div class="pname">Yun-don-ban</div><div class="pyear">2026</div></div>
         <div>
           <div class="ptags">Cultural Fusion<br>Product Design<br>Social Interaction</div>
           <div class="pdesc">A 3-tier tray and traditional Korean soban hybrid designed to facilitate social interaction. The project reimagines the traditional Soban through the lens of British tea culture in London.</div>
@@ -352,34 +350,75 @@
 
 <!-- ════════════════ MOODBOARD PAGE ════════════════ -->
 <div id="page-moodboard">
+  <!-- 8열 그리드를 위한 mb-masonry 컨테이너 추가 -->
   <div class="mb-masonry">
-
+    
+    <!-- 원본 무드보드 아이템 16개 완벽 복구 -->
     <div class="mb-item">
-      <div class="mb-ph">
-        <img class="mb-real" src="이미지경로.jpg" alt="">
-      </div>
-      <div class="mb-info">
-        <div class="mb-code">캡션1</div>
-        <div class="mb-author">작성자</div>
-      </div>
+      <div class="mb-ph" style="padding-bottom:140%;background:#b5c4d4;display:flex;align-items:center;justify-content:center;"><span style="font-size:28px;font-weight:900;color:#c0392b;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">LENS</span></div>
+      <div class="mb-info"><div class="mb-code">2-34</div><div class="mb-author">F. Kuenstler</div><div class="mb-src">SRC</div></div>
     </div>
-
-    <!-- 임시 샘플 박스 1 -->
-    <div class="mb-item">
-      <div class="mb-ph" style="padding-bottom:140%;background:#b5c4d4;"></div>
-      <div class="mb-info"><div class="mb-code">LENS 01</div><div class="mb-author">F. Kuenstler</div></div>
-    </div>
-    <!-- 임시 샘플 박스 2 -->
     <div class="mb-item">
       <div class="mb-ph" style="padding-bottom:80%;background:#d9cfc4;"></div>
-      <div class="mb-info"><div class="mb-code">BB09</div><div class="mb-author">R. Dijkstra</div></div>
+      <div class="mb-info"><div class="mb-code">BB09</div><div class="mb-author">R. Dijkstra</div><div class="mb-src">SRC</div></div>
     </div>
-    <!-- 임시 샘플 박스 3 -->
     <div class="mb-item">
       <div class="mb-ph" style="padding-bottom:120%;background:#e8e4de;"></div>
-      <div class="mb-info"><div class="mb-code">5454-8</div><div class="mb-author">J. Tschichold</div></div>
+      <div class="mb-info"><div class="mb-code">5454-8</div><div class="mb-author">J. Tschichold</div><div class="mb-src">SRC</div></div>
     </div>
-
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:65%;background:#ece8e0;"></div>
+      <div class="mb-info"><div class="mb-code">65-4</div><div class="mb-author">Printed Card</div><div class="mb-src">SRC</div></div>
+    </div>
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:130%;background:#e8c840;"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;text-align:center;line-height:1.2">PLÄNE<br>I–XXX</span></div>
+      <div class="mb-info"><div class="mb-code">6785</div><div class="mb-author">T. Schütte</div><div class="mb-src">SRC</div></div>
+    </div>
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:90%;background:#e8e4de;"></div>
+      <div class="mb-info"><div class="mb-code">23-4</div><div class="mb-author">T. De Cordier</div><div class="mb-src">SRC</div></div>
+    </div>
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:140%;background:#d0c8b8;"></div>
+      <div class="mb-info"><div class="mb-code">3-3</div><div class="mb-author">J. Rhoades</div><div class="mb-src">SRC</div></div>
+    </div>
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:100%;background:#e05030;"></div>
+      <div class="mb-info"><div class="mb-code">8J</div><div class="mb-author">G. Debord</div><div class="mb-src">SRC</div></div>
+    </div>
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:100%;background:#c8b890;"></div>
+      <div class="mb-info"><div class="mb-code">SS88</div><div class="mb-author">S. Ford</div><div class="mb-src">SRC</div></div>
+    </div>
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:140%;background:#e8e4dc;"></div>
+      <div class="mb-info"><div class="mb-code">345</div><div class="mb-author">R. Filliou</div><div class="mb-src">SRC</div></div>
+    </div>
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:80%;background:#e8e8e0;"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:10px;font-size:10px;font-weight:700;text-align:center;line-height:1.4">THE POEM AT THE BOTTOM OF THE LAKE</span></div>
+      <div class="mb-info"><div class="mb-code">001AB</div><div class="mb-author">W. Elliott</div><div class="mb-src">SRC</div></div>
+    </div>
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:120%;background:#dcd8d0;"></div>
+      <div class="mb-info"><div class="mb-code">98DF</div><div class="mb-author">M. Broodthaers</div><div class="mb-src">SRC</div></div>
+    </div>
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:150%;background:#111;"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;text-align:center;line-height:1.2">MULLICAN<br>DEATH</span></div>
+      <div class="mb-info"><div class="mb-code">000</div><div class="mb-author">M. Mullican</div><div class="mb-src">SRC</div></div>
+    </div>
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:90%;background:#d4c8c0;"></div>
+      <div class="mb-info"><div class="mb-code">TT5</div><div class="mb-author">K. Bosse</div><div class="mb-src">SRC</div></div>
+    </div>
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:130%;background:#3a6040;"></div>
+      <div class="mb-info"><div class="mb-code">999U</div><div class="mb-author">T. Raworth</div><div class="mb-src">SRC</div></div>
+    </div>
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:110%;background:#2c3a58;"></div>
+      <div class="mb-info"><div class="mb-code">HD001</div><div class="mb-author">H. Darboven</div><div class="mb-src">SRC</div></div>
+    </div>
+    
   </div>
 </div><!-- /page-moodboard -->
 
@@ -393,20 +432,22 @@
 </div>
 
 
-<!-- ════════════════ JAVASCRIPT (원본 모션 100% 복구) ════════════════ -->
+<!-- ════════════════ JAVASCRIPT (핵심 뷰어 구동 로직) ════════════════ -->
 <script>
-  // 1. 슬라이드쇼 넘기기
+  // 1. 슬라이드쇼 넘기기 로직
   function slide(id, dir) {
     const ss = document.getElementById(id);
     if (!ss) return; 
 
     const slides = ss.querySelectorAll('.slide');
-    if (slides.length <= 1) return; 
+    if (slides.length <= 1) return; // 슬라이드가 1장이면 작동하지 않음
 
     let cur = parseInt(ss.getAttribute('data-cur')) || 0;
     slides[cur].classList.remove('active');
 
-    cur = (cur + dir + slides.length) % slides.length;
+    cur += dir;
+    if (cur < 0) cur = slides.length - 1;
+    if (cur >= slides.length) cur = 0;
 
     slides[cur].classList.add('active');
     ss.setAttribute('data-cur', cur);
@@ -415,31 +456,81 @@
     if (counter) counter.innerText = (cur + 1) + ' / ' + slides.length;
   }
 
-  // 2. 실시간 시계
-  function tick(){
-    const n = new Date(), p = x => String(x).padStart(2,'0');
-    const c = document.getElementById('clock');
-    if (c) c.textContent = p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());
-  }
-  setInterval(tick, 1000);
-  tick();
-
-  // 3. 네비게이션 및 화면 전환
-  const cargo = document.getElementById('cargo-logo');
-  const mbBtn = document.getElementById('mb-btn');
-  const navRight = document.getElementById('nav-right');
-
-  if (cargo) {
-    cargo.addEventListener('click', () => {
-      if (document.body.classList.contains('on-moodboard')) {
-        document.body.classList.remove('on-moodboard');
+  // DOM 로드 완료 후 실행되는 초기 셋팅
+  window.addEventListener('DOMContentLoaded', () => {
+    
+    // 슬라이드 카운터 초기값 셋팅 (예: 1 / 3)
+    document.querySelectorAll('.slideshow').forEach(ss => {
+      const slides = ss.querySelectorAll('.slide');
+      const counter = ss.querySelector('.slide-counter');
+      if (counter && slides.length > 0) {
+        counter.innerText = '1 / ' + slides.length;
       }
+      ss.setAttribute('data-cur', '0');
+    });
+
+    // 2. 포트폴리오 스크롤 시 스르륵 나타나는 애니메이션 (Observer)
+    const portfolioObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('below', 'above');
+        } else {
+          if (entry.boundingClientRect.top > 0) {
+            entry.target.classList.add('below');
+          } else {
+            entry.target.classList.add('above');
+          }
+        }
+      });
+    }, { threshold: 0.15 }); 
+
+    document.querySelectorAll('.project-section .wrap').forEach(wrap => {
+      wrap.classList.add('below'); 
+      portfolioObserver.observe(wrap);
+    });
+
+    // 3. 무드보드 이미지 나타나는 애니메이션 (Observer)
+    const mbObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.mb-item').forEach((item, index) => {
+      // 딜레이를 주어 하나씩 순차적으로 나타나게 함
+      item.style.transitionDelay = (index % 8) * 0.05 + 's';
+      mbObserver.observe(item);
+    });
+  });
+
+  // 4. 실시간 시계 로직
+  function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-GB', { hour12: false }); 
+    const clockEl = document.getElementById('clock');
+    if (clockEl) clockEl.innerText = timeString;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // 5. 네비게이션 및 화면 전환 로직 (로고, 무드보드, About)
+  const logoBtn = document.getElementById('cargo-logo');
+  const aboutBtn = document.getElementById('nav-right');
+  const mbBtn = document.getElementById('mb-btn');
+
+  // 로고 (Junghyun Kim) 클릭: 무드보드 해제 및 최상단으로 복귀
+  if (logoBtn) {
+    logoBtn.addEventListener('click', () => {
+      document.body.classList.remove('on-moodboard');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
-  if (navRight) {
-    navRight.addEventListener('click', () => {
+  // About 버튼 클릭: 무드보드면 홈으로 복귀, 포트폴리오면 About 섹션으로 스크롤
+  if (aboutBtn) {
+    aboutBtn.addEventListener('click', () => {
       if (document.body.classList.contains('on-moodboard')) {
         document.body.classList.remove('on-moodboard');
         window.scrollTo(0, 0);
@@ -449,187 +540,74 @@
     });
   }
 
-  // 4. 원본 스크롤 모션 (비율 계산 및 텐션 완벽 복원)
-  function setupScrollMotion() {
-    document.querySelectorAll('.project-section .wrap').forEach(w => {
-      const r = w.getBoundingClientRect();
-      if (r.top >= window.innerHeight) w.classList.add('below');
-    });
-
-    function checkProjects() {
-      document.querySelectorAll('.project-section .wrap').forEach(w => {
-        const r = w.getBoundingClientRect();
-        const vh = window.innerHeight;
-        if (r.top < vh * 0.85 && r.bottom > vh * 0.05) {
-          w.classList.remove('below', 'above');
-        } else if (r.top >= vh * 0.85) {
-          w.classList.remove('above');
-          w.classList.add('below');
-        } else if (r.bottom <= vh * 0.05) {
-          w.classList.remove('below');
-          w.classList.add('above');
-        }
-      });
-    }
-
-    function checkMoodboard() {
-      const mb = document.getElementById('page-moodboard');
-      if (!mb || mb.offsetParent === null) return; 
-      
-      const vh = window.innerHeight;
-      document.querySelectorAll('.mb-item').forEach((it, i) => {
-        const r = it.getBoundingClientRect();
-        
-        const ph = it.querySelector('.mb-ph');
-        let ratio = 1;
-        if (ph) {
-          const phr = ph.getBoundingClientRect();
-          if (phr.width > 0) ratio = phr.height / phr.width;
-        }
-        
-        const r0 = Math.max(0.5, Math.min(1.6, ratio));
-        const dur = (0.55 + r0 * 0.35).toFixed(2);     
-        const dy  = Math.round(28 + r0 * 22);          
-        
-        if (!it.dataset.motionSet) {
-          it.style.setProperty('--mb-dur', dur + 's');
-          it.style.setProperty('--mb-dy',  dy  + 'px');
-          it.dataset.motionSet = '1';
-        }
-
-        const inView      = r.top < vh * 0.92 && r.bottom > vh * 0.08;
-        const exitingUp   = r.bottom < vh * 0.15;
-        const belowView   = r.top >= vh * 0.92;
-
-        if (inView) {
-          if (!it.classList.contains('visible')) {
-            it.classList.remove('exit-up');
-            const delay = (i % 8) * 40; 
-            setTimeout(() => it.classList.add('visible'), delay);
-          }
-        } else if (exitingUp) {
-          if (it.classList.contains('visible')) {
-            it.classList.remove('visible');
-            it.classList.add('exit-up'); 
-          }
-        } else if (belowView) {
-          it.classList.remove('visible', 'exit-up');
-        }
-      });
-    }
-
-    function onScroll() {
-      checkProjects();
-      if (document.body.classList.contains('on-moodboard')) checkMoodboard();
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-
-    if (mbBtn) {
-      mbBtn.addEventListener('click', () => {
-        document.body.classList.add('on-moodboard');
-        window.scrollTo(0, 0);
-        document.querySelectorAll('.mb-item').forEach(it => {
-          it.classList.remove('visible', 'exit-up');
-        });
-        setTimeout(checkMoodboard, 50);
-      });
-    }
-
-    if (cargo) cargo.addEventListener('click', () => setTimeout(onScroll, 50));
-
-    setTimeout(onScroll, 30);
-    setTimeout(checkMoodboard, 60);
-  }
-
-  // 5. 라이트박스 (원본 비율 유지 팝업)
-  let lbItems = [], lbIdx = 0;
-  function setupLightbox() {
-    document.getElementById('lb-close').onclick = lbClose;
-    document.querySelector('.lb-arrow.prev').onclick = () => lbMove(-1);
-    document.querySelector('.lb-arrow.next').onclick = () => lbMove(1);
-    
-    document.addEventListener('keydown', e => {
-      if (!document.getElementById('lb').classList.contains('open')) return;
-      if (e.key === 'Escape') lbClose();
-      if (e.key === 'ArrowRight') lbMove(1);
-      if (e.key === 'ArrowLeft') lbMove(-1);
-    });
-
-    document.addEventListener('click', e => {
-      const item = e.target.closest('.mb-item');
-      if (!item) return;
-      if (e.target.tagName.toLowerCase() === 'a' || e.target.closest('.mb-src')) return;
-      
-      lbItems = [...document.querySelectorAll('.mb-item')];
-      lbIdx = lbItems.indexOf(item);
-      lbOpen();
+  // 무드보드 버튼 클릭: 무조건 무드보드 페이지로 진입
+  if (mbBtn) {
+    mbBtn.addEventListener('click', () => {
+      document.body.classList.add('on-moodboard');
+      window.scrollTo(0, 0);
     });
   }
 
-  function lbOpen() {
-    const lb = document.getElementById('lb');
+  // 6. 무드보드 라이트박스 (이미지 확대 팝업) 로직
+  const lb = document.getElementById('lb');
+  const lbImgWrap = document.getElementById('lb-img');
+  const lbClose = document.getElementById('lb-close');
+  const btnPrev = document.querySelector('.lb-arrow.prev');
+  const btnNext = document.querySelector('.lb-arrow.next');
+  let lbItems = [];
+  let currentLbIndex = 0;
+
+  function openLightbox(index) {
+    currentLbIndex = index;
+    const item = lbItems[index];
+    const ph = item.querySelector('.mb-ph');
+    lbImgWrap.innerHTML = ph.outerHTML;
+
     lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    lbRender();
-    requestAnimationFrame(() => requestAnimationFrame(() => lb.classList.add('visible')));
+    setTimeout(() => lb.classList.add('visible'), 10); 
+    document.body.style.overflow = 'hidden'; 
   }
 
-  function lbClose() {
-    const lb = document.getElementById('lb');
+  function closeLightbox() {
     lb.classList.remove('visible');
     setTimeout(() => {
       lb.classList.remove('open');
-      document.body.style.overflow = '';
+      lbImgWrap.innerHTML = '';
+      document.body.style.overflow = ''; 
     }, 300);
   }
 
-  function lbMove(dir) {
-    if (!lbItems.length) return;
-    lbIdx = (lbIdx + dir + lbItems.length) % lbItems.length;
-    lbRender();
+  function navigateLightbox(dir) {
+    currentLbIndex += dir;
+    if (currentLbIndex < 0) currentLbIndex = lbItems.length - 1;
+    if (currentLbIndex >= lbItems.length) currentLbIndex = 0;
+    openLightbox(currentLbIndex);
   }
 
-  function lbRender() {
-    const item = lbItems[lbIdx];
-    const ph = item.querySelector('.mb-ph').cloneNode(true);
+  // 동적으로 생성되는 mb-item 클릭 이벤트 위임
+  document.getElementById('page-moodboard').addEventListener('click', (e) => {
+    const item = e.target.closest('.mb-item');
+    if (!item) return;
+    if (e.target.tagName.toLowerCase() === 'a' || e.target.closest('.mb-src')) return;
     
-    ph.style.padding = '0';
-    ph.style.paddingBottom = '0';
-    ph.style.maxWidth = '90vw';
-    ph.style.maxHeight = '75vh';
-    ph.style.height = 'auto';
-    
-    const realImg = ph.querySelector('img, .mb-real');
-    if (realImg) {
-      realImg.style.position = 'static';
-      realImg.style.maxWidth = '90vw';
-      realImg.style.maxHeight = '75vh';
-      realImg.style.width = 'auto';
-      realImg.style.height = 'auto';
-    }
-    
-    const wrap = document.getElementById('lb-img');
-    wrap.innerHTML = '';
-    wrap.appendChild(ph);
-    
-    const infoSrc = item.querySelector('.mb-info');
-    if (infoSrc) {
-      document.getElementById('lb-info').innerHTML = infoSrc.innerHTML;
-    }
-  }
+    lbItems = Array.from(document.querySelectorAll('.mb-item'));
+    const index = lbItems.indexOf(item);
+    openLightbox(index);
+  });
 
-  window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.slideshow').forEach(ss => {
-      const slides = ss.querySelectorAll('.slide');
-      const counter = ss.querySelector('.slide-counter');
-      if (counter && slides.length > 0) counter.innerText = '1 / ' + slides.length;
-      ss.setAttribute('data-cur', '0');
-    });
+  if (lbClose) lbClose.addEventListener('click', closeLightbox);
+  if (btnPrev) btnPrev.addEventListener('click', (e) => { e.stopPropagation(); navigateLightbox(-1); });
+  if (btnNext) btnNext.addEventListener('click', (e) => { e.stopPropagation(); navigateLightbox(1); });
 
-    setupScrollMotion();
-    setupLightbox();
+  if (lb) lb.addEventListener('click', (e) => {
+    if (e.target === lb || e.target === lbImgWrap) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    if (e.key === 'ArrowRight') navigateLightbox(1);
   });
 </script>
 
