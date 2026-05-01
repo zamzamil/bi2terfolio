@@ -121,6 +121,29 @@
   @media (max-width: 800px)  { .mb-masonry { grid-template-columns: repeat(4, 1fr); } }
   @media (max-width: 500px)  { .mb-masonry { grid-template-columns: repeat(2, 1fr); } }
 
+  /* ══ MOBILE OPTIMIZATION (중앙 정렬 및 여백 제거) ══ */
+  @media (max-width: 800px) {
+    :root { --side: 0; } /* 22%의 좌우 밀림을 제거하여 중앙으로 복귀 */
+    .wrap {
+      width: 100%;
+      padding: 0 20px; /* 로고 라인에 맞춤 */
+      margin: 0 auto;
+    }
+    .slideshow {
+      background: transparent; /* 회색 배경 제거 */
+    }
+    .project-info {
+      grid-template-columns: 1fr; /* 2단에서 1단 정렬로 변경 */
+      gap: 12px;
+    }
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    /* 모바일에서 시계와 무드보드 라벨은 방해되지 않게 숨기거나 조절 가능 (필요시) */
+    .mid-label { font-size: 11px; }
+  }
+
   .mb-item {
     display: block; position: relative; cursor: pointer;
     --mb-dur: 0.7s; --mb-dy: 40px; opacity: 0; transform: translateY(var(--mb-dy));
@@ -159,7 +182,8 @@
   .lb-img-wrap .mb-ph { background: transparent; max-width: 90vw; max-height: 75vh; }
   .lb-img-wrap .mb-real { max-width: 90vw; max-height: 75vh; width: auto !important; height: auto !important; }
   .lb-info { display: none; }
- /* ══ 복사 방지 (텍스트 선택 및 이미지 드래그 차단) ══ */
+
+  /* ══ 복사 방지 (텍스트 선택 및 이미지 드래그 차단) ══ */
   body {
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -187,13 +211,9 @@
 <!-- BOTTOM BAR -->
 <div class="bottom-bar">
   <div id="bottom-bar-content" style="display:flex;justify-content:space-between;align-items:center;width:100%">
-    
-    <!-- 👇 [가이드 3] 지메일(Gmail) 바로가기 링크 설정 👇
-    아래 'to=' 뒤에 있는 '본인계정@gmail.com' 부분을 실제 내 이메일 주소로 바꿔주세요.
-    클릭 시 웹 브라우저나 스마트폰의 지메일 메일 쓰기 창으로 바로 연결됩니다! -->
-    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=본인계정@gmail.com" target="_blank">Email</a>
-    
-    <a href="https://instagram.com" target="_blank">IG ↗</a>
+    <!-- [가이드 3] 지메일 CM 링크 설정 -->
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=10069236@network.rca.ac.uk" target="_blank">Email</a>
+    <a href="https://instagram.com/bi2ter" target="_blank">IG ↗</a>
   </div>
 </div>
 
@@ -208,12 +228,8 @@
   <section>
     <div class="wrap">
       <div class="hero">
-        
-        <!-- 👇 [가이드 1] 대문 글씨 (포트폴리오 타이틀) 수정 👇
-        아래 'PORT<br>FOLIO' 부분의 텍스트를 원하는 문구로 변경하세요.
-        <br>은 줄바꿈(엔터) 태그입니다. -->
+        <!-- [가이드 1] 메인 대문 글씨 수정 영역 -->
         <div class="hero-text">PORT<br>FOLIO</div>
-        
       </div>
     </div>
   </section>
@@ -221,23 +237,16 @@
   <!-- PROJECT 1: DENDI -->
   <section class="project-section">
     <div class="wrap">
-      
-      <!-- 👇 [가이드 2] 프로젝트 사진 & 정보 수정 👇
-      [1. 사진 수정하기]
-      - <img src="1-2.png"> 에서 큰따옴표 안의 파일명을 내 사진 경로와 이름으로 바꾸세요.
-      - 슬라이드 사진을 더 늘리고 싶다면 <div class="slide">...</div> 묶음을 통째로 복사해서 아래에 추가하세요.
-      - ⚠️ 주의: 맨 첫 번째로 보일 사진에만 꼭 class="slide active" 라고 적혀 있어야 합니다!
-      -->
+      <!-- [가이드 2] 이미지 수정 영역 -->
       <div class="slideshow" id="ss1" data-cur="0">
-        
         <div class="slide active">
-          <img src="1-2.png" alt="Dendi 메인 렌더링" class="slide-img">
+          <img src="1-2.png" alt="Dendi" class="slide-img">
         </div>
         <div class="slide">
-          <img src="1-1.png" alt="Dendi 흙 디테일" class="slide-img">
+          <img src="1-1.png" alt="Dendi detail" class="slide-img">
         </div>
         <div class="slide">
-          <img src="1-3.png" alt="태양광 패널 디테일" class="slide-img">
+          <img src="1-3.png" alt="Dendi view" class="slide-img">
         </div>
         
         <div class="zone zone-l" onclick="slide('ss1',-1)"></div>
@@ -245,9 +254,7 @@
         <div class="slide-counter">0 / 0</div>
       </div>
       
-      <!-- [2. 정보 수정하기]
-      - pname(제목), pyear(연도), ptags(태그), pdesc(설명) 안의 검은색 글자들을 수정하세요.
-      - 태그를 여러 줄로 적고 싶을 땐 <br> 태그를 사이에 넣어주세요. -->
+      <!-- [가이드 2] 텍스트 정보 수정 영역 -->
       <div class="project-info">
         <div>
           <div class="pname">Dendi</div>
@@ -265,12 +272,9 @@
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss2" data-cur="0">
-        
         <div class="slide active">
-          <!-- 실제 이미지 경로로 수정하세요 -->
-          <img src="images/placeholder.jpg" alt="Rooopie Image" class="slide-img">
+          <img src="images/placeholder.jpg" alt="Rooopie" class="slide-img">
         </div>
-
         <div class="zone zone-l" onclick="slide('ss2',-1)"></div>
         <div class="zone zone-r" onclick="slide('ss2',1)"></div>
         <div class="slide-counter">0 / 0</div>
@@ -289,12 +293,9 @@
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss3" data-cur="0">
-        
         <div class="slide active">
-          <!-- 실제 이미지 경로로 수정하세요 -->
-          <img src="images/placeholder.jpg" alt="Yun-don-ban Image" class="slide-img">
+          <img src="images/placeholder.jpg" alt="Yun-don-ban" class="slide-img">
         </div>
-
         <div class="zone zone-l" onclick="slide('ss3',-1)"></div>
         <div class="zone zone-r" onclick="slide('ss3',1)"></div>
         <div class="slide-counter">0 / 0</div>
@@ -318,7 +319,7 @@
           <a href="#">Junghyun Kim</a>
           <a href="#">10069236@network.rca.ac.uk</a>
           <a href="#">@bi2ter</a>
-          <p class="bio">Multidisciplinary designer and founder of Heavywise Inc., operating between Seoul and London. Currently studying at the Royal College of Art (RCA), exploring how physical objects and behavior-based design can guide human behavior in sustainable directions. Focusing on upcycling, bio-materials, and the fusion of traditional cultural elements with modern industrial design.</p>
+          <p class="bio">Multidisciplinary designer and founder of Heavywise Inc., operating between Seoul and London. Currently studying at the Royal College of Art (RCA), focusing on upcycling, bio-materials, and behavior-based design.</p>
         </div>
         <div class="about-col">
           <div class="about-col-title">Education</div>
@@ -328,93 +329,53 @@
             <div class="cv-year">2025-2026</div>
           </div>
           <div class="cv-entry">
-            <div class="cv-place">Samsung Art & Design Institute (SADI)</div>
+            <div class="cv-place">SADI</div>
             <div class="cv-place">Product Design</div>
-            <div class="cv-year">2025 — Graduated top of the class</div>
+            <div class="cv-year">2025 — Top of the class</div>
           </div>
         </div>
         <div class="about-col">
-          <div class="about-col-title">Awards & Leadership</div>
+          <div class="about-col-title">Awards</div>
           <div class="cv-entry">
-            <div class="cv-place">Grand Prize & Citizens’ Choice Award</div>
-            <div class="cv-place">Seoul Tourism Souvenir Contest</div>
+            <div class="cv-place">Grand Prize</div>
+            <div class="cv-place">Seoul Souvenir Contest</div>
             <div class="cv-year">2021</div>
-          </div>
-          <div class="cv-entry">
-            <div class="cv-italic">Crowdfunding Leadership</div>
-            <div class="cv-place">Heavywise Inc. (£295,000 Raised)</div>
-            <div class="cv-year">2021-2025</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TOP BUTTON -->
-  <div style="padding: 12px calc(var(--side)) 24px; text-align: right;">
+  <div style="padding: 12px 20px 24px; text-align: right;">
     <span onclick="window.scrollTo({top:0,behavior:'smooth'})"
       style="font-size:13px; cursor:pointer; text-decoration:underline;">Top ↑</span>
   </div>
 
-</div><!-- /page-portfolio -->
+</div>
 
 <!-- ════════════════ MOODBOARD PAGE ════════════════ -->
 <div id="page-moodboard">
   <div class="mb-masonry">
-
-    <!-- 
-    [무드보드 이미지 추가 가이드]
-    이미지를 추가할 때마다 <div class="mb-item"> 부터 </div> 까지 복사해서 붙여넣으세요.
-    -->
-     <!-- 박스 1 -->
     <div class="mb-item">
-      <div class="mb-ph">
-        <img class="mb-real" src="1-1.png" alt="">
-      </div>
-      <div class="mb-info">
-        <div class="mb-code">캡션1</div>
-        <div class="mb-author">작성자</div>
-      </div>
+      <div class="mb-ph"><img class="mb-real" src="1-1.png" alt=""></div>
+      <div class="mb-info"><div class="mb-code">캡션1</div><div class="mb-author">작성자</div></div>
     </div>
-   
-    <!-- 박스 1 -->
     <div class="mb-item">
-      <div class="mb-ph">
-        <img class="mb-real" src="1-2.png" alt="">
-      </div>
-      <div class="mb-info">
-        <div class="mb-code">캡션1</div>
-        <div class="mb-author">작성자</div>
-      </div>
+      <div class="mb-ph"><img class="mb-real" src="1-2.png" alt=""></div>
+      <div class="mb-info"><div class="mb-code">캡션2</div><div class="mb-author">작성자</div></div>
     </div>
-   
-    <!-- 박스 1 -->
     <div class="mb-item">
-      <div class="mb-ph">
-        <img class="mb-real" src="1-3.png" alt="">
-      </div>
-      <div class="mb-info">
-        <div class="mb-code">캡션1</div>
-        <div class="mb-author">작성자</div>
-      </div>
+      <div class="mb-ph"><img class="mb-real" src="1-3.png" alt=""></div>
+      <div class="mb-info"><div class="mb-code">캡션3</div><div class="mb-author">작성자</div></div>
     </div>
-   
-    <!-- 박스 1 -->
     <div class="mb-item">
-      <div class="mb-ph">
-        <img class="mb-real" src="1-4.png" alt="">
-      </div>
-      <div class="mb-info">
-        <div class="mb-code">캡션1</div>
-        <div class="mb-author">작성자</div>
-      </div>
+      <div class="mb-ph"><img class="mb-real" src="1-4.png" alt=""></div>
+      <div class="mb-info"><div class="mb-code">캡션4</div><div class="mb-author">작성자</div></div>
     </div>
-
-   
   </div>
-</div><!-- /page-moodboard -->
+</div>
 
-<!-- ════════════════ LIGHTBOX (팝업 확대 창) ════════════════ -->
+<!-- ════════════════ LIGHTBOX ════════════════ -->
 <div class="lb" id="lb">
   <button class="lb-close" id="lb-close">×</button>
   <button class="lb-arrow prev">‹</button>
@@ -423,25 +384,18 @@
   <button class="lb-arrow next">›</button>
 </div>
 
-
-<!-- ════════════════ JAVASCRIPT (원본 모션 100% 복구) ════════════════ -->
 <script>
   // 1. 슬라이드쇼 넘기기
   function slide(id, dir) {
     const ss = document.getElementById(id);
     if (!ss) return; 
-
     const slides = ss.querySelectorAll('.slide');
     if (slides.length <= 1) return; 
-
     let cur = parseInt(ss.getAttribute('data-cur')) || 0;
     slides[cur].classList.remove('active');
-
     cur = (cur + dir + slides.length) % slides.length;
-
     slides[cur].classList.add('active');
     ss.setAttribute('data-cur', cur);
-
     const counter = ss.querySelector('.slide-counter');
     if (counter) counter.innerText = (cur + 1) + ' / ' + slides.length;
   }
@@ -462,9 +416,7 @@
 
   if (cargo) {
     cargo.addEventListener('click', () => {
-      if (document.body.classList.contains('on-moodboard')) {
-        document.body.classList.remove('on-moodboard');
-      }
+      document.body.classList.remove('on-moodboard');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
@@ -480,211 +432,107 @@
     });
   }
 
-  // 4. 원본 스크롤 모션 (비율 계산 및 텐션 완벽 복원)
+  // 4. 스크롤 모션 로직
   function setupScrollMotion() {
-    // 프로젝트 섹션 초기화
     document.querySelectorAll('.project-section .wrap').forEach(w => {
       const r = w.getBoundingClientRect();
       if (r.top >= window.innerHeight) w.classList.add('below');
     });
 
-    function checkProjects() {
-      document.querySelectorAll('.project-section .wrap').forEach(w => {
-        const r = w.getBoundingClientRect();
-        const vh = window.innerHeight;
-        // 원본과 동일한 임계값 적용
-        if (r.top < vh * 0.85 && r.bottom > vh * 0.05) {
-          w.classList.remove('below', 'above');
-        } else if (r.top >= vh * 0.85) {
-          w.classList.remove('above');
-          w.classList.add('below');
-        } else if (r.bottom <= vh * 0.05) {
-          w.classList.remove('below');
-          w.classList.add('above');
-        }
-      });
-    }
-
-    function checkMoodboard() {
-      const mb = document.getElementById('page-moodboard');
-      if (!mb || mb.offsetParent === null) return; 
-      
-      const vh = window.innerHeight;
-      document.querySelectorAll('.mb-item').forEach((it, i) => {
-        const r = it.getBoundingClientRect();
-        
-        // 이미지 비율(가로/세로)에 따라 모션 텐션(길이, 높이) 다르게 수학적 계산 (원본 로직)
-        const ph = it.querySelector('.mb-ph');
-        let ratio = 1;
-        if (ph) {
-          const phr = ph.getBoundingClientRect();
-          if (phr.width > 0) ratio = phr.height / phr.width;
-        }
-        
-        const r0 = Math.max(0.5, Math.min(1.6, ratio));
-        const dur = (0.55 + r0 * 0.35).toFixed(2);     // 0.72s … 1.11s
-        const dy  = Math.round(28 + r0 * 22);          // 39px … 63px
-        
-        if (!it.dataset.motionSet) {
-          it.style.setProperty('--mb-dur', dur + 's');
-          it.style.setProperty('--mb-dy',  dy  + 'px');
-          it.dataset.motionSet = '1';
-        }
-
-        const inView      = r.top < vh * 0.92 && r.bottom > vh * 0.08;
-        const exitingUp   = r.bottom < vh * 0.15;
-        const belowView   = r.top >= vh * 0.92;
-
-        if (inView) {
-          if (!it.classList.contains('visible')) {
-            it.classList.remove('exit-up');
-            const delay = (i % 8) * 40; // 엇박자 딜레이 (원본 로직)
-            setTimeout(() => it.classList.add('visible'), delay);
-          }
-        } else if (exitingUp) {
-          if (it.classList.contains('visible')) {
-            it.classList.remove('visible');
-            it.classList.add('exit-up'); // 위로 사라지는 효과
-          }
-        } else if (belowView) {
-          it.classList.remove('visible', 'exit-up');
-        }
-      });
-    }
-
     function onScroll() {
-      checkProjects();
-      if (document.body.classList.contains('on-moodboard')) checkMoodboard();
+      // 프로젝트 애니메이션
+      document.querySelectorAll('.project-section .wrap').forEach(w => {
+        const r = w.getBoundingClientRect(), vh = window.innerHeight;
+        if (r.top < vh * 0.85 && r.bottom > vh * 0.05) w.classList.remove('below', 'above');
+        else if (r.top >= vh * 0.85) { w.classList.remove('above'); w.classList.add('below'); }
+        else if (r.bottom <= vh * 0.05) { w.classList.remove('below'); w.classList.add('above'); }
+      });
+
+      // 무드보드 애니메이션
+      if (document.body.classList.contains('on-moodboard')) {
+        const vh = window.innerHeight;
+        document.querySelectorAll('.mb-item').forEach((it, i) => {
+          const r = it.getBoundingClientRect();
+          const ph = it.querySelector('.mb-ph');
+          let ratio = 1;
+          if (ph) ratio = ph.getBoundingClientRect().height / ph.getBoundingClientRect().width;
+          const r0 = Math.max(0.5, Math.min(1.6, ratio));
+          if (!it.dataset.motionSet) {
+            it.style.setProperty('--mb-dur', (0.55 + r0 * 0.35).toFixed(2) + 's');
+            it.style.setProperty('--mb-dy', Math.round(28 + r0 * 22) + 'px');
+            it.dataset.motionSet = '1';
+          }
+          if (r.top < vh * 0.92 && r.bottom > vh * 0.08) {
+            if (!it.classList.contains('visible')) {
+              it.classList.remove('exit-up');
+              setTimeout(() => it.classList.add('visible'), (i % 8) * 40);
+            }
+          } else if (r.bottom < vh * 0.15) {
+            if (it.classList.contains('visible')) { it.classList.remove('visible'); it.classList.add('exit-up'); }
+          } else if (r.top >= vh * 0.92) it.classList.remove('visible', 'exit-up');
+        });
+      }
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
-
-    // 무드보드 버튼 누르면 모션 초기화 후 재실행
     if (mbBtn) {
       mbBtn.addEventListener('click', () => {
         document.body.classList.add('on-moodboard');
         window.scrollTo(0, 0);
-        document.querySelectorAll('.mb-item').forEach(it => {
-          it.classList.remove('visible', 'exit-up');
-        });
-        setTimeout(checkMoodboard, 50);
+        document.querySelectorAll('.mb-item').forEach(it => it.classList.remove('visible', 'exit-up'));
+        setTimeout(onScroll, 50);
       });
     }
-
-    if (cargo) cargo.addEventListener('click', () => setTimeout(onScroll, 50));
-
-    // 페이지 열렸을 때 최초 실행
     setTimeout(onScroll, 30);
-    setTimeout(checkMoodboard, 60);
   }
 
-  // 5. 라이트박스 (원본 비율 유지 팝업)
+  // 5. 라이트박스 로직
   let lbItems = [], lbIdx = 0;
   function setupLightbox() {
-    document.getElementById('lb-close').onclick = lbClose;
-    document.querySelector('.lb-arrow.prev').onclick = () => lbMove(-1);
-    document.querySelector('.lb-arrow.next').onclick = () => lbMove(1);
-    
-    document.addEventListener('keydown', e => {
-      if (!document.getElementById('lb').classList.contains('open')) return;
-      if (e.key === 'Escape') lbClose();
-      if (e.key === 'ArrowRight') lbMove(1);
-      if (e.key === 'ArrowLeft') lbMove(-1);
-    });
-
+    document.getElementById('lb-close').onclick = () => {
+      document.getElementById('lb').classList.remove('visible');
+      setTimeout(() => { document.getElementById('lb').classList.remove('open'); document.body.style.overflow = ''; }, 300);
+    };
+    document.querySelector('.lb-arrow.prev').onclick = () => { lbIdx = (lbIdx - 1 + lbItems.length) % lbItems.length; renderLb(); };
+    document.querySelector('.lb-arrow.next').onclick = () => { lbIdx = (lbIdx + 1) % lbItems.length; renderLb(); };
     document.addEventListener('click', e => {
-      const item = e.target.closest('.mb-item');
-      if (!item) return;
-      // 출처 클릭 시 방어
-      if (e.target.tagName.toLowerCase() === 'a' || e.target.closest('.mb-src')) return;
-      
+      const it = e.target.closest('.mb-item');
+      if (!it || e.target.closest('.mb-src')) return;
       lbItems = [...document.querySelectorAll('.mb-item')];
-      lbIdx = lbItems.indexOf(item);
-      lbOpen();
+      lbIdx = lbItems.indexOf(it);
+      const lb = document.getElementById('lb');
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      renderLb();
+      setTimeout(() => lb.classList.add('visible'), 10);
     });
-  }
-
-  function lbOpen() {
-    const lb = document.getElementById('lb');
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    lbRender();
-    requestAnimationFrame(() => requestAnimationFrame(() => lb.classList.add('visible')));
-  }
-
-  function lbClose() {
-    const lb = document.getElementById('lb');
-    lb.classList.remove('visible');
-    setTimeout(() => {
-      lb.classList.remove('open');
-      document.body.style.overflow = '';
-    }, 300);
-  }
-
-  function lbMove(dir) {
-    if (!lbItems.length) return;
-    lbIdx = (lbIdx + dir + lbItems.length) % lbItems.length;
-    lbRender();
-  }
-
-  function lbRender() {
-    const item = lbItems[lbIdx];
-    const ph = item.querySelector('.mb-ph').cloneNode(true);
-    
-    // 원본 로직: 비율을 깨지 않고 화면에 꽉 차게 렌더링
-    ph.style.padding = '0';
-    ph.style.paddingBottom = '0';
-    ph.style.maxWidth = '90vw';
-    ph.style.maxHeight = '75vh';
-    ph.style.height = 'auto';
-    
-    const realImg = ph.querySelector('img, .mb-real');
-    if (realImg) {
-      realImg.style.position = 'static';
-      realImg.style.maxWidth = '90vw';
-      realImg.style.maxHeight = '75vh';
-      realImg.style.width = 'auto';
-      realImg.style.height = 'auto';
-    }
-    
-    const wrap = document.getElementById('lb-img');
-    wrap.innerHTML = '';
-    wrap.appendChild(ph);
-    
-    const infoSrc = item.querySelector('.mb-info');
-    if (infoSrc) {
-      document.getElementById('lb-info').innerHTML = infoSrc.innerHTML;
+    function renderLb() {
+      const ph = lbItems[lbIdx].querySelector('.mb-ph').cloneNode(true);
+      ph.style.cssText = "padding:0; padding-bottom:0; max-width:90vw; max-height:75vh; height:auto;";
+      const img = ph.querySelector('img');
+      if(img) img.style.cssText = "position:static; max-width:90vw; max-height:75vh; width:auto; height:auto;";
+      document.getElementById('lb-img').innerHTML = '';
+      document.getElementById('lb-img').appendChild(ph);
+      document.getElementById('lb-info').innerHTML = lbItems[lbIdx].querySelector('.mb-info').innerHTML;
     }
   }
 
-  // 초기화 함수 실행
+  // 6. 복사 방지
+  document.addEventListener('contextmenu', e => e.preventDefault()); 
+  document.addEventListener('dragstart', e => e.preventDefault()); 
+  document.addEventListener('keydown', e => {
+    if (e.key === 'F12' || ((e.ctrlKey || e.metaKey) && ['c', 'u', 's', 'p', 'x'].includes(e.key.toLowerCase()))) e.preventDefault();
+  });
+
   window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.slideshow').forEach(ss => {
       const slides = ss.querySelectorAll('.slide');
-      const counter = ss.querySelector('.slide-counter');
-      if (counter && slides.length > 0) counter.innerText = '1 / ' + slides.length;
+      if (ss.querySelector('.slide-counter') && slides.length > 0) ss.querySelector('.slide-counter').innerText = '1 / ' + slides.length;
       ss.setAttribute('data-cur', '0');
     });
-
     setupScrollMotion();
     setupLightbox();
-  });
- // 7. 복사 방지 (우클릭, 드래그, 키보드 복사 차단)
-  // 우클릭 메뉴(컨텍스트 메뉴) 차단
-  document.addEventListener('contextmenu', e => e.preventDefault()); 
-  
-  // 이미지 등 요소 드래그 차단
-  document.addEventListener('dragstart', e => e.preventDefault()); 
-
-  // 키보드 복사 단축키 차단 (Ctrl+C, Cmd+C, 소스보기 등)
-  document.addEventListener('keydown', e => {
-    if (
-      e.key === 'F12' || // 개발자 도구 창 띄우기 차단
-      ((e.ctrlKey || e.metaKey) && ['c', 'u', 's', 'p', 'x'].includes(e.key.toLowerCase()))
-    ) {
-      e.preventDefault();
-    }
   });
 </script>
 
