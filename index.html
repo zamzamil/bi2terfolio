@@ -87,8 +87,9 @@
     position: relative; z-index: 3; display: flex; flex-direction: column; gap: 10px; 
     font-size: 13px; font-weight: 400; line-height: 1.4;
   }
+  .hero-link:hover { text-decoration: underline; opacity: 0.5; }
 
-  /* ══ 섹션 공통 모션 ══ */
+  /* ══ 섹션 공통 모션 (프로젝트 & 어바웃) ══ */
   .project-section .wrap, .about-section .wrap {
     opacity: 1; transform: translateY(0);
     transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
@@ -96,8 +97,12 @@
   .project-section .wrap.below, .about-section .wrap.below { opacity: 0; transform: translateY(60px); }
   .project-section .wrap.above, .about-section .wrap.above { opacity: 0; transform: translateY(-60px); }
 
+  /* ══ 프로젝트 섹션 ══ */
   .project-section { min-height: 100vh; display: flex; align-items: center; padding: 100px 0; }
-  .slideshow { width: 100%; position: relative; overflow: hidden; background: rgba(127,127,127,0.08); min-height: 200px; }
+  .slideshow {
+    width: 100%; position: relative; overflow: hidden;
+    user-select: none; background: rgba(127,127,127,0.08); min-height: 200px;
+  }
   .slide { position: relative; display: none; width: 100%; }
   .slide.active { display: block; }
   .slide-img { width: 100%; height: auto; display: block; }
@@ -106,22 +111,31 @@
 
   .project-info { display: grid; grid-template-columns: 1fr 1fr; padding: 20px 0 60px; color: var(--black); }
   .pname { font-size: 13px; font-weight: 500; }
+  .pyear { font-size: 13px; }
   .ptags { font-size: 13px; font-weight: 500; line-height: 1.5; }
   .pdesc { font-size: 12px; color: var(--gray); line-height: 1.7; margin-top: 10px; }
 
   /* ══ ABOUT ══ */
-  .about-section { min-height: 50vh; display: flex; align-items: flex-start; padding: 10vh 0 20px; color: var(--black); }
+  .about-section { 
+    min-height: 50vh; display: flex; align-items: flex-start;
+    padding: 10vh 0 20px; color: var(--black); 
+  }
   .about-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; width: 100%; }
   .about-col { padding-right: 28px; }
   .about-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
   .about-col p, .about-col a { font-size: 13px; line-height: 1.6; display: block; color: var(--black); }
+  .about-col .bio { font-size: 12px; color: var(--gray); line-height: 1.7; margin-top: 12px; }
 
+  /* ══ 모바일 최적화 ══ */
   @media (max-width: 800px) {
     :root { --side: 0; } 
-    .wrap { width: 100%; padding: 0 20px; }
+    .wrap { width: 100%; padding: 0 20px; margin: 0 auto; }
+    .project-info { grid-template-columns: 1fr; gap: 12px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
     .mid-right { display: none; } 
+    .project-section { padding: 60px 0; }
     .about-section { padding-top: 60px; min-height: auto; }
-    .bottom-bar { padding-bottom: calc(env(safe-area-inset-bottom) + 8px); }
+    .hero-location { font-size: 11px; left: 20px; }
   }
 
   /* ══ 무드보드 GRID ══ */
@@ -139,8 +153,10 @@
     transition: opacity var(--mb-dur) cubic-bezier(0.16,1,0.3,1), transform var(--mb-dur) cubic-bezier(0.16,1,0.3,1);
   }
   .mb-item.visible { opacity: 1 !important; transform: translateY(0) !important; }
+  .mb-item.exit-up { opacity: 0; transform: translateY(calc(var(--mb-dy) * -1)); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.4,0,1,1); }
   .mb-ph { position: relative; width: 100%; overflow: hidden; line-height: 0; }
   .mb-real { width: 100%; height: auto; display: block; }
+  .mb-info { margin-top: 6px; line-height: 1.3; color: var(--black); transition: color 0.25s ease; }
 
   /* ══ 라이트박스 ══ */
   .lb {
@@ -155,8 +171,10 @@
   .lb-arrow.prev { left: 16px; }
   .lb-arrow.next { right: 16px; }
   .lb-img-wrap img { max-width: 90vw; max-height: 75vh; width: auto !important; height: auto !important; object-fit: contain; }
+  .lb-info { color: var(--black); margin-top: 15px; text-align: center; }
 
-  body { -webkit-user-select: none; user-select: none; }
+  /* ══ 보안 및 복사 방지 ══ */
+  body { -webkit-user-select: none; -moz-user-select: none; user-select: none; }
   img { -webkit-user-drag: none; }
 </style>
 </head>
@@ -182,6 +200,7 @@
 
 <!-- PAGE: PORTFOLIO -->
 <div id="page-portfolio">
+  <!-- HERO -->
   <section class="hero" id="hero-section">
     <video class="hero-video" id="main-video" autoplay loop muted playsinline></video>
     <div class="hero-location" id="hero-location"></div>
@@ -194,51 +213,92 @@
     </div>
   </section>
 
+  <!-- PROJECT 1 -->
   <section class="project-section" id="ss1">
     <div class="wrap">
       <div class="slideshow" id="slides-ss1" data-cur="0">
         <div class="slide active"><img src="1-2.png" class="slide-img"></div>
         <div class="slide"><img src="1-1.png" class="slide-img"></div>
-        <div class="zone" onclick="slide('slides-ss1',-1)" style="left:0;"></div>
-        <div class="zone" onclick="slide('slides-ss1',1)" style="right:0;"></div>
+        <div class="zone" onclick="slide('slides-ss1',-1)" style="position:absolute;left:0;top:0;bottom:0;width:50%;z-index:5;"></div>
+        <div class="zone" onclick="slide('slides-ss1',1)" style="position:absolute;right:0;top:0;bottom:0;width:50%;z-index:5;"></div>
         <div class="slide-counter">1 / 2</div>
       </div>
       <div class="project-info">
-        <div><div class="pname">Dendi</div><div>2026</div></div>
-        <div><div class="ptags">Sustainable Design</div><div class="pdesc">Terracotta and living dandelions.</div></div>
+        <div><div class="pname">Dendi</div><div class="pyear">2026</div></div>
+        <div><div class="ptags">Sustainable Design<br>Bio-materials</div><div class="pdesc">Domestic dog waste management system using terracotta and living dandelions.</div></div>
       </div>
     </div>
   </section>
-  
-  <!-- About -->
+
+  <!-- PROJECT 2 -->
+  <section class="project-section" id="ss2">
+    <div class="wrap">
+      <div class="slideshow" id="slides-ss2" data-cur="0">
+        <div class="slide active"><img src="images/placeholder.jpg" class="slide-img"></div>
+        <div class="zone" onclick="slide('slides-ss2',-1)" style="position:absolute;left:0;top:0;bottom:0;width:50%;z-index:5;"></div>
+        <div class="zone" onclick="slide('slides-ss2',1)" style="position:absolute;right:0;top:0;bottom:0;width:50%;z-index:5;"></div>
+        <div class="slide-counter">1 / 1</div>
+      </div>
+      <div class="project-info">
+        <div><div class="pname">Rooopie</div><div class="pyear">2026</div></div>
+        <div><div class="ptags">Non-violent Prevention<br>Urban Ecology</div><div class="pdesc">A non-violent pigeon prevention system utilizing rotating triangular prisms.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT 3 -->
+  <section class="project-section" id="ss3">
+    <div class="wrap">
+      <div class="slideshow" id="slides-ss3" data-cur="0">
+        <div class="slide active"><img src="images/placeholder.jpg" class="slide-img"></div>
+        <div class="zone" onclick="slide('slides-ss3',-1)" style="position:absolute;left:0;top:0;bottom:0;width:50%;z-index:5;"></div>
+        <div class="zone" onclick="slide('slides-ss3',1)" style="position:absolute;right:0;top:0;bottom:0;width:50%;z-index:5;"></div>
+        <div class="slide-counter">1 / 1</div>
+      </div>
+      <div class="project-info">
+        <div><div class="pname">Yun-don-ban</div><div class="pyear">2026</div></div>
+        <div><div class="ptags">Cultural Fusion<br>Product Design</div><div class="pdesc">A hybrid designed for tea culture and social interaction.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
   <section id="about" class="about-section">
     <div class="wrap">
       <div class="about-grid">
         <div class="about-col">
           <div class="about-col-title">Information</div>
+          <a href="#">Junghyun Kim</a>
           <a href="mailto:10069236@network.rca.ac.uk">Email ↗</a>
           <a href="https://instagram.com/bi2ter" target="_blank">Instagram ↗</a>
-          <p style="margin-top:10px; color:var(--gray);">Seoul & London. Studying at RCA.</p>
+          <p class="bio">Multidisciplinary designer operating between Seoul and London. Studying at RCA.</p>
         </div>
         <div class="about-col">
           <div class="about-col-title">Education</div>
-          <p>RCA (2025-2026)</p>
-          <p>SADI (2025 Graduated)</p>
+          <p>RCA — Design Products (2025-2026)</p>
+          <p>SADI — Product Design (2025 Graduated)</p>
+        </div>
+        <div class="about-col">
+          <div class="about-col-title">Awards</div>
+          <p>Grand Prize (2021)</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- TOP 이동 버튼 (정중앙 위치) -->
   <div style="padding: 20px 20px 120px; text-align: center;">
     <span onclick="goToHome()" class="nav-btn" style="text-decoration:underline;">Top ↑</span>
   </div>
 </div>
 
-<!-- PAGE: MOODBOARD -->
+<!-- MOODBOARD PAGE -->
 <div id="page-moodboard">
   <div class="mb-masonry">
     <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-1.png"></div><div class="mb-info">Mood 01</div></div>
     <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-2.png"></div><div class="mb-info">Mood 02</div></div>
+    <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-3.png"></div><div class="mb-info">Mood 03</div></div>
+    <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-4.png"></div><div class="mb-info">Mood 04</div></div>
   </div>
 </div>
 
@@ -256,29 +316,19 @@
      🛠️ HERO 데이터 설정 (여기서 영상과 문구를 수정하세요)
      ══════════════════════════════════════════════ */
   const heroData = [
-    { 
-      video: 'i1.mp4', 
-      text: 'Pier Head, Liverpool L3 1BY<br>April 2026' 
-    },
-    { 
-      video: 'i2.mp4', 
-      text: 'Seoul, South Korea<br>May 2026' 
-    },
-    { 
-      video: 'i3.mp4', 
-      text: 'London, United Kingdom<br>June 2026' 
-    }
+    { video: 'i1.mp4', text: 'Pier Head, Liverpool L3 1BY<br>April 2026' },
+    { video: 'i2.mp4', text: 'Seoul, South Korea<br>May 2026' },
+    { video: 'i3.mp4', text: 'London, United Kingdom<br>June 2026' }
   ];
 
   function setRandomHero() {
     const randomIdx = Math.floor(Math.random() * heroData.length);
     const selected = heroData[randomIdx];
-    
     document.getElementById('main-video').src = selected.video;
     document.getElementById('hero-location').innerHTML = selected.text;
   }
 
-  /* ══ 기본 유틸리티 ══ */
+  /* ══ 기본 기능 ══ */
   function tick(){
     const n = new Date(), p = x => String(x).padStart(2,'0');
     document.getElementById('clock').textContent = p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());
@@ -311,28 +361,43 @@
     else document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
   });
 
-  /* ══ 스크롤 모션 ══ */
+  /* ══ 스크롤 및 모션 로직 ══ */
   function onScroll() {
     const sy = window.scrollY, vh = window.innerHeight;
+
     if (!body.classList.contains('on-moodboard')) {
       if (sy > 10) { hero.classList.add('video-hidden'); tBar.classList.add('scrolled'); bBar.classList.add('scrolled'); }
       else { hero.classList.remove('video-hidden'); tBar.classList.remove('scrolled'); bBar.classList.remove('scrolled'); }
     }
+
+    // 프로젝트 및 어바웃 모션 감지
     document.querySelectorAll('.project-section .wrap, .about-section .wrap').forEach(w => {
       const r = w.getBoundingClientRect();
       if (r.top < vh * 0.85 && r.bottom > vh * 0.05) w.classList.remove('below', 'above');
       else if (r.top >= vh * 0.85) w.classList.add('below');
       else if (r.bottom <= vh * 0.05) w.classList.add('above');
     });
+
+    // 무드보드 텐션 모션
     if (body.classList.contains('on-moodboard')) {
       document.querySelectorAll('.mb-item').forEach((it) => {
         const r = it.getBoundingClientRect();
+        if (it.querySelector('img') && !it.dataset.motionSet) {
+          const img = it.querySelector('img');
+          let ratio = (img.naturalHeight / img.naturalWidth) || 1;
+          const r0 = Math.max(0.5, Math.min(1.6, ratio));
+          it.style.setProperty('--mb-dur', (0.55 + r0 * 0.35).toFixed(2) + 's');
+          it.style.setProperty('--mb-dy', Math.round(28 + r0 * 22) + 'px');
+          it.dataset.motionSet = '1';
+        }
         if (r.top < vh * 0.92 && r.bottom > vh * 0.08) it.classList.add('visible');
       });
     }
   }
+
   window.addEventListener('scroll', onScroll, { passive: true });
 
+  // 무드보드 클릭 시 순차적 등장
   document.getElementById('mb-btn').addEventListener('click', () => {
     body.classList.add('on-moodboard'); window.scrollTo(0, 0);
     tBar.classList.add('scrolled'); bBar.classList.add('scrolled');
@@ -341,13 +406,7 @@
     setTimeout(() => { items.forEach((it, i) => setTimeout(() => it.classList.add('visible'), i * 50)); }, 100);
   });
 
-  /* ══ 초기화 ══ */
-  window.addEventListener('DOMContentLoaded', () => {
-    setRandomHero();
-    onScroll();
-  });
-
-  // 슬라이드쇼 및 라이트박스 로직 (기존과 동일)
+  /* ══ 슬라이드쇼 및 라이트박스 ══ */
   function slide(id, dir) {
     const ss = document.getElementById(id); const slides = ss.querySelectorAll('.slide');
     let cur = parseInt(ss.getAttribute('data-cur')) || 0;
@@ -355,6 +414,38 @@
     slides[cur].classList.add('active'); ss.setAttribute('data-cur', cur);
     ss.querySelector('.slide-counter').innerText = (cur + 1) + ' / ' + slides.length;
   }
+
+  let lbItems = [], lbIdx = 0;
+  function setupLightbox() {
+    document.getElementById('lb-close').onclick = () => {
+      document.getElementById('lb').classList.remove('open'); body.style.overflow = '';
+    };
+    document.querySelector('.lb-arrow.prev').onclick = () => { lbIdx = (lbIdx - 1 + lbItems.length) % lbItems.length; renderLb(); };
+    document.querySelector('.lb-arrow.next').onclick = () => { lbIdx = (lbIdx + 1) % lbItems.length; renderLb(); };
+    
+    document.addEventListener('click', e => {
+      const it = e.target.closest('.mb-item'); if (!it) return;
+      lbItems = [...document.querySelectorAll('.mb-item')]; lbIdx = lbItems.indexOf(it);
+      document.getElementById('lb').classList.add('open'); body.style.overflow = 'hidden';
+      renderLb();
+    });
+
+    function renderLb() {
+      const srcItem = lbItems[lbIdx];
+      const srcImg = srcItem.querySelector('img');
+      const newImg = srcImg.cloneNode();
+      newImg.style.cssText = "max-width:90vw; max-height:75vh; width:auto; height:auto; object-fit:contain;";
+      document.getElementById('lb-img').innerHTML = '';
+      document.getElementById('lb-img').appendChild(newImg);
+      document.getElementById('lb-info').innerHTML = srcItem.querySelector('.mb-info').innerHTML;
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    setRandomHero();
+    setupLightbox();
+    onScroll();
+  });
 </script>
 </body>
 </html>
