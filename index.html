@@ -11,12 +11,10 @@
     --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --bar: 44px; --side: 22%;
     --accent: #111;
-    --drop: rgba(0,0,0,0.04);
   }
   body.dark {
     --black: #f5f5f5; --gray: #888; --bg: #0a0a0a; --line: #222;
     --accent: #f5f5f5;
-    --drop: rgba(255,255,255,0.06);
   }
   html { font-family: var(--font); font-size: 13px; color: var(--black); background: var(--bg); }
   body {
@@ -70,40 +68,19 @@
 
   /* ══ SLIDESHOW ══ */
   .slideshow {
-    width: 100%;
-    position: relative; overflow: hidden;
-    cursor: pointer; user-select: none; background: var(--drop);
+    width: 100%; position: relative; overflow: hidden;
+    user-select: none; background: rgba(0,0,0,0.04);
     min-height: 200px;
   }
   body.dark .slideshow { background: rgba(255,255,255,0.04); }
   .slide { position: relative; display: none; width: 100%; }
   .slide.active { display: block; }
   .slide-img { width: 100%; height: auto; display: block; }
-  .empty-slide {
-    aspect-ratio: 16/9;
-    display: flex !important; align-items: center; justify-content: center;
-    cursor: pointer;
-  }
-  body.edit-mode .empty-slide:hover { background: rgba(0,0,0,0.06); }
-  body.dark.edit-mode .empty-slide:hover { background: rgba(255,255,255,0.08); }
-  .add-slide-btn {
-    display: none;
-    position: absolute; top: 6px; left: 6px;
-    width: auto; padding: 4px 10px; height: 22px;
-    border: none; border-radius: 11px;
-    background: rgba(0,0,0,0.7); color: #fff;
-    font-size: 11px; cursor: pointer; z-index: 10;
-    font-family: var(--font);
-  }
-  body.edit-mode .add-slide-btn { display: block; }
-  .add-slide-btn:hover { background: #111; }
-  .empty-hint { font-size: 12px; color: var(--gray); text-align: center; }
 
   .slide-counter { position: absolute; bottom: 10px; right: 14px; font-size: 11px; color: #aaa; pointer-events: none; z-index: 4; }
-  .zone { position: absolute; top: 0; bottom: 0; width: 50%; z-index: 5; }
-  .zone-l { left: 0; cursor: w-resize; }
-  .zone-r { right: 0; cursor: e-resize; }
-  .slideshow.drag-over { outline: 2px dashed var(--accent); outline-offset: -6px; }
+  .zone { position: absolute; top: 0; bottom: 0; width: 50%; z-index: 5; cursor: pointer; }
+  .zone-l { left: 0; }
+  .zone-r { right: 0; }
 
   /* ══ PROJECT INFO ══ */
   .project-info { display: grid; grid-template-columns: 1fr 1fr; padding: 20px 0 60px; }
@@ -112,15 +89,11 @@
   .ptags { font-size: 13px; font-weight: 500; line-height: 1.5; }
   .pdesc { font-size: 12px; color: var(--gray); line-height: 1.7; margin-top: 10px; }
 
-  .project-section {
-    min-height: calc(100vh - var(--bar) * 2);
-    display: flex; align-items: center; padding: 60px 0;
-  }
+  /* 프로젝트 애니메이션용 CSS */
+  .project-section { min-height: calc(100vh - var(--bar) * 2); display: flex; align-items: center; padding: 60px 0; }
   .project-section .wrap {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1),
-                transform 0.85s cubic-bezier(0.16,1,0.3,1);
+    opacity: 1; transform: translateY(0);
+    transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
   }
   .project-section .wrap.below { opacity: 0; transform: translateY(60px); }
   .project-section .wrap.above { opacity: 0; transform: translateY(-60px); }
@@ -139,74 +112,42 @@
 
   /* ══ MOODBOARD GRID ══ */
   .mb-masonry {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    column-gap: 10px;
+    display: grid; grid-template-columns: repeat(8, 1fr); column-gap: 10px;
     row-gap: calc((100vh - var(--bar)*2 - var(--mb-row-h)*2) / 3);
     --mb-row-h: calc((100vh - var(--bar)*2) / 2.6);
-    padding: calc(var(--bar) + 4vh) 20px 60px;
-    align-items: start;
-    align-content: start;
+    padding: calc(var(--bar) + 4vh) 20px 60px; align-items: start; align-content: start;
   }
   @media (max-width: 1100px) { .mb-masonry { grid-template-columns: repeat(6, 1fr); } }
   @media (max-width: 800px)  { .mb-masonry { grid-template-columns: repeat(4, 1fr); } }
   @media (max-width: 500px)  { .mb-masonry { grid-template-columns: repeat(2, 1fr); } }
 
   .mb-item {
-    display: block;
-    position: relative;
-    cursor: pointer;
-    --mb-dur: 0.7s;
-    --mb-dy: 40px;
-    opacity: 0;
-    transform: translateY(var(--mb-dy));
+    display: block; position: relative; cursor: pointer;
+    --mb-dur: 0.7s; --mb-dy: 40px; opacity: 0; transform: translateY(var(--mb-dy));
     transition: opacity var(--mb-dur) cubic-bezier(0.16,1,0.3,1), transform var(--mb-dur) cubic-bezier(0.16,1,0.3,1);
   }
   .mb-item.visible { opacity: 1; transform: translateY(0); }
-  .mb-item.exit-up { opacity: 0; transform: translateY(calc(var(--mb-dy) * -1));
-    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.4,0,1,1); }
+  .mb-item.exit-up { opacity: 0; transform: translateY(calc(var(--mb-dy) * -1)); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.4,0,1,1); }
 
-  .mb-ph {
-    position: relative;
-    width: 100%;
-    background: transparent;
-    overflow: hidden;
-    line-height: 0;
-  }
-  .mb-ph .mb-real {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-  }
+  .mb-ph { position: relative; width: 100%; background: transparent; overflow: hidden; line-height: 0; }
+  .mb-ph .mb-real { width: 100%; height: auto; object-fit: contain; display: block; }
   .mb-info { margin-top: 6px; line-height: 1.3; }
-  .mb-info   { margin-top: 8px; }
-  .mb-code   { font-size: 12px; }
+  .mb-info { margin-top: 8px; }
+  .mb-code { font-size: 12px; }
   .mb-author { font-size: 12px; }
-  .mb-src    { font-size: 12px; text-decoration: underline; cursor: pointer; }
-  .mb-drop-hint { text-align: center; font-size: 12px; color: var(--gray); padding: 30px 20px; display: none; }
-  body.edit-mode .mb-drop-hint { display: block; }
-  #page-moodboard.drag-over { outline: 2px dashed var(--accent); outline-offset: -10px; }
+  .mb-src { font-size: 12px; text-decoration: underline; cursor: pointer; }
 
   /* ══ LIGHTBOX ══ */
   .lb {
-    display: none;
-    position: fixed; inset: 0; z-index: 1000;
-    background: var(--bg);
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    display: none; position: fixed; inset: 0; z-index: 1000; background: var(--bg);
+    flex-direction: column; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s ease;
   }
   .lb.open { display: flex; }
   .lb.visible { opacity: 1; }
 
   .lb-close, .lb-arrow {
-    position: fixed;
-    background: none; border: none;
-    cursor: pointer; color: var(--black);
-    font-family: var(--font);
+    position: fixed; background: none; border: none; cursor: pointer; color: var(--black); font-family: var(--font);
   }
   .lb-close { top: 18px; right: 24px; font-size: 22px; z-index: 1001; }
   .lb-arrow { top: 50%; transform: translateY(-50%); font-size: 22px; padding: 20px; z-index: 1001; }
@@ -218,71 +159,6 @@
   .lb-img-wrap .mb-ph { background: transparent; max-width: 90vw; max-height: 75vh; }
   .lb-img-wrap .mb-real { max-width: 90vw; max-height: 75vh; width: auto !important; height: auto !important; }
   .lb-info { display: none; }
-
-  /* ══ EDIT MODE ══ */
-  body.edit-mode [contenteditable="plaintext-only"] {
-    outline: 1px dashed transparent; outline-offset: 2px; cursor: text; transition: outline-color 0.15s ease;
-  }
-  body.edit-mode [contenteditable="plaintext-only"]:hover { outline-color: rgba(0,0,0,0.2); }
-  body.dark.edit-mode [contenteditable="plaintext-only"]:hover { outline-color: rgba(255,255,255,0.25); }
-  body.edit-mode [contenteditable="plaintext-only"]:focus { outline-color: var(--accent); outline-style: solid; background: var(--drop); }
-
-  .del-btn, .project-toolbar, #add-project-btn { display: none; }
-  body.edit-mode .del-btn {
-    display: block; position: absolute; top: 6px; right: 6px; width: 22px; height: 22px;
-    border: none; border-radius: 50%; background: rgba(0,0,0,0.7); color: #fff;
-    font-size: 14px; line-height: 1; cursor: pointer; z-index: 10;
-  }
-  body.edit-mode .del-btn:hover { background: #c0392b; }
-
-  body.edit-mode .project-toolbar {
-    display: flex; gap: 6px; position: absolute; top: -36px; right: 0; z-index: 50;
-  }
-  .project-toolbar button {
-    width: 28px; height: 28px; border: 1px solid var(--line); background: var(--bg);
-    color: var(--black); cursor: pointer; font-size: 13px; line-height: 1; border-radius: 4px;
-  }
-  .project-toolbar .drag-handle { cursor: grab; }
-  .project-toolbar .drag-handle:active { cursor: grabbing; }
-  .project-toolbar button:hover { background: var(--drop); }
-
-  body.edit-mode #add-project-btn {
-    display: block; margin: 40px auto 60px; padding: 14px 28px; border: 1px dashed var(--gray);
-    background: transparent; color: var(--black); font-family: var(--font); font-size: 13px;
-    cursor: pointer; border-radius: 4px;
-  }
-  body.edit-mode #add-project-btn:hover { border-color: var(--accent); background: var(--drop); }
-  body.edit-mode .project-block { cursor: grab; }
-  body.edit-mode .project-block.dragging { opacity: 0.4; cursor: grabbing; }
-  body.edit-mode .mb-item.dragging { opacity: 0.4; }
-  body.edit-mode .zone { pointer-events: none; }
-
-  /* ══ EDIT TOOLBAR ══ */
-  #edit-toolbar {
-    display: none; position: fixed; bottom: calc(var(--bar) + 16px); left: 50%;
-    transform: translateX(-50%); z-index: 500; background: var(--black); color: var(--bg);
-    padding: 8px; border-radius: 999px; gap: 4px; align-items: center;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18); font-size: 12px;
-  }
-  #edit-toolbar button {
-    border: none; background: transparent; color: inherit; font-family: var(--font);
-    font-size: 12px; padding: 8px 14px; cursor: pointer; border-radius: 999px; line-height: 1;
-  }
-  #edit-toolbar button:hover { background: rgba(255,255,255,0.15); }
-  body.dark #edit-toolbar button:hover { background: rgba(0,0,0,0.3); }
-  #edit-toolbar .sep { width: 1px; height: 16px; background: rgba(255,255,255,0.2); margin: 0 2px; }
-  body.dark #edit-toolbar .sep { background: rgba(0,0,0,0.3); }
-  #save-status { font-size: 11px; opacity: 0.7; padding: 0 10px; min-width: 56px; text-align: center; }
-  #edit-toolbar .label { padding: 0 10px; opacity: 0.6; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
-
-  #edit-hint {
-    position: fixed; bottom: calc(var(--bar) + 14px); right: 20px; z-index: 250;
-    font-size: 11px; color: var(--gray); pointer-events: none; letter-spacing: 0.04em;
-  }
-  #edit-hint kbd {
-    font-family: var(--font); border: 1px solid var(--line); padding: 1px 5px;
-    border-radius: 3px; font-size: 10px;
-  }
 </style>
 </head>
 <body>
@@ -290,8 +166,8 @@
 <!-- TOP NAV -->
 <div class="top-bar">
   <div id="top-bar-content" style="display:flex;justify-content:space-between;align-items:center;width:100%">
-    <span id="cargo-logo" style="cursor:pointer">Junghyun Kim</span>
-    <span id="nav-right" style="cursor:pointer">About</span>
+    <span id="cargo-logo" style="cursor:pointer" onclick="window.scrollTo({top:0,behavior:'smooth'})">Junghyun Kim</span>
+    <span id="nav-right" style="cursor:pointer" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">About</span>
   </div>
 </div>
 
@@ -319,10 +195,28 @@
     </div>
   </section>
 
+  <!-- 
+  ====================================================================
+    [프로젝트 추가 가이드]
+    새로운 프로젝트를 만들고 싶다면, 아래의 <section class="project-section"> 부터
+    </section> 까지를 통째로 복사해서 원하는 위치에 붙여넣기 하세요.
+
+    *주의*: 복사한 뒤, <div class="slideshow" id="ss1"> 부분의 id를
+    "ss4", "ss5" 등 겹치지 않는 새로운 이름으로 꼭 바꿔주세요!
+    아래쪽 클릭 영역에 있는 slide('ss1', 1) 도 slide('ss4', 1) 로 맞춰서 변경해야 합니다.
+  ==================================================================== 
+  -->
+
   <!-- PROJECT 1: DENDI -->
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss1" data-cur="0">
+        
+        <!-- 
+        [슬라이드 이미지 추가 가이드]
+        이미지를 늘리고 싶다면 아래 <div class="slide">...</div> 블록을 복사해서 붙여넣으세요.
+        맨 처음 화면에 보여야 할 1번 이미지에만 class="slide active" 라고 써야 합니다! 
+        -->
         <div class="slide active">
           <img src="1-2.png" alt="Dendi 메인 렌더링" class="slide-img">
         </div>
@@ -333,12 +227,17 @@
           <img src="1-2.png" alt="태양광 패널 디테일" class="slide-img">
         </div>
         
+        <!-- 클릭 시 이전/다음 이미지로 넘겨주는 영역 (id를 slideshow id와 일치시키세요) -->
         <div class="zone zone-l" onclick="slide('ss1',-1)"></div>
         <div class="zone zone-r" onclick="slide('ss1',1)"></div>
         <div class="slide-counter">0 / 0</div>
       </div>
+      
       <div class="project-info">
-        <div><div class="pname">Dendi</div><div class="pyear">2026</div></div>
+        <div>
+          <div class="pname">Dendi</div>
+          <div class="pyear">2026</div>
+        </div>
         <div>
           <div class="ptags">Sustainable Design<br>Bio-materials<br>Behavioral Change</div>
           <div class="pdesc">Domestic dog waste management system using terracotta and living dandelions. The dandelion roots act as a visual indicator of soil health while facilitating microbial activation.</div>
@@ -351,9 +250,12 @@
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss2" data-cur="0">
-        <div class="slide active empty-slide">
-          <div class="empty-hint">이미지를 드래그하거나 클릭하세요</div>
+        
+        <div class="slide active">
+          <!-- TODO: 실제 이미지 파일 경로로 수정하세요 (예: images/rooopie.jpg) -->
+          <img src="" alt="Rooopie Image" class="slide-img">
         </div>
+
         <div class="zone zone-l" onclick="slide('ss2',-1)"></div>
         <div class="zone zone-r" onclick="slide('ss2',1)"></div>
         <div class="slide-counter">0 / 0</div>
@@ -372,9 +274,12 @@
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss3" data-cur="0">
-        <div class="slide active empty-slide">
-          <div class="empty-hint">이미지를 드래그하거나 클릭하세요</div>
+        
+        <div class="slide active">
+          <!-- TODO: 실제 이미지 파일 경로로 수정하세요 (예: images/yundonban.jpg) -->
+          <img src="" alt="Yun-don-ban Image" class="slide-img">
         </div>
+
         <div class="zone zone-l" onclick="slide('ss3',-1)"></div>
         <div class="zone zone-r" onclick="slide('ss3',1)"></div>
         <div class="slide-counter">0 / 0</div>
@@ -439,27 +344,43 @@
 </div><!-- /page-portfolio -->
 
 <!-- ════════════════ MOODBOARD PAGE ════════════════ -->
-<!-- 주의: 자바스크립트가 자동으로 masonry 구조로 재구성해 줍니다. -->
 <div id="page-moodboard">
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:140%;background:#b5c4d4;display:flex;align-items:center;justify-content:center;"><span style="font-size:28px;font-weight:900;color:#c0392b;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">LENS</span></div>
-    <div class="mb-info"><div class="mb-code">2-34</div><div class="mb-author">F. Kuenstler</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:80%;background:#d9cfc4;"></div>
-    <div class="mb-info"><div class="mb-code">BB09</div><div class="mb-author">R. Dijkstra</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:120%;background:#e8e4de;"></div>
-    <div class="mb-info"><div class="mb-code">5454-8</div><div class="mb-author">J. Tschichold</div><div class="mb-src">SRC</div></div>
-  </div>
-  <div class="mb-item">
-    <div class="mb-ph" style="padding-bottom:65%;background:#ece8e0;"></div>
-    <div class="mb-info"><div class="mb-code">65-4</div><div class="mb-author">Printed Card</div><div class="mb-src">SRC</div></div>
-  </div>
-</div>
+  <div class="mb-masonry">
 
-<!-- ════════════════ LIGHTBOX ════════════════ -->
+    <!-- 
+    [무드보드 이미지 추가 가이드]
+    이미지를 하나 추가할 때마다 아래 <div class="mb-item"> 부터 </div> 까지 복사해서 붙여넣으세요.
+    -->
+    <div class="mb-item">
+      <div class="mb-ph">
+        <img class="mb-real" src="이미지경로.jpg" alt="">
+      </div>
+      <div class="mb-info">
+        <div class="mb-code">캡션1</div>
+        <div class="mb-author">작성자</div>
+      </div>
+    </div>
+
+    <!-- 임시 샘플 박스 1 -->
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:140%;background:#b5c4d4;"></div>
+      <div class="mb-info"><div class="mb-code">LENS 01</div><div class="mb-author">F. Kuenstler</div></div>
+    </div>
+    <!-- 임시 샘플 박스 2 -->
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:80%;background:#d9cfc4;"></div>
+      <div class="mb-info"><div class="mb-code">BB09</div><div class="mb-author">R. Dijkstra</div></div>
+    </div>
+    <!-- 임시 샘플 박스 3 -->
+    <div class="mb-item">
+      <div class="mb-ph" style="padding-bottom:120%;background:#e8e4de;"></div>
+      <div class="mb-info"><div class="mb-code">5454-8</div><div class="mb-author">J. Tschichold</div></div>
+    </div>
+
+  </div>
+</div><!-- /page-moodboard -->
+
+<!-- ════════════════ LIGHTBOX (팝업 확대 창) ════════════════ -->
 <div class="lb" id="lb">
   <button class="lb-close" id="lb-close">×</button>
   <button class="lb-arrow prev">‹</button>
@@ -468,652 +389,167 @@
   <button class="lb-arrow next">›</button>
 </div>
 
-<!-- ════════════════ EDIT TOOLBAR ════════════════ -->
-<div id="edit-toolbar">
-  <span class="label">EDIT</span>
-  <span id="save-status"></span>
-  <span class="sep"></span>
-  <button id="dark-btn" title="다크모드">☾</button>
-  <button id="export-btn" title="HTML로 내보내기">⬇ HTML</button>
-  <button id="reset-btn" title="모두 초기화">초기화</button>
-  <span class="sep"></span>
-  <button id="close-btn" title="편집 종료 (Cmd+E)">완료</button>
-</div>
 
-<div id="edit-hint"><kbd>⌘</kbd>+<kbd>E</kbd> to edit</div>
-
-<!-- ════════════════ 통합된 EDITOR.JS 스크립트 ════════════════ -->
+<!-- ════════════════ JAVASCRIPT (핵심 뷰어 구동 로직) ════════════════ -->
 <script>
-(function(){
-  'use strict';
+  // 1. 슬라이드쇼 넘기기 로직
+  function slide(id, dir) {
+    const ss = document.getElementById(id);
+    if (!ss) return; 
 
-  const LS_KEY = 'portfolio.snapshot.v1';
-  const DARK_KEY = 'portfolio.dark.v1';
-
-  /* ─────────── EDIT MODE STATE ─────────── */
-  let editMode = false;
-  let dragSrc = null;
-
-  /* ─────────── KEYBOARD TOGGLE ─────────── */
-  document.addEventListener('keydown', e => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'e') {
-      e.preventDefault();
-      toggleEdit();
-    }
-  });
-
-  function toggleEdit(force) {
-    editMode = (typeof force === 'boolean') ? force : !editMode;
-    document.body.classList.toggle('edit-mode', editMode);
-    applyEditableState();
-    document.getElementById('edit-toolbar').style.display = editMode ? 'flex' : 'none';
-    document.getElementById('edit-hint').style.display = editMode ? 'none' : 'block';
-  }
-
-  /* ─────────── MAKE TEXT EDITABLE ─────────── */
-  const TEXT_SELECTORS = [
-    '.hero-text',
-    '.pname', '.pyear', '.ptags', '.pdesc',
-    '.about-col-title', '.about-col p', '.about-col a',
-    '.cv-place', '.cv-italic', '.cv-year',
-    '.bottom-bar a',
-    '#cargo-logo',
-    '.mb-code', '.mb-author', '.mb-src'
-  ];
-
-  function applyEditableState() {
-    const editable = editMode;
-    document.querySelectorAll(TEXT_SELECTORS.join(',')).forEach(el => {
-      if (editable) {
-        el.setAttribute('contenteditable', 'plaintext-only');
-        if (!el.dataset.editBound) {
-          el.addEventListener('input', scheduleSave);
-          el.addEventListener('blur', scheduleSave);
-          el.addEventListener('click', e => {
-            if (editMode && el.tagName === 'A') e.preventDefault();
-          });
-          el.dataset.editBound = '1';
-        }
-      } else {
-        el.removeAttribute('contenteditable');
-      }
-    });
-  }
-
-  /* ─────────── DEBOUNCED AUTOSAVE ─────────── */
-  let saveTimer = null;
-  function scheduleSave() {
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(saveSnapshot, 400);
-    flashSaveStatus('saving');
-  }
-  function flashSaveStatus(state) {
-    const el = document.getElementById('save-status');
-    if (!el) return;
-    if (state === 'saving') el.textContent = '저장 중…';
-    else if (state === 'saved') el.textContent = '저장됨';
-    else el.textContent = '';
-  }
-
-  /* ─────────── SNAPSHOT ─────────── */
-  function saveSnapshot() {
-    try {
-      const snap = {
-        portfolio: document.getElementById('page-portfolio').innerHTML,
-        moodboard: document.getElementById('page-moodboard').innerHTML,
-        topBar:    document.getElementById('top-bar-content').innerHTML,
-        bottomBar: document.getElementById('bottom-bar-content').innerHTML,
-        ts: Date.now()
-      };
-      localStorage.setItem(LS_KEY, JSON.stringify(snap));
-      flashSaveStatus('saved');
-      setTimeout(() => flashSaveStatus(''), 1200);
-    } catch (e) {
-      console.warn('save failed', e);
-    }
-  }
-
-  function loadSnapshot() {
-    try {
-      const raw = localStorage.getItem(LS_KEY);
-      if (!raw) return false;
-      const snap = JSON.parse(raw);
-      if (snap.portfolio) document.getElementById('page-portfolio').innerHTML = snap.portfolio;
-      if (snap.moodboard) document.getElementById('page-moodboard').innerHTML = snap.moodboard;
-      if (snap.topBar)    document.getElementById('top-bar-content').innerHTML = snap.topBar;
-      if (snap.bottomBar) document.getElementById('bottom-bar-content').innerHTML = snap.bottomBar;
-      return true;
-    } catch (e) {
-      console.warn('load failed', e);
-      return false;
-    }
-  }
-
-  /* ─────────── DRAG & DROP IMAGES ─────────── */
-  function readFileAsDataURL(file) {
-    return new Promise((res, rej) => {
-      const r = new FileReader();
-      r.onload = () => res(r.result);
-      r.onerror = rej;
-      r.readAsDataURL(file);
-    });
-  }
-
-  function imageNaturalSize(src) {
-    return new Promise(res => {
-      const img = new Image();
-      img.onload = () => res({ w: img.naturalWidth, h: img.naturalHeight });
-      img.onerror = () => res({ w: 800, h: 600 });
-      img.src = src;
-    });
-  }
-
-  async function handleSlideshowDrop(slideshow, files) {
-    const imgs = [...files].filter(f => f.type.startsWith('image/'));
-    if (!imgs.length) return;
-    for (const f of imgs) {
-      const url = await readFileAsDataURL(f);
-      addSlide(slideshow, url);
-    }
-    refreshSlideshow(slideshow);
-    scheduleSave();
-  }
-
-  function addSlide(slideshow, dataUrl) {
-    const slide = document.createElement('div');
-    slide.className = 'slide';
-    slide.innerHTML = `<img class="slide-img" src="${dataUrl}" alt=""><button class="del-btn" data-action="del-slide" title="슬라이드 삭제">×</button>`;
-    const empty = slideshow.querySelector('.slide.empty-slide');
-    if (empty) empty.remove();
-    const zone = slideshow.querySelector('.zone-l');
-    slideshow.insertBefore(slide, zone);
-  }
-
-  function refreshSlideshow(slideshow) {
-    const slides = slideshow.querySelectorAll('.slide');
-    if (!slides.length) return;
-    slides.forEach((s, i) => s.classList.toggle('active', i === 0));
-    const cnt = slideshow.querySelector('.slide-counter');
-    if (cnt) cnt.textContent = `1 / ${slides.length}`;
-    slideshow.dataset.cur = '0';
-  }
-
-  window.slide = function(id, dir) {
-    const ss = (typeof id === 'string') ? document.getElementById(id) : id;
-    if (!ss) return;
     const slides = ss.querySelectorAll('.slide');
-    if (!slides.length) return;
-    let cur = parseInt(ss.dataset.cur || '0', 10);
+    if (slides.length <= 1) return; // 슬라이드가 1장이면 작동하지 않음
+
+    let cur = parseInt(ss.getAttribute('data-cur')) || 0;
     slides[cur].classList.remove('active');
-    cur = (cur + dir + slides.length) % slides.length;
+
+    cur += dir;
+    if (cur < 0) cur = slides.length - 1;
+    if (cur >= slides.length) cur = 0;
+
     slides[cur].classList.add('active');
-    ss.dataset.cur = String(cur);
-    const cnt = ss.querySelector('.slide-counter');
-    if (cnt) cnt.textContent = `${cur+1} / ${slides.length}`;
-  };
+    ss.setAttribute('data-cur', cur);
 
-  async function handleMoodboardDrop(files) {
-    const imgs = [...files].filter(f => f.type.startsWith('image/'));
-    if (!imgs.length) return;
-    const grid = document.getElementById('mb-masonry');
-    for (const f of imgs) {
-      const url = await readFileAsDataURL(f);
-      const size = await imageNaturalSize(url);
-      const item = createMoodboardItem(url, size, f.name);
-      grid.appendChild(item);
-    }
-    bindMoodboardItems();
-    scheduleSave();
+    const counter = ss.querySelector('.slide-counter');
+    if (counter) counter.innerText = (cur + 1) + ' / ' + slides.length;
   }
 
-  function createMoodboardItem(src, size, name) {
-    const item = document.createElement('div');
-    item.className = 'mb-item visible';
-    item.draggable = true;
-    item.innerHTML = `
-      <div class="mb-ph">
-        <img class="mb-real" src="${src}" alt="">
-      </div>
-      <div class="mb-info">
-        <div class="mb-code" contenteditable="plaintext-only">${(name||'').replace(/\.[^.]+$/, '').slice(0,12) || '—'}</div>
-        <div class="mb-author" contenteditable="plaintext-only">Author</div>
-        <div class="mb-src" contenteditable="plaintext-only">SRC</div>
-      </div>
-      <button class="del-btn" data-action="del-mb" title="삭제">×</button>
-    `;
-    return item;
-  }
-
-  /* ─────────── DROPZONE WIRING ─────────── */
-  function wireDropzones() {
+  // DOM 로드 완료 후 실행되는 초기 셋팅
+  window.addEventListener('DOMContentLoaded', () => {
+    
+    // 슬라이드 카운터 초기값 셋팅 (예: 1 / 3)
     document.querySelectorAll('.slideshow').forEach(ss => {
-      if (ss.dataset.dzBound) return;
-      ss.dataset.dzBound = '1';
-
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.multiple = true;
-      input.style.display = 'none';
-      ss.appendChild(input);
-      ss._fileInput = input;
-
-      input.addEventListener('change', e => {
-        if (e.target.files && e.target.files.length) {
-          handleSlideshowDrop(ss, e.target.files);
-          input.value = '';
-        }
-      });
-
-      ss.addEventListener('click', e => {
-        if (!editMode) return;
-        if (e.target.closest('.del-btn, .zone, .slide-counter, .add-slide-btn')) {
-          if (e.target.closest('.add-slide-btn')) {
-            e.preventDefault(); e.stopPropagation(); input.click();
-          }
-          return;
-        }
-        if (e.target.closest('.empty-slide') || e.target === ss) {
-          e.preventDefault(); input.click();
-        }
-      });
-
-      ss.addEventListener('dragover', e => { if (!editMode) return; e.preventDefault(); ss.classList.add('drag-over'); });
-      ss.addEventListener('dragleave', () => ss.classList.remove('drag-over'));
-      ss.addEventListener('drop', e => {
-        if (!editMode) return;
-        e.preventDefault();
-        ss.classList.remove('drag-over');
-        if (e.dataTransfer.files && e.dataTransfer.files.length) handleSlideshowDrop(ss, e.dataTransfer.files);
-      });
+      const slides = ss.querySelectorAll('.slide');
+      const counter = ss.querySelector('.slide-counter');
+      if (counter && slides.length > 0) {
+        counter.innerText = '1 / ' + slides.length;
+      }
+      ss.setAttribute('data-cur', '0');
     });
 
-    const mbZone = document.getElementById('page-moodboard');
-    if (mbZone && !mbZone.dataset.dzBound) {
-      mbZone.dataset.dzBound = '1';
-
-      const mbInput = document.createElement('input');
-      mbInput.type = 'file';
-      mbInput.accept = 'image/*';
-      mbInput.multiple = true;
-      mbInput.style.display = 'none';
-      mbZone.appendChild(mbInput);
-      mbInput.addEventListener('change', e => {
-        if (e.target.files && e.target.files.length) { handleMoodboardDrop(e.target.files); mbInput.value = ''; }
+    // 2. 포트폴리오 스크롤 시 스르륵 나타나는 애니메이션 (Observer)
+    const portfolioObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('below', 'above');
+        } else {
+          if (entry.boundingClientRect.top > 0) {
+            entry.target.classList.add('below');
+          } else {
+            entry.target.classList.add('above');
+          }
+        }
       });
-      mbZone._fileInput = mbInput;
+    }, { threshold: 0.15 }); 
 
-      mbZone.addEventListener('dragover', e => {
-        if (!editMode || e.dataTransfer.types.includes('text/x-mb-reorder')) return;
-        e.preventDefault(); mbZone.classList.add('drag-over');
-      });
-      mbZone.addEventListener('dragleave', () => mbZone.classList.remove('drag-over'));
-      mbZone.addEventListener('drop', e => {
-        if (!editMode || e.dataTransfer.types.includes('text/x-mb-reorder')) return;
-        e.preventDefault(); mbZone.classList.remove('drag-over');
-        if (e.dataTransfer.files && e.dataTransfer.files.length) handleMoodboardDrop(e.dataTransfer.files);
-      });
-    }
-  }
+    document.querySelectorAll('.project-section .wrap').forEach(wrap => {
+      wrap.classList.add('below'); 
+      portfolioObserver.observe(wrap);
+    });
 
-  /* ─────────── DELETE BUTTONS ─────────── */
-  document.addEventListener('click', e => {
-    const t = e.target;
-    if (!editMode || !t.dataset || !t.dataset.action) return;
-    
-    e.preventDefault(); e.stopPropagation();
-    const a = t.dataset.action;
-    
-    if (a === 'del-slide') {
-      const ss = t.closest('.slideshow');
-      t.closest('.slide').remove();
-      refreshSlideshow(ss); scheduleSave();
-    } else if (a === 'del-project') {
-      if (confirm('이 프로젝트를 삭제할까요?')) { t.closest('.project-block').remove(); scheduleSave(); }
-    } else if (a === 'del-mb') {
-      t.closest('.mb-item').remove(); scheduleSave();
-    } else if (a === 'add-project') {
-      addProject();
-    } else if (a === 'move-up' || a === 'move-down') {
-      const block = t.closest('.project-block');
-      const target = a === 'move-up' ? block.previousElementSibling : block.nextElementSibling;
-      if (target && target.classList.contains('project-block')) {
-        block.parentNode.insertBefore(a === 'move-up' ? block : target, a === 'move-up' ? target : block);
-        scheduleSave();
-      }
-    }
+    // 3. 무드보드 이미지 나타나는 애니메이션 (Observer)
+    const mbObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.mb-item').forEach((item, index) => {
+      // 딜레이를 주어 하나씩 순차적으로 나타나게 함
+      item.style.transitionDelay = (index % 8) * 0.05 + 's';
+      mbObserver.observe(item);
+    });
   });
 
-  /* ─────────── ADD PROJECT ─────────── */
-  function addProject() {
-    const id = 'ss' + Date.now();
-    const block = document.createElement('section');
-    block.className = 'project-section project-block';
-    block.innerHTML = `
-      <div class="wrap">
-        <div class="project-toolbar">
-          <button class="drag-handle" draggable="true" title="드래그하여 이동">⋮⋮</button>
-          <button data-action="move-up" title="위로">↑</button>
-          <button data-action="move-down" title="아래로">↓</button>
-          <button data-action="del-project" title="프로젝트 삭제">×</button>
-        </div>
-        <div class="slideshow" id="${id}" data-cur="0">
-          <div class="slide active empty-slide">
-            <div class="empty-hint">이미지를 여기로 드래그하세요</div>
-          </div>
-          <div class="zone zone-l" onclick="slide('${id}',-1)"></div>
-          <div class="zone zone-r" onclick="slide('${id}',1)"></div>
-          <div class="slide-counter">0 / 0</div>
-        </div>
-        <div class="project-info">
-          <div><div class="pname" contenteditable="plaintext-only">새 프로젝트</div><div class="pyear" contenteditable="plaintext-only">2026</div></div>
-          <div><div class="ptags" contenteditable="plaintext-only">Tag One<br>Tag Two</div><div class="pdesc" contenteditable="plaintext-only">설명을 입력하세요.</div></div>
-        </div>
-      </div>
-    `;
-    const about = document.getElementById('about');
-    about.parentNode.insertBefore(block, about);
-    wireDropzones(); applyEditableState(); scheduleSave();
-    block.scrollIntoView({behavior:'smooth', block:'center'});
+  // 4. 실시간 시계 로직
+  function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-GB', { hour12: false }); 
+    const clockEl = document.getElementById('clock');
+    if (clockEl) clockEl.innerText = timeString;
   }
+  setInterval(updateClock, 1000);
+  updateClock();
 
-  /* ─────────── PROJECT/SLIDE REORDER (drag) ─────────── */
-  function bindProjectDrag() {
-    document.querySelectorAll('.project-block').forEach(b => {
-      if (b.dataset.dragBound) return;
-      b.dataset.dragBound = '1';
-      const handle = b.querySelector('.drag-handle');
-      if (handle) {
-        handle.addEventListener('dragstart', e => {
-          if (!editMode) return;
-          dragSrc = b; b.classList.add('dragging');
-          e.dataTransfer.effectAllowed = 'move';
-          e.dataTransfer.setData('text/x-proj-reorder', '1');
-        });
-        handle.addEventListener('dragend', () => { b.classList.remove('dragging'); dragSrc = null; });
-      }
-      b.addEventListener('dragover', e => { if (!editMode || !dragSrc || dragSrc === b || !dragSrc.classList.contains('project-block')) return; e.preventDefault(); });
-      b.addEventListener('drop', e => {
-        if (!editMode || !dragSrc || dragSrc === b || !dragSrc.classList.contains('project-block')) return;
-        e.preventDefault();
-        const rect = b.getBoundingClientRect();
-        b.parentNode.insertBefore(dragSrc, (e.clientY - rect.top) > rect.height / 2 ? b.nextSibling : b);
-        scheduleSave();
-      });
-    });
-  }
-
-  /* ─────────── MOODBOARD ITEM REORDER ─────────── */
-  function bindMoodboardItems() {
-    document.querySelectorAll('#mb-masonry .mb-item').forEach(it => {
-      if (!it.dataset.dragBound) {
-        it.dataset.dragBound = '1';
-        it.draggable = true;
-        it.addEventListener('dragstart', e => {
-          if (!editMode || e.target.closest('[contenteditable]')) { e.preventDefault(); return; }
-          dragSrc = it; it.classList.add('dragging');
-          e.dataTransfer.effectAllowed = 'move';
-          e.dataTransfer.setData('text/x-mb-reorder', '1');
-        });
-        it.addEventListener('dragend', () => { it.classList.remove('dragging'); dragSrc = null; });
-        it.addEventListener('dragover', e => { if (!editMode || !dragSrc || dragSrc === it || !dragSrc.classList.contains('mb-item')) return; e.preventDefault(); });
-        it.addEventListener('drop', e => {
-          if (!editMode || !dragSrc || dragSrc === it || !dragSrc.classList.contains('mb-item')) return;
-          e.preventDefault();
-          const rect = it.getBoundingClientRect();
-          it.parentNode.insertBefore(dragSrc, (e.clientX - rect.left) > rect.width / 2 ? it.nextSibling : it);
-          scheduleSave();
-        });
-      }
-      if (!it.querySelector('.del-btn')) {
-        const btn = document.createElement('button');
-        btn.className = 'del-btn'; btn.dataset.action = 'del-mb'; btn.title = '삭제'; btn.textContent = '×';
-        it.appendChild(btn);
-      }
-    });
-  }
-
-  /* ─────────── ENSURE CHROME EXISTS ─────────── */
-  function injectChrome() {
-    document.querySelectorAll('#page-portfolio .project-section').forEach(sec => {
-      sec.classList.add('project-block');
-      if (!sec.querySelector('.project-toolbar')) {
-        const wrap = sec.querySelector('.wrap');
-        const tb = document.createElement('div');
-        tb.className = 'project-toolbar';
-        tb.innerHTML = `<button class="drag-handle" draggable="true" title="드래그 이동">⋮⋮</button><button data-action="move-up" title="위로">↑</button><button data-action="move-down" title="아래로">↓</button><button data-action="del-project" title="프로젝트 삭제">×</button>`;
-        wrap.insertBefore(tb, wrap.firstChild);
-      }
-    });
-
-    document.querySelectorAll('.slideshow .slide').forEach(s => {
-      if (!s.querySelector('.del-btn')) {
-        const b = document.createElement('button'); b.className = 'del-btn'; b.dataset.action = 'del-slide'; b.title = '슬라이드 삭제'; b.textContent = '×';
-        s.appendChild(b);
-      }
-    });
-
-    document.querySelectorAll('.slideshow').forEach(ss => { if (!ss.dataset.cur) ss.dataset.cur = '0'; });
-  }
-
-  /* ─────────── BUILD MOODBOARD MASONRY ─────────── */
-  function buildMoodboardMasonry() {
-    const mb = document.getElementById('page-moodboard');
-    if (!mb) return;
-    const items = [...mb.querySelectorAll('.mb-item')];
-    mb.innerHTML = '';
-    const wrap = document.createElement('div');
-    wrap.id = 'mb-masonry'; wrap.className = 'mb-masonry';
-    items.forEach(it => {
-      it.draggable = true; it.classList.add('visible');
-      it.querySelectorAll('.mb-code, .mb-author, .mb-src').forEach(t => {
-        if (!t.hasAttribute('contenteditable')) t.setAttribute('contenteditable','plaintext-only');
-      });
-      wrap.appendChild(it);
-    });
-    mb.appendChild(wrap);
-
-    const hint = document.createElement('div');
-    hint.className = 'mb-drop-hint'; hint.textContent = '이미지를 드래그하여 추가하세요';
-    mb.appendChild(hint);
-
-    bindMoodboardItems();
-  }
-
-  function injectAddProjectButton() {
-    const portfolio = document.getElementById('page-portfolio');
-    if (document.getElementById('add-project-btn')) return;
-    const btn = document.createElement('button');
-    btn.id = 'add-project-btn'; btn.dataset.action = 'add-project'; btn.textContent = '＋ 프로젝트 추가';
-    const about = document.getElementById('about');
-    about.parentNode.insertBefore(btn, about);
-  }
-
-  /* ─────────── EXPORT AS HTML ─────────── */
-  function exportHTML() {
-    const clone = document.documentElement.cloneNode(true);
-    clone.querySelectorAll('.del-btn, .project-toolbar, #edit-toolbar, #edit-hint, #add-project-btn, .mb-drop-hint').forEach(n => n.remove());
-    clone.querySelectorAll('[contenteditable]').forEach(n => n.removeAttribute('contenteditable'));
-    clone.querySelectorAll('[draggable]').forEach(n => n.removeAttribute('draggable'));
-    clone.querySelectorAll('.empty-slide').forEach(n => n.remove());
-    clone.classList.remove('edit-mode');
-
-    const html = '<!DOCTYPE html>\n<html lang="ko">' + clone.innerHTML + '</html>';
-    const blob = new Blob([html], {type:'text/html'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'portfolio.html'; a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
-
-  /* ─────────── DARK MODE & RESET ─────────── */
-  function applyDark(on) {
-    document.body.classList.toggle('dark', !!on);
-    localStorage.setItem(DARK_KEY, on ? '1' : '0');
-    const btn = document.getElementById('dark-btn');
-    if (btn) btn.textContent = on ? '☀' : '☾';
-  }
-
-  function resetAll() {
-    if (!confirm('모든 변경사항을 초기화할까요? 되돌릴 수 없습니다.')) return;
-    localStorage.removeItem(LS_KEY); location.reload();
-  }
-
-  /* ─────────── INIT ─────────── */
-  function init() {
-    loadSnapshot();
-    injectChrome();
-    buildMoodboardMasonry();
-    injectAddProjectButton();
-    wireDropzones();
-    bindProjectDrag();
-    bindMoodboardItems();
-    applyDark(localStorage.getItem(DARK_KEY) === '1');
-
-    document.getElementById('export-btn').onclick = exportHTML;
-    document.getElementById('reset-btn').onclick = resetAll;
-    document.getElementById('dark-btn').onclick = () => applyDark(!document.body.classList.contains('dark'));
-    document.getElementById('close-btn').onclick = () => toggleEdit(false);
-
-    function tick(){
-      const n = new Date(), p = x => String(x).padStart(2,'0');
-      const c = document.getElementById('clock');
-      if (c) c.textContent = p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());
-    }
-    tick(); setInterval(tick, 1000);
-
-    window.toggleMoodboardPage = function() {
-      document.body.classList.toggle('on-moodboard'); window.scrollTo(0,0);
-    };
-    document.getElementById('cargo-logo').addEventListener('click', e => {
-      if (editMode) return;
-      if (document.body.classList.contains('on-moodboard')) { document.body.classList.remove('on-moodboard'); window.scrollTo(0,0); }
-    });
-    document.getElementById('mb-btn').addEventListener('click', e => {
-      if (editMode) return;
-      if (!document.body.classList.contains('on-moodboard')) { document.body.classList.add('on-moodboard'); window.scrollTo(0,0); }
-    });
-    document.getElementById('nav-right').addEventListener('click', e => {
-      if (editMode) return;
+  // 5. 무드보드 화면 전환 버튼 로직
+  const mbBtn = document.getElementById('mb-btn');
+  if (mbBtn) {
+    mbBtn.addEventListener('click', () => {
+      document.body.classList.toggle('on-moodboard');
       if (document.body.classList.contains('on-moodboard')) {
-        document.body.classList.remove('on-moodboard'); window.scrollTo(0,0);
-      } else { document.getElementById('about').scrollIntoView({behavior:'smooth'}); }
-    });
-
-    setupLightbox();
-    applyEditableState();
-    setupScrollMotion();
-  }
-
-  /* ─────────── SCROLL MOTION ─────────── */
-  function setupScrollMotion() {
-    document.querySelectorAll('.project-section .wrap').forEach(w => {
-      if (w.getBoundingClientRect().top >= window.innerHeight) w.classList.add('below');
-    });
-
-    function checkProjects() {
-      document.querySelectorAll('.project-section .wrap').forEach(w => {
-        const r = w.getBoundingClientRect(), vh = window.innerHeight;
-        if (r.top < vh * 0.85 && r.bottom > vh * 0.05) w.classList.remove('below', 'above');
-        else if (r.top >= vh * 0.85) { w.classList.remove('above'); w.classList.add('below'); }
-        else if (r.bottom <= vh * 0.05) { w.classList.remove('below'); w.classList.add('above'); }
-      });
-    }
-
-    function checkMoodboard() {
-      const mb = document.getElementById('page-moodboard');
-      if (!mb || mb.offsetParent === null) return;
-      const vh = window.innerHeight;
-      document.querySelectorAll('#mb-masonry .mb-item').forEach((it, i) => {
-        const r = it.getBoundingClientRect();
-        const ph = it.querySelector('.mb-ph');
-        let ratio = 1;
-        if (ph && ph.getBoundingClientRect().width > 0) ratio = ph.getBoundingClientRect().height / ph.getBoundingClientRect().width;
-        
-        const r0 = Math.max(0.5, Math.min(1.6, ratio));
-        if (!it.dataset.motionSet) {
-          it.style.setProperty('--mb-dur', (0.55 + r0 * 0.35).toFixed(2) + 's');
-          it.style.setProperty('--mb-dy', Math.round(28 + r0 * 22) + 'px');
-          it.dataset.motionSet = '1';
-        }
-
-        if (r.top < vh * 0.92 && r.bottom > vh * 0.08) {
-          if (!it.classList.contains('visible')) {
-            it.classList.remove('exit-up');
-            setTimeout(() => it.classList.add('visible'), (i % 8) * 40);
-          }
-        } else if (r.bottom < vh * 0.15) {
-          if (it.classList.contains('visible')) { it.classList.remove('visible'); it.classList.add('exit-up'); }
-        } else if (r.top >= vh * 0.92) {
-          it.classList.remove('visible', 'exit-up');
-        }
-      });
-    }
-
-    function onScroll() {
-      checkProjects();
-      if (document.body.classList.contains('on-moodboard')) checkMoodboard();
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    const mbBtn = document.getElementById('mb-btn');
-    if (mbBtn) mbBtn.addEventListener('click', () => {
-      document.querySelectorAll('#mb-masonry .mb-item').forEach(it => it.classList.remove('visible', 'exit-up'));
-      setTimeout(checkMoodboard, 50);
-    });
-    setTimeout(onScroll, 30); setTimeout(checkMoodboard, 60);
-  }
-
-  /* ─────────── LIGHTBOX ─────────── */
-  let lbItems = [], lbIdx = 0;
-  function setupLightbox() {
-    document.getElementById('lb-close').onclick = lbClose;
-    document.querySelector('.lb-arrow.prev').onclick = () => lbMove(-1);
-    document.querySelector('.lb-arrow.next').onclick = () => lbMove(1);
-    document.addEventListener('keydown', e => {
-      if (!document.getElementById('lb').classList.contains('open')) return;
-      if (e.key === 'Escape') lbClose();
-      if (e.key === 'ArrowRight') lbMove(1);
-      if (e.key === 'ArrowLeft') lbMove(-1);
-    });
-    document.addEventListener('click', e => {
-      if (editMode) return;
-      const item = e.target.closest('#mb-masonry .mb-item');
-      if (!item) return;
-      lbItems = [...document.querySelectorAll('#mb-masonry .mb-item')];
-      lbIdx = lbItems.indexOf(item);
-      lbOpen();
+        mbBtn.innerText = 'Portfolio';
+        window.scrollTo(0, 0);
+      } else {
+        mbBtn.innerText = 'Moodboard';
+        window.scrollTo(0, 0);
+      }
     });
   }
-  function lbOpen() {
-    const lb = document.getElementById('lb');
-    lb.classList.add('open'); document.body.style.overflow = 'hidden';
-    lbRender(); requestAnimationFrame(() => requestAnimationFrame(() => lb.classList.add('visible')));
+
+  // 6. 무드보드 라이트박스 (이미지 확대 팝업) 로직
+  const lb = document.getElementById('lb');
+  const lbImgWrap = document.getElementById('lb-img');
+  const lbClose = document.getElementById('lb-close');
+  const btnPrev = document.querySelector('.lb-arrow.prev');
+  const btnNext = document.querySelector('.lb-arrow.next');
+  let lbItems = [];
+  let currentLbIndex = 0;
+
+  function openLightbox(index) {
+    currentLbIndex = index;
+    const item = lbItems[index];
+    const ph = item.querySelector('.mb-ph');
+    lbImgWrap.innerHTML = ph.outerHTML;
+
+    lb.classList.add('open');
+    setTimeout(() => lb.classList.add('visible'), 10); 
+    document.body.style.overflow = 'hidden'; 
   }
-  function lbClose() {
-    const lb = document.getElementById('lb');
+
+  function closeLightbox() {
     lb.classList.remove('visible');
-    setTimeout(() => { lb.classList.remove('open'); document.body.style.overflow = ''; }, 300);
-  }
-  function lbMove(dir) {
-    if (!lbItems.length) return;
-    lbIdx = (lbIdx + dir + lbItems.length) % lbItems.length; lbRender();
-  }
-  function lbRender() {
-    const item = lbItems[lbIdx];
-    const ph = item.querySelector('.mb-ph').cloneNode(true);
-    ph.style.padding = '0'; ph.style.paddingBottom = '0'; ph.style.maxWidth = '90vw'; ph.style.maxHeight = '75vh'; ph.style.height = 'auto';
-    const realImg = ph.querySelector('img');
-    if (realImg) { realImg.style.position = 'static'; realImg.style.maxWidth = '90vw'; realImg.style.maxHeight = '75vh'; realImg.style.width = 'auto'; realImg.style.height = 'auto'; }
-    const wrap = document.getElementById('lb-img');
-    wrap.innerHTML = ''; wrap.appendChild(ph);
-    document.getElementById('lb-info').innerHTML = item.querySelector('.mb-info').innerHTML;
+    setTimeout(() => {
+      lb.classList.remove('open');
+      lbImgWrap.innerHTML = '';
+      document.body.style.overflow = ''; 
+    }, 300);
   }
 
-  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); }
+  function navigateLightbox(dir) {
+    currentLbIndex += dir;
+    if (currentLbIndex < 0) currentLbIndex = lbItems.length - 1;
+    if (currentLbIndex >= lbItems.length) currentLbIndex = 0;
+    openLightbox(currentLbIndex);
+  }
 
-})();
+  // 동적으로 생성되는 mb-item 클릭 이벤트 위임
+  document.getElementById('page-moodboard').addEventListener('click', (e) => {
+    const item = e.target.closest('.mb-item');
+    if (!item) return;
+    if (e.target.tagName.toLowerCase() === 'a' || e.target.closest('.mb-src')) return;
+    
+    lbItems = Array.from(document.querySelectorAll('.mb-item'));
+    const index = lbItems.indexOf(item);
+    openLightbox(index);
+  });
+
+  if (lbClose) lbClose.addEventListener('click', closeLightbox);
+  if (btnPrev) btnPrev.addEventListener('click', (e) => { e.stopPropagation(); navigateLightbox(-1); });
+  if (btnNext) btnNext.addEventListener('click', (e) => { e.stopPropagation(); navigateLightbox(1); });
+
+  if (lb) lb.addEventListener('click', (e) => {
+    if (e.target === lb || e.target === lbImgWrap) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    if (e.key === 'ArrowRight') navigateLightbox(1);
+  });
 </script>
+
 </body>
 </html>
