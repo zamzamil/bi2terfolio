@@ -57,27 +57,13 @@
   }
   .mid-right { right: 20px; font-variant-numeric: tabular-nums; pointer-events: none; }
 
-  /* ══ 페이지 전환 레이아웃 ══ */
-  #page-portfolio { display: block; background: var(--bg); }
-  #page-moodboard { display: none; background: var(--bg); min-height: 100vh; padding-top: var(--bar); }
-  body.on-moodboard #page-portfolio { display: none; }
-  body.on-moodboard #page-moodboard  { display: block; }
-  body.on-moodboard .top-bar, body.on-moodboard .bottom-bar { background: var(--bg); }
-
-  .wrap {
-    margin: 0 auto;
-    width: calc(100% - var(--side) * 2);
-    max-width: 1040px;
-    position: relative;
-  }
-
-  /* ══ 대문(HERO) 영상 및 사라지는 효과 ══ */
+  /* ══ 대문(HERO) 및 영상/텍스트 페이드 효과 ══ */
   .hero { 
     height: 100vh; 
     width: 100vw;
     position: relative;
     display: flex; align-items: center; justify-content: center; text-align: center;
-    background: var(--bg); /* 영상이 사라진 후 보여질 배경 */
+    background: var(--bg);
   }
   .hero-video {
     position: absolute;
@@ -86,17 +72,36 @@
     object-fit: cover;
     z-index: 1;
     opacity: 1;
-    transition: opacity 0.6s ease; /* 부드럽게 사라지는 효과 */
+    transition: opacity 0.6s ease;
   }
-  /* 스크롤 시 영상 숨기기 */
-  .hero.video-hidden .hero-video {
+
+  /* 👇 좌측 중간 위치 정보 텍스트 스타일 👇 */
+  .hero-location {
+    position: fixed; /* 영상과 함께 고정되었다가 사라짐 */
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    text-align: left;
+    line-height: 1.5;
+    font-size: 13px;
+    color: var(--black);
+    opacity: 1;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+    font-weight: 400;
+  }
+
+  /* 스크롤 시 영상과 위치 텍스트 모두 숨기기 */
+  .hero.video-hidden .hero-video,
+  .hero.video-hidden .hero-location {
     opacity: 0;
     pointer-events: none;
   }
   
   .hero-text {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     display: flex; flex-direction: column; gap: 10px; 
     font-size: 13px; font-weight: 400; line-height: 1.4;
   }
@@ -105,7 +110,8 @@
   }
   .hero-link:hover { text-decoration: underline; opacity: 0.5; }
 
-  /* ══ 슬라이드쇼 ══ */
+  /* ══ 프로젝트 섹션 및 슬라이드쇼 ══ */
+  .project-section { min-height: 100vh; display: flex; align-items: center; padding: 100px 0; }
   .slideshow {
     width: 100%; position: relative; overflow: hidden;
     user-select: none; background: rgba(127,127,127,0.08);
@@ -114,19 +120,17 @@
   .slide { position: relative; display: none; width: 100%; }
   .slide.active { display: block; }
   .slide-img { width: 100%; height: auto; display: block; }
-  .slide-counter { position: absolute; bottom: 10px; right: 14px; font-size: 11px; color: var(--gray); pointer-events: none; z-index: 4; }
+  .slide-counter { position: absolute; bottom: 10px; right: 14px; font-size: 11px; color: var(--gray); z-index: 4; }
   .zone { position: absolute; top: 0; bottom: 0; width: 50%; z-index: 5; cursor: pointer; }
   .zone-l { left: 0; }
   .zone-r { right: 0; }
 
-  /* ══ 프로젝트 정보 ══ */
   .project-info { display: grid; grid-template-columns: 1fr 1fr; padding: 20px 0 60px; color: var(--black); }
   .pname { font-size: 13px; font-weight: 500; }
   .pyear { font-size: 13px; }
   .ptags { font-size: 13px; font-weight: 500; line-height: 1.5; }
   .pdesc { font-size: 12px; color: var(--gray); line-height: 1.7; margin-top: 10px; }
 
-  .project-section { min-height: 100vh; display: flex; align-items: center; padding: 100px 0; }
   .project-section .wrap {
     opacity: 1; transform: translateY(0);
     transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
@@ -140,7 +144,6 @@
   .about-col { padding-right: 28px; }
   .about-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
   .about-col p, .about-col a { font-size: 13px; line-height: 1.6; display: block; color: var(--black); }
-  .about-col .bio { font-size: 12px; color: var(--gray); line-height: 1.7; margin-top: 12px; }
 
   /* ══ 모바일 최적화 ══ */
   @media (max-width: 800px) {
@@ -150,11 +153,12 @@
     .project-info { grid-template-columns: 1fr; gap: 12px; }
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
     .mid-right { display: none; } 
-    .hero { height: 100vh; }
     .project-section { padding: 60px 0; }
+    .hero-location { font-size: 11px; left: 20px; } /* 모바일에서 텍스트 살짝 축소 */
   }
 
   /* ══ 무드보드 GRID ══ */
+  #page-moodboard { display: none; background: var(--bg); min-height: 100vh; padding-top: var(--bar); }
   .mb-masonry {
     display: grid; grid-template-columns: repeat(8, 1fr); column-gap: 10px;
     row-gap: calc((100vh - var(--bar)*2 - var(--mb-row-h)*2) / 3);
@@ -173,24 +177,18 @@
   }
   .mb-item.visible { opacity: 1; transform: translateY(0); }
   .mb-item.exit-up { opacity: 0; transform: translateY(calc(var(--mb-dy) * -1)); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.4,0,1,1); }
-  
   .mb-ph { position: relative; width: 100%; background: transparent; overflow: hidden; line-height: 0; }
   .mb-ph .mb-real { width: 100%; height: auto; object-fit: contain; display: block; }
   .mb-info { margin-top: 6px; line-height: 1.3; color: var(--black); transition: color 0.25s ease; }
-  .mb-code { font-size: 12px; }
-  .mb-author { font-size: 12px; opacity: 0.6; }
 
   /* ══ 라이트박스 ══ */
   .lb {
     display: none; position: fixed; inset: 0; z-index: 1000; 
-    background: var(--bg); transition: opacity 0.3s ease, background 0.25s ease;
+    background: var(--bg); transition: opacity 0.3s ease;
     flex-direction: column; align-items: center; justify-content: center;
   }
   .lb.open { display: flex; opacity: 1; }
-  .lb-close, .lb-arrow { 
-    position: fixed; background: none; border: none; cursor: pointer; 
-    color: var(--black); font-family: var(--font);
-  }
+  .lb-close, .lb-arrow { position: fixed; background: none; border: none; cursor: pointer; color: var(--black); font-family: var(--font); }
   .lb-close { top: 18px; right: 24px; font-size: 22px; z-index: 1001; }
   .lb-arrow { top: 50%; transform: translateY(-50%); font-size: 22px; padding: 20px; z-index: 1001; }
   .lb-arrow.prev { left: 16px; }
@@ -225,11 +223,18 @@
 <div class="mid-label mid-right" id="clock">00:00:00</div>
 
 <div id="page-portfolio">
-  <!-- HERO (영상 배경 섹션) -->
+  <!-- HERO (영상 배경 & 위치 정보) -->
   <section class="hero" id="hero-section">
     <video class="hero-video" id="main-video" autoplay loop muted playsinline>
       <source src="i1.mp4" type="video/mp4">
     </video>
+    
+    <!-- 👇 추가된 좌측 중간 위치 정보 👇 -->
+    <div class="hero-location">
+      Pier Head, Liverpool L3 1BY<br>
+      April 2026
+    </div>
+
     <div class="wrap">
       <div class="hero-text">
         <a href="#ss1" class="hero-link">Dendi</a>
@@ -396,7 +401,7 @@
     });
   }
 
-  /* 5. 스크롤 및 영상 사라짐 로직 */
+  /* 5. 스크롤 및 영상/텍스트 사라짐 로직 */
   function setupScrollMotion() {
     const hero = document.getElementById('hero-section');
     const tBar = document.getElementById('top-bar');
@@ -406,7 +411,7 @@
       const sy = window.scrollY;
       const vh = window.innerHeight;
 
-      // 스크롤이 시작되면 영상 숨기기 및 바 배경 생성
+      // 스크롤 시 영상과 위치 정보 텍스트 부드럽게 숨기기
       if (sy > 10) {
         hero.classList.add('video-hidden');
         tBar.classList.add('scrolled');
@@ -419,7 +424,6 @@
         }
       }
 
-      // 프로젝트 애니메이션
       document.querySelectorAll('.project-section .wrap').forEach(w => {
         const r = w.getBoundingClientRect();
         if (r.top < vh * 0.85 && r.bottom > vh * 0.05) w.classList.remove('below', 'above');
@@ -427,7 +431,6 @@
         else if (r.bottom <= vh * 0.05) w.classList.add('above');
       });
 
-      // 무드보드 애니메이션
       if (body.classList.contains('on-moodboard')) {
         document.querySelectorAll('.mb-item').forEach((it, i) => {
           const r = it.getBoundingClientRect();
