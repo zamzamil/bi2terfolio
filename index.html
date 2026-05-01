@@ -106,8 +106,14 @@
   .project-section .wrap.below { opacity: 0; transform: translateY(60px); }
   .project-section .wrap.above { opacity: 0; transform: translateY(-60px); }
 
-  /* ══ ABOUT ══ */
-  .about-section { min-height: 100vh; display: flex; align-items: center; padding: 52px 0 20px; color: var(--black); }
+  /* ══ ABOUT (위치 상향 조정) ══ */
+  .about-section { 
+    min-height: 70vh; /* 높이를 줄여서 위로 당김 */
+    display: flex; 
+    align-items: flex-start; /* 중앙 정렬 해제 */
+    padding: 12vh 0 20px; /* 상단 여백을 늘려 적절한 높이에서 시작하도록 설정 */
+    color: var(--black); 
+  }
   .about-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; width: 100%; }
   .about-col { padding-right: 28px; }
   .about-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
@@ -122,6 +128,7 @@
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
     .mid-right { display: none; } 
     .project-section { padding: 60px 0; }
+    .about-section { padding-top: 80px; min-height: auto; }
     .hero-location { font-size: 11px; left: 20px; }
   }
 
@@ -274,8 +281,8 @@
     </div>
   </section>
 
-  <!-- TOP 이동 버튼 (정중앙 정렬) -->
-  <div style="padding: 12px 20px 44px; text-align: center;">
+  <!-- TOP 이동 버튼 (정중앙) -->
+  <div style="padding: 12px 20px 80px; text-align: center;">
     <span onclick="goToHome()" class="nav-btn" style="text-decoration:underline;">Top ↑</span>
   </div>
 
@@ -300,6 +307,7 @@
 </div>
 
 <script>
+  /* 1. 기본 유틸리티 */
   function slide(id, dir) {
     const ss = document.getElementById(id); if (!ss) return; 
     const slides = ss.querySelectorAll('.slide'); if (slides.length <= 1) return; 
@@ -324,6 +332,7 @@
     darkToggle.innerText = isDark ? 'Light' : 'Dark'; localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
 
+  /* 2. 네비게이션 & 홈/Top 이동 로직 */
   const tBar = document.getElementById('top-bar');
   const bBar = document.getElementById('bottom-bar');
   const hero = document.getElementById('hero-section');
@@ -348,6 +357,7 @@
     }
   });
 
+  /* 3. 모션 & 스크롤 */
   function onScroll() {
     const sy = window.scrollY, vh = window.innerHeight;
 
@@ -386,6 +396,7 @@
 
   window.addEventListener('scroll', onScroll, { passive: true });
 
+  /* 무드보드 진입 시 순차적 등장 모션 */
   if (mbBtn) {
     mbBtn.addEventListener('click', () => {
       body.classList.add('on-moodboard');
@@ -401,6 +412,7 @@
     });
   }
 
+  /* 4. 라이트박스 */
   let lbItems = [], lbIdx = 0;
   function setupLightbox() {
     document.getElementById('lb-close').onclick = () => {
@@ -433,6 +445,7 @@
     }
   }
 
+  /* 5. 초기화 */
   document.addEventListener('contextmenu', e => e.preventDefault()); 
   document.addEventListener('dragstart', e => e.preventDefault()); 
   document.addEventListener('keydown', e => {
