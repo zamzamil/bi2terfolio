@@ -159,6 +159,19 @@
   .lb-img-wrap .mb-ph { background: transparent; max-width: 90vw; max-height: 75vh; }
   .lb-img-wrap .mb-real { max-width: 90vw; max-height: 75vh; width: auto !important; height: auto !important; }
   .lb-info { display: none; }
+ /* ══ 복사 방지 (텍스트 선택 및 이미지 드래그 차단) ══ */
+  body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+  }
 </style>
 </head>
 <body>
@@ -650,6 +663,22 @@
 
     setupScrollMotion();
     setupLightbox();
+  });
+ // 7. 복사 방지 (우클릭, 드래그, 키보드 복사 차단)
+  // 우클릭 메뉴(컨텍스트 메뉴) 차단
+  document.addEventListener('contextmenu', e => e.preventDefault()); 
+  
+  // 이미지 등 요소 드래그 차단
+  document.addEventListener('dragstart', e => e.preventDefault()); 
+
+  // 키보드 복사 단축키 차단 (Ctrl+C, Cmd+C, 소스보기 등)
+  document.addEventListener('keydown', e => {
+    if (
+      e.key === 'F12' || // 개발자 도구 창 띄우기 차단
+      ((e.ctrlKey || e.metaKey) && ['c', 'u', 's', 'p', 'x'].includes(e.key.toLowerCase()))
+    ) {
+      e.preventDefault();
+    }
   });
 </script>
 
