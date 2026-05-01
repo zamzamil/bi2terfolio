@@ -30,26 +30,21 @@
     overflow-x: hidden;
   }
   
-  /* 바 배경 뒤로 영상이 깔리도록 body 패딩 제거 및 섹션 단위 조정 */
   body { padding: 0; }
   a { color: inherit; text-decoration: none; }
 
-  /* ══ 상단/하단 고정 바 (초기 투명 설정) ══ */
+  /* ══ 상단/하단 고정 바 ══ */
   .top-bar, .bottom-bar {
     position: fixed; left: 0; right: 0; z-index: 300;
     height: var(--bar);
     display: flex; justify-content: space-between; align-items: center;
     padding: 0 20px; 
-    background: transparent; /* 초기 영상 위에서는 투명 */
+    background: transparent; 
     transition: background 0.4s ease, color 0.25s ease;
   }
   .top-bar { top: 0; }
   .bottom-bar { bottom: 0; }
-  
-  /* 스크롤 시 배경색이 나타나는 클래스 */
-  .top-bar.scrolled, .bottom-bar.scrolled {
-    background: var(--bg);
-  }
+  .top-bar.scrolled, .bottom-bar.scrolled { background: var(--bg); }
   
   .nav-btn { cursor: pointer; font-size: 13px; user-select: none; color: var(--black); }
   .nav-btn:hover { text-decoration: underline; }
@@ -62,7 +57,7 @@
   }
   .mid-right { right: 20px; font-variant-numeric: tabular-nums; pointer-events: none; }
 
-  /* ══ 페이지 전환 및 레이아웃 ══ */
+  /* ══ 페이지 전환 레이아웃 ══ */
   #page-portfolio { display: block; background: var(--bg); }
   #page-moodboard { display: none; background: var(--bg); min-height: 100vh; padding-top: var(--bar); }
   body.on-moodboard #page-portfolio { display: none; }
@@ -76,13 +71,13 @@
     position: relative;
   }
 
-  /* ══ 대문(HERO) 영상 배경 (바 뒤쪽까지 꽉 참) ══ */
+  /* ══ 대문(HERO) 영상 및 사라지는 효과 ══ */
   .hero { 
-    height: 100vh; /* 화면 높이 100% */
+    height: 100vh; 
     width: 100vw;
     position: relative;
     display: flex; align-items: center; justify-content: center; text-align: center;
-    overflow: hidden;
+    background: var(--bg); /* 영상이 사라진 후 보여질 배경 */
   }
   .hero-video {
     position: absolute;
@@ -90,7 +85,15 @@
     width: 100%; height: 100%;
     object-fit: cover;
     z-index: 1;
+    opacity: 1;
+    transition: opacity 0.6s ease; /* 부드럽게 사라지는 효과 */
   }
+  /* 스크롤 시 영상 숨기기 */
+  .hero.video-hidden .hero-video {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
   .hero-text {
     position: relative;
     z-index: 2;
@@ -147,6 +150,7 @@
     .project-info { grid-template-columns: 1fr; gap: 12px; }
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
     .mid-right { display: none; } 
+    .hero { height: 100vh; }
     .project-section { padding: 60px 0; }
   }
 
@@ -220,15 +224,12 @@
 
 <div class="mid-label mid-right" id="clock">00:00:00</div>
 
-<!-- ════════════════ PORTFOLIO PAGE ════════════════ -->
 <div id="page-portfolio">
-  
-  <!-- HERO (영상 배경 - 바 뒤쪽까지 확장) -->
-  <section class="hero">
-    <video class="hero-video" autoplay loop muted playsinline>
+  <!-- HERO (영상 배경 섹션) -->
+  <section class="hero" id="hero-section">
+    <video class="hero-video" id="main-video" autoplay loop muted playsinline>
       <source src="i1.mp4" type="video/mp4">
     </video>
-    
     <div class="wrap">
       <div class="hero-text">
         <a href="#ss1" class="hero-link">Dendi</a>
@@ -320,7 +321,6 @@
   </div>
 </div>
 
-<!-- MOODBOARD PAGE -->
 <div id="page-moodboard">
   <div class="mb-masonry">
     <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-1.png" alt=""></div><div class="mb-info"><div class="mb-code">Caption 01</div><div class="mb-author">Junghyun Kim</div></div></div>
@@ -328,7 +328,6 @@
   </div>
 </div>
 
-<!-- LIGHTBOX -->
 <div class="lb" id="lb">
   <button class="lb-close" id="lb-close">×</button>
   <button class="lb-arrow prev">‹</button>
@@ -338,7 +337,7 @@
 </div>
 
 <script>
-  /* 1. 슬라이드쇼 로직 */
+  /* 1. 슬라이드쇼 */
   function slide(id, dir) {
     const ss = document.getElementById(id);
     if (!ss) return; 
@@ -353,7 +352,7 @@
     if (counter) counter.innerText = (cur + 1) + ' / ' + slides.length;
   }
 
-  /* 2. 실시간 시계 */
+  /* 2. 시계 */
   function tick(){
     const n = new Date(), p = x => String(x).padStart(2,'0');
     const c = document.getElementById('clock');
@@ -361,17 +360,13 @@
   }
   setInterval(tick, 1000); tick();
 
-  /* 3. 다크모드 및 바 배경 전환 로직 */
+  /* 3. 다크모드 로직 */
   const darkToggle = document.getElementById('dark-mode-toggle');
   const body = document.body;
-  const tBar = document.getElementById('top-bar');
-  const bBar = document.getElementById('bottom-bar');
-
   if (localStorage.getItem('theme') === 'dark') {
     body.classList.add('dark');
     darkToggle.innerText = 'Light';
   }
-
   darkToggle.addEventListener('click', () => {
     body.classList.toggle('dark');
     const isDark = body.classList.contains('dark');
@@ -379,7 +374,7 @@
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
 
-  /* 4. 내비게이션 및 화면 전환 */
+  /* 4. 네비게이션 */
   const cargo = document.getElementById('cargo-logo');
   const mbBtn = document.getElementById('mb-btn');
   const navRight = document.getElementById('nav-right');
@@ -401,18 +396,24 @@
     });
   }
 
-  /* 5. 스크롤 모션 및 바 배경 제어 로직 */
+  /* 5. 스크롤 및 영상 사라짐 로직 */
   function setupScrollMotion() {
+    const hero = document.getElementById('hero-section');
+    const tBar = document.getElementById('top-bar');
+    const bBar = document.getElementById('bottom-bar');
+
     function onScroll() {
       const sy = window.scrollY;
       const vh = window.innerHeight;
 
-      // 영상 영역을 벗어나면 바 배경 생성 (약 50px 스크롤 시점)
-      if (!body.classList.contains('on-moodboard')) {
-        if (sy > 50) {
-          tBar.classList.add('scrolled');
-          bBar.classList.add('scrolled');
-        } else {
+      // 스크롤이 시작되면 영상 숨기기 및 바 배경 생성
+      if (sy > 10) {
+        hero.classList.add('video-hidden');
+        tBar.classList.add('scrolled');
+        bBar.classList.add('scrolled');
+      } else {
+        hero.classList.remove('video-hidden');
+        if (!body.classList.contains('on-moodboard')) {
           tBar.classList.remove('scrolled');
           bBar.classList.remove('scrolled');
         }
@@ -430,11 +431,6 @@
       if (body.classList.contains('on-moodboard')) {
         document.querySelectorAll('.mb-item').forEach((it, i) => {
           const r = it.getBoundingClientRect();
-          if (!it.dataset.motionSet) {
-            it.style.setProperty('--mb-dur', '0.8s');
-            it.style.setProperty('--mb-dy', '40px');
-            it.dataset.motionSet = '1';
-          }
           if (r.top < vh * 0.92 && r.bottom > vh * 0.08) {
             if (!it.classList.contains('visible')) {
               it.classList.remove('exit-up');
@@ -452,8 +448,7 @@
         document.body.classList.add('on-moodboard');
         window.scrollTo(0, 0);
         tBar.classList.add('scrolled'); bBar.classList.add('scrolled');
-        document.querySelectorAll('.mb-item').forEach(it => it.classList.remove('visible', 'exit-up'));
-        setTimeout(onScroll, 50);
+        onScroll();
       });
     }
     onScroll();
