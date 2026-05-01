@@ -388,22 +388,6 @@
     <div class="wrap">
       <div class="slideshow" id="ss1" data-cur="0">
         
-        <!-- 👇👇👇 [이미지 추가 가이드 - 여기를 읽어주세요!] 👇👇👇
-             1. 이미지를 넣으시려면 아래의 <div class="slide active empty-slide">...</div> 부분을 통째로 지우세요.
-             2. 그리고 주석 처리된 <!-- [이미지 추가 예시] --> <!-- 부분의 코드를 주석 해제해서 사용하시면 됩니다.
-             3. src="..." 부분에 사용할 이미지(렌더링 등)의 정확한 파일명을 적어주세요.
-             4. 맨 처음 보여야 할 첫 번째 이미지에만 꼭 class="slide active" 라고 'active'를 넣어주셔야 합니다!
-        -->
-        
-        <!-- [이미지 추가 예시: 아래 코드를 활용하세요]
-        <div class="slide active">
-          <img src="images/dendi_render_01.jpg" alt="Dendi 메인 렌더링" class="slide-img">
-        </div>
-        <div class="slide">
-          <img src="images/dendi_soil_detail.png" alt="Dendi 흙 디테일" class="slide-img">
-        </div>
-        -->
-        
       <div class="slide active">
           <img src="1-2.png" alt="Dendi 메인 렌더링" class="slide-img">
         </div>
@@ -413,7 +397,7 @@
       <div class="slide">
           <img src="1-2.png" alt="태양광 패널 디테일" class="slide-img">
         </div>
-       
+        
         <div class="zone zone-l" onclick="slide('ss1',-1)"></div>
         <div class="zone zone-r" onclick="slide('ss1',1)"></div>
         <div class="slide-counter">0 / 0</div>
@@ -433,14 +417,6 @@
     <div class="wrap">
       <div class="slideshow" id="ss2" data-cur="0">
         
-        <!-- [이미지 추가 예시: 프로젝트 2]
-        <div class="slide active">
-          <img src="images/rooopie_main.jpg" alt="Rooopie 메인 뷰" class="slide-img">
-        </div>
-        <div class="slide">
-          <img src="images/rooopie_solar.png" alt="태양광 패널 디테일" class="slide-img">
-        </div>
-        -->
         <div class="slide active empty-slide">
           <div class="empty-hint">
             <strong>여기에 이미지가 들어갑니다.</strong><br>
@@ -467,14 +443,6 @@
     <div class="wrap">
       <div class="slideshow" id="ss3" data-cur="0">
         
-        <!-- [이미지 추가 예시: 프로젝트 3]
-        <div class="slide active">
-          <img src="images/yundonban_tier1.jpg" alt="Yun-don-ban 1단" class="slide-img">
-        </div>
-        <div class="slide">
-          <img src="images/yundonban_full.jpg" alt="Yun-don-ban 3단 조립" class="slide-img">
-        </div>
-        -->
         <div class="slide active empty-slide">
           <div class="empty-hint">
             <strong>여기에 이미지가 들어갑니다.</strong><br>
@@ -588,6 +556,47 @@
 </div>
 
 <div id="edit-hint"><kbd>⌘</kbd>+<kbd>E</kbd> to edit</div>
+
+<!-- 👇👇👇 여기에 슬라이드 기능을 담당하는 스크립트를 추가했습니다 👇👇👇 -->
+<script>
+  // 슬라이드 이미지를 넘겨주는 함수
+  function slide(id, dir) {
+    const ss = document.getElementById(id);
+    if (!ss) return; 
+
+    const slides = ss.querySelectorAll('.slide');
+    if (slides.length <= 1) return; // 이미지가 1장이면 작동 안 함
+
+    // 현재 슬라이드 번호 확인 및 숨김
+    let cur = parseInt(ss.getAttribute('data-cur')) || 0;
+    slides[cur].classList.remove('active');
+
+    // 다음/이전 계산
+    cur += dir;
+    if (cur < 0) cur = slides.length - 1;
+    if (cur >= slides.length) cur = 0;
+
+    // 새 슬라이드 표시 및 번호 저장
+    slides[cur].classList.add('active');
+    ss.setAttribute('data-cur', cur);
+
+    // 하단 텍스트 카운터(예: 2 / 3) 업데이트
+    const counter = ss.querySelector('.slide-counter');
+    if (counter) counter.innerText = (cur + 1) + ' / ' + slides.length;
+  }
+
+  // 페이지가 처음 열릴 때 이미지 장수를 세서 1 / 3 처럼 보여주는 초기화 함수
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.slideshow').forEach(ss => {
+      const slides = ss.querySelectorAll('.slide');
+      const counter = ss.querySelector('.slide-counter');
+      if (counter && slides.length > 0) {
+        counter.innerText = '1 / ' + slides.length;
+      }
+    });
+  });
+</script>
+<!-- 👆👆👆 👆👆👆 -->
 
 <script src="editor.js"></script>
 </body>
