@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Junghyun Kim - Portfolio</title>
 <style>
+  /* ══ 전역 설정 및 터치 효과 제거 ══ */
   *, *::before, *::after { 
     margin: 0; padding: 0; box-sizing: border-box; 
     -webkit-tap-highlight-color: transparent; 
@@ -125,7 +126,7 @@
   .mb-real { width: 100%; height: auto; display: block; }
   .mb-info { margin-top: 6px; line-height: 1.3; color: var(--black); transition: color 0.25s ease; }
 
-  /* ══ 라이트박스 (비율 고정형) ══ */
+  /* ══ 라이트박스 ══ */
   .lb {
     display: none; position: fixed; inset: 0; z-index: 1000; 
     background: var(--bg); transition: opacity 0.3s ease;
@@ -138,17 +139,8 @@
   .lb-arrow { top: 50%; transform: translateY(-50%); font-size: 22px; padding: 20px; }
   .lb-arrow.prev { left: 16px; }
   .lb-arrow.next { right: 16px; }
-  
-  .lb-img-wrap { 
-    display: flex; align-items: center; justify-content: center; 
-    max-width: 90vw; max-height: 75vh; overflow: hidden;
-  }
-  /* 라이트박스 내부 이미지 강제 비율 유지 */
-  .lb-img-wrap img {
-    max-width: 90vw; max-height: 75vh; 
-    width: auto !important; height: auto !important; 
-    object-fit: contain; 
-  }
+  .lb-img-wrap { display: flex; align-items: center; justify-content: center; max-width: 90vw; max-height: 75vh; }
+  .lb-img-wrap img { max-width: 90vw; max-height: 75vh; width: auto !important; height: auto !important; object-fit: contain; }
   .lb-info { color: var(--black); margin-top: 15px; text-align: center; }
 
   /* ══ 복사 방지 ══ */
@@ -213,6 +205,8 @@
     <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-2.png"></div><div class="mb-info">C-02</div></div>
     <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-3.png"></div><div class="mb-info">C-03</div></div>
     <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-4.png"></div><div class="mb-info">C-04</div></div>
+    <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-1.png"></div><div class="mb-info">C-05</div></div>
+    <div class="mb-item"><div class="mb-ph"><img class="mb-real" src="1-2.png"></div><div class="mb-info">C-06</div></div>
   </div>
 </div>
 
@@ -225,7 +219,6 @@
 </div>
 
 <script>
-  /* 1. 기본 유틸리티 */
   function slide(id, dir) {
     const ss = document.getElementById(id); if (!ss) return; 
     const slides = ss.querySelectorAll('.slide'); if (slides.length <= 1) return; 
@@ -250,7 +243,6 @@
     darkToggle.innerText = isDark ? 'Light' : 'Dark'; localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
 
-  /* 2. 네비게이션 (홈 이동 시 영상 완전 복구) */
   const tBar = document.getElementById('top-bar');
   const bBar = document.getElementById('bottom-bar');
   const hero = document.getElementById('hero-section');
@@ -271,9 +263,8 @@
     else document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
   });
 
-  /* 3. 모션 로직 (무드보드 물리 법칙 모션 복구) */
   function onScroll() {
-    const sy = window.scrollY; const vh = window.innerHeight;
+    const sy = window.scrollY, vh = window.innerHeight;
 
     if (!body.classList.contains('on-moodboard')) {
       if (sy > 10) { hero.classList.add('video-hidden'); tBar.classList.add('scrolled'); bBar.classList.add('scrolled'); }
@@ -291,8 +282,6 @@
       document.querySelectorAll('.mb-item').forEach((it, i) => {
         const r = it.getBoundingClientRect();
         const ph = it.querySelector('.mb-ph');
-        
-        // 원본 비율 기반 모션 계산
         if (ph && !it.dataset.motionSet) {
           const img = it.querySelector('img');
           let ratio = (img.naturalHeight / img.naturalWidth) || 1;
@@ -301,12 +290,8 @@
           it.style.setProperty('--mb-dy', Math.round(28 + r0 * 22) + 'px');
           it.dataset.motionSet = '1';
         }
-
         if (r.top < vh * 0.92 && r.bottom > vh * 0.08) {
-          if (!it.classList.contains('visible')) {
-            it.classList.remove('exit-up');
-            setTimeout(() => it.classList.add('visible'), (i % 8) * 40);
-          }
+          if (!it.classList.contains('visible')) { it.classList.remove('exit-up'); it.classList.add('visible'); }
         } else if (r.bottom < vh * 0.15) {
           if (it.classList.contains('visible')) { it.classList.remove('visible'); it.classList.add('exit-up'); }
         }
@@ -315,15 +300,38 @@
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* 무드보드 진입 애니메이션 (순차적 모션 복구) */
   if (mbBtn) {
     mbBtn.addEventListener('click', () => {
-      body.classList.add('on-moodboard'); window.scrollTo(0, 0);
-      tBar.classList.add('scrolled'); bBar.classList.add('scrolled');
-      setTimeout(onScroll, 100);
+      body.classList.add('on-moodboard');
+      window.scrollTo(0, 0);
+      tBar.classList.add('scrolled');
+      bBar.classList.add('scrolled');
+
+      const items = document.querySelectorAll('.mb-item');
+      items.forEach(it => it.classList.remove('visible', 'exit-up')); // 초기화
+
+      setTimeout(() => {
+        items.forEach((it, i) => {
+          setTimeout(() => {
+            // 강제로 모션 계산 실행 후 클래스 추가
+            const ph = it.querySelector('.mb-ph');
+            if (ph && !it.dataset.motionSet) {
+              const img = it.querySelector('img');
+              let ratio = (img.naturalHeight / img.naturalWidth) || 1;
+              const r0 = Math.max(0.5, Math.min(1.6, ratio));
+              it.style.setProperty('--mb-dur', (0.55 + r0 * 0.35).toFixed(2) + 's');
+              it.style.setProperty('--mb-dy', Math.round(28 + r0 * 22) + 'px');
+              it.dataset.motionSet = '1';
+            }
+            it.classList.add('visible');
+          }, i * 50); // 0.05초 간격으로 순차 등장
+        });
+      }, 100);
     });
   }
 
-  /* 4. 라이트박스 (원본 비율 클론 방식) */
   let lbItems = [], lbIdx = 0;
   function setupLightbox() {
     document.getElementById('lb-close').onclick = () => {
@@ -347,12 +355,9 @@
       const srcItem = lbItems[lbIdx];
       const srcImg = srcItem.querySelector('img');
       const lbImgWrap = document.getElementById('lb-img');
-      
-      // 이미지를 클론하여 스타일 초기화 및 비율 유지 설정
       const newImg = srcImg.cloneNode();
       newImg.className = ''; 
-      newImg.style.cssText = "max-width:90vw; max-height:75vh; width:auto; height:auto; object-fit:contain;";
-      
+      newImg.style.cssText = "max-width:90vw; max-height:75vh; width:auto !important; height:auto !important; object-fit:contain;";
       lbImgWrap.innerHTML = '';
       lbImgWrap.appendChild(newImg);
       document.getElementById('lb-info').innerHTML = srcItem.querySelector('.mb-info').innerHTML;
