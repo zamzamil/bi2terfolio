@@ -174,8 +174,14 @@
 <!-- BOTTOM BAR -->
 <div class="bottom-bar">
   <div id="bottom-bar-content" style="display:flex;justify-content:space-between;align-items:center;width:100%">
-    <a href="mailto:hello@example.com">Email</a>
-    <a href="https://www.instagram.com/bi2ter/" target="_blank">IG ↗</a>
+    
+    <!-- 👇 3. 이메일 링크 수정 가이드 👇
+    'mailto:' 뒤에 본인의 실제 이메일 주소를 적어주세요. 
+    사용자가 클릭하면 기본 메일 앱(또는 스마트폰의 지메일 앱)이 열리며 자동으로 메일 쓰기 창이 나타납니다.
+    -->
+    <a href="mailto:본인계정@gmail.com">Email</a>
+    
+    <a href="https://instagram.com" target="_blank">IG ↗</a>
   </div>
 </div>
 
@@ -190,27 +196,22 @@
   <section>
     <div class="wrap">
       <div class="hero">
+        
+        <!-- 👇 1. 메인 타이틀(Hero Text) 수정 가이드 👇
+        'PORT<br>FOLIO' 라고 적힌 부분의 글자를 원하시는 문구로 바꾸시면 됩니다.
+        <br> 태그는 줄바꿈(엔터) 역할을 합니다.
+        예시: JUNGHYUN<br>KIM
+        -->
         <div class="hero-text">PORT<br>FOLIO</div>
+        
       </div>
     </div>
   </section>
-
-  <!-- 
-  ====================================================================
-    [프로젝트 추가 가이드]
-    새로운 프로젝트를 추가하려면 <section class="project-section"> 부터
-    </section> 까지를 복사해서 원하는 위치에 붙여넣으세요.
-    *주의*: <div class="slideshow" id="ss1"> 의 id를 "ss4", "ss5" 등으로
-    각각 다르게 변경하고, 아래쪽 zone-l, zone-r 안의 slide('ss4', 1) 
-    함수 이름도 똑같이 맞춰주셔야 정상 작동합니다.
-  ==================================================================== 
-  -->
 
   <!-- PROJECT 1: DENDI -->
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss1" data-cur="0">
-        
         <div class="slide active">
           <img src="1-2.png" alt="Dendi 메인 렌더링" class="slide-img">
         </div>
@@ -226,6 +227,13 @@
         <div class="slide-counter">0 / 0</div>
       </div>
       
+      <!-- 👇 2. 프로젝트 정보 수정 가이드 👇
+      각각의 class 이름에 맞춰 텍스트를 수정하시면 됩니다.
+      - pname : 프로젝트 이름 (예: Dendi)
+      - pyear : 연도 (예: 2026)
+      - ptags : 태그 및 키워드 (줄바꿈이 필요하면 <br> 태그 사용)
+      - pdesc : 프로젝트 상세 설명
+      -->
       <div class="project-info">
         <div>
           <div class="pname">Dendi</div>
@@ -236,6 +244,8 @@
           <div class="pdesc">Domestic dog waste management system using terracotta and living dandelions. The dandelion roots act as a visual indicator of soil health while facilitating microbial activation.</div>
         </div>
       </div>
+      <!-- 👆 프로젝트 정보 수정 가이드 끝 👆 -->
+
     </div>
   </section>
 
@@ -243,9 +253,7 @@
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss2" data-cur="0">
-        
         <div class="slide active">
-          <!-- 실제 이미지 경로로 수정하세요 -->
           <img src="images/placeholder.jpg" alt="Rooopie Image" class="slide-img">
         </div>
 
@@ -253,8 +261,12 @@
         <div class="zone zone-r" onclick="slide('ss2',1)"></div>
         <div class="slide-counter">0 / 0</div>
       </div>
+      
       <div class="project-info">
-        <div><div class="pname">Rooopie</div><div class="pyear">2026</div></div>
+        <div>
+          <div class="pname">Rooopie</div>
+          <div class="pyear">2026</div>
+        </div>
         <div>
           <div class="ptags">Non-violent Prevention<br>Renewable Energy<br>Urban Ecology</div>
           <div class="pdesc">A non-violent pigeon prevention system utilizing rotating triangular prisms. The system integrates solar panels to ensure technical self-sufficiency and independent energy generation.</div>
@@ -267,9 +279,7 @@
   <section class="project-section">
     <div class="wrap">
       <div class="slideshow" id="ss3" data-cur="0">
-        
         <div class="slide active">
-          <!-- 실제 이미지 경로로 수정하세요 -->
           <img src="images/placeholder.jpg" alt="Yun-don-ban Image" class="slide-img">
         </div>
 
@@ -277,8 +287,12 @@
         <div class="zone zone-r" onclick="slide('ss3',1)"></div>
         <div class="slide-counter">0 / 0</div>
       </div>
+      
       <div class="project-info">
-        <div><div class="pname">Yun-don-ban</div><div class="pyear">2026</div></div>
+        <div>
+          <div class="pname">Yun-don-ban</div>
+          <div class="pyear">2026</div>
+        </div>
         <div>
           <div class="ptags">Cultural Fusion<br>Product Design<br>Social Interaction</div>
           <div class="pdesc">A 3-tier tray and traditional Korean soban hybrid designed to facilitate social interaction. The project reimagines the traditional Soban through the lens of British tea culture in London.</div>
@@ -340,15 +354,9 @@
 <div id="page-moodboard">
   <div class="mb-masonry">
 
-    <!-- 
-    [무드보드 이미지 추가 가이드]
-    이미지를 추가할 때마다 <div class="mb-item"> 부터 </div> 까지 복사해서 붙여넣으세요.
-    -->
-   
-    <!-- 박스 1 -->
     <div class="mb-item">
       <div class="mb-ph">
-        <img class="mb-real" src="1-1.png" alt="">
+        <img class="mb-real" src="이미지경로.jpg" alt="">
       </div>
       <div class="mb-info">
         <div class="mb-code">캡션1</div>
@@ -356,37 +364,20 @@
       </div>
     </div>
 
-   <!-- 박스 2 -->
+    <!-- 임시 샘플 박스 1 -->
     <div class="mb-item">
-      <div class="mb-ph">
-        <img class="mb-real" src="1-2.png" alt="">
-      </div>
-      <div class="mb-info">
-        <div class="mb-code">캡션1</div>
-        <div class="mb-author">작성자</div>
-      </div>
+      <div class="mb-ph" style="padding-bottom:140%;background:#b5c4d4;"></div>
+      <div class="mb-info"><div class="mb-code">LENS 01</div><div class="mb-author">F. Kuenstler</div></div>
     </div>
-   
-   <!-- 박스 3 -->
+    <!-- 임시 샘플 박스 2 -->
     <div class="mb-item">
-      <div class="mb-ph">
-        <img class="mb-real" src="1-3.png" alt="">
-      </div>
-      <div class="mb-info">
-        <div class="mb-code">캡션1</div>
-        <div class="mb-author">작성자</div>
-      </div>
+      <div class="mb-ph" style="padding-bottom:80%;background:#d9cfc4;"></div>
+      <div class="mb-info"><div class="mb-code">BB09</div><div class="mb-author">R. Dijkstra</div></div>
     </div>
-   
-   <!-- 박스 4 -->
+    <!-- 임시 샘플 박스 3 -->
     <div class="mb-item">
-      <div class="mb-ph">
-        <img class="mb-real" src="1-4.png" alt="">
-      </div>
-      <div class="mb-info">
-        <div class="mb-code">캡션1</div>
-        <div class="mb-author">작성자</div>
-      </div>
+      <div class="mb-ph" style="padding-bottom:120%;background:#e8e4de;"></div>
+      <div class="mb-info"><div class="mb-code">5454-8</div><div class="mb-author">J. Tschichold</div></div>
     </div>
 
   </div>
@@ -460,7 +451,6 @@
 
   // 4. 원본 스크롤 모션 (비율 계산 및 텐션 완벽 복원)
   function setupScrollMotion() {
-    // 프로젝트 섹션 초기화
     document.querySelectorAll('.project-section .wrap').forEach(w => {
       const r = w.getBoundingClientRect();
       if (r.top >= window.innerHeight) w.classList.add('below');
@@ -470,7 +460,6 @@
       document.querySelectorAll('.project-section .wrap').forEach(w => {
         const r = w.getBoundingClientRect();
         const vh = window.innerHeight;
-        // 원본과 동일한 임계값 적용
         if (r.top < vh * 0.85 && r.bottom > vh * 0.05) {
           w.classList.remove('below', 'above');
         } else if (r.top >= vh * 0.85) {
@@ -491,7 +480,6 @@
       document.querySelectorAll('.mb-item').forEach((it, i) => {
         const r = it.getBoundingClientRect();
         
-        // 이미지 비율(가로/세로)에 따라 모션 텐션(길이, 높이) 다르게 수학적 계산 (원본 로직)
         const ph = it.querySelector('.mb-ph');
         let ratio = 1;
         if (ph) {
@@ -500,8 +488,8 @@
         }
         
         const r0 = Math.max(0.5, Math.min(1.6, ratio));
-        const dur = (0.55 + r0 * 0.35).toFixed(2);     // 0.72s … 1.11s
-        const dy  = Math.round(28 + r0 * 22);          // 39px … 63px
+        const dur = (0.55 + r0 * 0.35).toFixed(2);     
+        const dy  = Math.round(28 + r0 * 22);          
         
         if (!it.dataset.motionSet) {
           it.style.setProperty('--mb-dur', dur + 's');
@@ -516,13 +504,13 @@
         if (inView) {
           if (!it.classList.contains('visible')) {
             it.classList.remove('exit-up');
-            const delay = (i % 8) * 40; // 엇박자 딜레이 (원본 로직)
+            const delay = (i % 8) * 40; 
             setTimeout(() => it.classList.add('visible'), delay);
           }
         } else if (exitingUp) {
           if (it.classList.contains('visible')) {
             it.classList.remove('visible');
-            it.classList.add('exit-up'); // 위로 사라지는 효과
+            it.classList.add('exit-up'); 
           }
         } else if (belowView) {
           it.classList.remove('visible', 'exit-up');
@@ -538,7 +526,6 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
 
-    // 무드보드 버튼 누르면 모션 초기화 후 재실행
     if (mbBtn) {
       mbBtn.addEventListener('click', () => {
         document.body.classList.add('on-moodboard');
@@ -552,7 +539,6 @@
 
     if (cargo) cargo.addEventListener('click', () => setTimeout(onScroll, 50));
 
-    // 페이지 열렸을 때 최초 실행
     setTimeout(onScroll, 30);
     setTimeout(checkMoodboard, 60);
   }
@@ -574,7 +560,6 @@
     document.addEventListener('click', e => {
       const item = e.target.closest('.mb-item');
       if (!item) return;
-      // 출처 클릭 시 방어
       if (e.target.tagName.toLowerCase() === 'a' || e.target.closest('.mb-src')) return;
       
       lbItems = [...document.querySelectorAll('.mb-item')];
@@ -610,7 +595,6 @@
     const item = lbItems[lbIdx];
     const ph = item.querySelector('.mb-ph').cloneNode(true);
     
-    // 원본 로직: 비율을 깨지 않고 화면에 꽉 차게 렌더링
     ph.style.padding = '0';
     ph.style.paddingBottom = '0';
     ph.style.maxWidth = '90vw';
@@ -636,7 +620,6 @@
     }
   }
 
-  // 초기화 함수 실행
   window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.slideshow').forEach(ss => {
       const slides = ss.querySelectorAll('.slide');
