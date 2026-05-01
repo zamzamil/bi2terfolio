@@ -81,6 +81,14 @@
   }
   .hero-link:hover { text-decoration: underline; opacity: 0.5; }
 
+  /* ══ 섹션 공통 모션 (프로젝트 & 어바웃) ══ */
+  .project-section .wrap, .about-section .wrap {
+    opacity: 1; transform: translateY(0);
+    transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
+  }
+  .project-section .wrap.below, .about-section .wrap.below { opacity: 0; transform: translateY(60px); }
+  .project-section .wrap.above, .about-section .wrap.above { opacity: 0; transform: translateY(-60px); }
+
   /* ══ 프로젝트 섹션 ══ */
   .project-section { min-height: 100vh; display: flex; align-items: center; padding: 100px 0; }
   .slideshow {
@@ -99,19 +107,12 @@
   .ptags { font-size: 13px; font-weight: 500; line-height: 1.5; }
   .pdesc { font-size: 12px; color: var(--gray); line-height: 1.7; margin-top: 10px; }
 
-  .project-section .wrap {
-    opacity: 1; transform: translateY(0);
-    transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
-  }
-  .project-section .wrap.below { opacity: 0; transform: translateY(60px); }
-  .project-section .wrap.above { opacity: 0; transform: translateY(-60px); }
-
   /* ══ ABOUT (위치 상향 조정) ══ */
   .about-section { 
-    min-height: 70vh; /* 높이를 줄여서 위로 당김 */
+    min-height: 70vh;
     display: flex; 
-    align-items: flex-start; /* 중앙 정렬 해제 */
-    padding: 12vh 0 20px; /* 상단 여백을 늘려 적절한 높이에서 시작하도록 설정 */
+    align-items: flex-start;
+    padding: 12vh 0 20px;
     color: var(--black); 
   }
   .about-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; width: 100%; }
@@ -175,6 +176,7 @@
 </head>
 <body class="light">
 
+<!-- TOP NAV -->
 <div class="top-bar" id="top-bar">
   <div id="top-bar-content" style="display:flex;justify-content:space-between;align-items:center;width:100%">
     <span id="cargo-logo" class="nav-btn">Junghyun Kim</span>
@@ -183,6 +185,7 @@
   </div>
 </div>
 
+<!-- BOTTOM BAR -->
 <div class="bottom-bar" id="bottom-bar">
   <div id="bottom-bar-content" style="display:flex;justify-content:space-between;align-items:center;width:100%">
     <span id="mb-btn" class="nav-btn">Moodboard</span>
@@ -366,7 +369,8 @@
       else { hero.classList.remove('video-hidden'); tBar.classList.remove('scrolled'); bBar.classList.remove('scrolled'); }
     }
 
-    document.querySelectorAll('.project-section .wrap').forEach(w => {
+    // 프로젝트 및 어바웃 섹션 애니메이션
+    document.querySelectorAll('.project-section .wrap, .about-section .wrap').forEach(w => {
       const r = w.getBoundingClientRect();
       if (r.top < vh * 0.85 && r.bottom > vh * 0.05) w.classList.remove('below', 'above');
       else if (r.top >= vh * 0.85) w.classList.add('below');
