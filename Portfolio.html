@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #111; --gray: #999; --bg: #fff; --line: #eee;
+    --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --bar: 44px; --side: 22%;
+    --accent: #111;
+    --drop: rgba(0,0,0,0.04);
+  }
+  body.dark {
+    --black: #f5f5f5; --gray: #888; --bg: #0a0a0a; --line: #222;
+    --accent: #f5f5f5;
+    --drop: rgba(255,255,255,0.06);
+  }
+  html { font-family: var(--font); font-size: 13px; color: var(--black); background: var(--bg); }
+  body {
+    overflow-x: hidden; padding-top: var(--bar); padding-bottom: var(--bar);
+    background: var(--bg); color: var(--black);
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ══ FIXED BARS ══ */
+  .top-bar, .bottom-bar {
+    position: fixed; left: 0; right: 0; z-index: 300;
+    height: var(--bar);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 20px; background: var(--bg);
+  }
+  .top-bar { top: 0; }
+  .bottom-bar { bottom: 0; }
+  .bottom-bar a:hover { text-decoration: underline; }
+
+  /* ══ MID LABELS ══ */
+  .mid-label {
+    position: fixed; z-index: 200;
+    top: 50%; transform: translateY(-50%);
+    font-size: 13px;
+  }
+  .mid-left { left: 20px; }
+  .mid-right { right: 20px; font-variant-numeric: tabular-nums; pointer-events: none; }
+
+  /* ══ PAGES ══ */
+  #page-portfolio { display: block; }
+  #page-moodboard { display: none; }
+  body.on-moodboard #page-portfolio { display: none; }
+  body.on-moodboard #page-moodboard  { display: block; }
+
+  /* ══ PORTFOLIO: WRAP ══ */
+  .wrap {
+    margin: 0 auto;
+    width: calc(100% - var(--side) * 2);
+    max-width: 1040px;
+    position: relative;
+  }
+
+  /* ══ HERO ══ */
+  .hero { padding: 60px 0 44px; text-align: center; }
+  .hero-text {
+    font-size: clamp(64px, 12vw, 140px);
+    font-weight: 700; line-height: 0.88;
+    letter-spacing: -0.02em; text-transform: uppercase;
+  }
+
+  /* ══ SLIDESHOW ══ */
+  .slideshow {
+    width: 100%;
+    position: relative; overflow: hidden;
+    cursor: pointer; user-select: none; background: var(--drop);
+    min-height: 200px;
+  }
+  body.dark .slideshow { background: rgba(255,255,255,0.04); }
+  .slide { position: relative; display: none; width: 100%; }
+  .slide.active { display: block; }
+  .slide-img { width: 100%; height: auto; display: block; }
+  .empty-slide {
+    aspect-ratio: 16/9;
+    display: flex !important; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  body.edit-mode .empty-slide:hover { background: rgba(0,0,0,0.06); }
+  body.dark.edit-mode .empty-slide:hover { background: rgba(255,255,255,0.08); }
+  .add-slide-btn {
+    display: none;
+    position: absolute; top: 6px; left: 6px;
+    width: auto; padding: 4px 10px; height: 22px;
+    border: none; border-radius: 11px;
+    background: rgba(0,0,0,0.7); color: #fff;
+    font-size: 11px; cursor: pointer; z-index: 10;
+    font-family: var(--font);
+  }
+  body.edit-mode .add-slide-btn { display: block; }
+  .add-slide-btn:hover { background: #111; }
+  .empty-hint { font-size: 12px; color: var(--gray); }
+
+  .slide-counter { position: absolute; bottom: 10px; right: 14px; font-size: 11px; color: #aaa; pointer-events: none; z-index: 4; }
+  .zone { position: absolute; top: 0; bottom: 0; width: 50%; z-index: 5; }
+  .zone-l { left: 0; cursor: w-resize; }
+  .zone-r { right: 0; cursor: e-resize; }
+
+  /* drop indicator */
+  .slideshow.drag-over { outline: 2px dashed var(--accent); outline-offset: -6px; }
+
+  /* ══ PROJECT INFO ══ */
+  .project-info { display: grid; grid-template-columns: 1fr 1fr; padding: 20px 0 60px; }
+  .pname { font-size: 13px; font-weight: 500; }
+  .pyear { font-size: 13px; }
+  .ptags { font-size: 13px; font-weight: 500; line-height: 1.5; }
+  .pdesc { font-size: 12px; color: var(--gray); line-height: 1.7; margin-top: 10px; }
+
+  .project-section {
+    min-height: calc(100vh - var(--bar) * 2);
+    display: flex; align-items: center; padding: 60px 0;
+  }
+  .project-section .wrap {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1),
+                transform 0.85s cubic-bezier(0.16,1,0.3,1);
+  }
+  .project-section .wrap.below { opacity: 0; transform: translateY(60px); }
+  .project-section .wrap.above { opacity: 0; transform: translateY(-60px); }
+
+  /* ══ ABOUT ══ */
+  .about-section { padding: 52px 0 20px; }
+  .about-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; }
+  .about-col { padding-right: 28px; }
+  .about-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
+  .about-col p, .about-col a { font-size: 13px; line-height: 1.6; display: block; color: var(--black); }
+  .about-col .bio { font-size: 12px; color: var(--gray); line-height: 1.7; margin-top: 12px; }
+  .cv-entry { margin-bottom: 16px; }
+  .cv-place { font-size: 13px; line-height: 1.5; }
+  .cv-italic { font-size: 13px; font-style: italic; line-height: 1.5; }
+  .cv-year { font-size: 13px; }
+
+  /* ══ MOODBOARD GRID — 8 cols, 2 rows per viewport, top-aligned ══ */
+  .mb-masonry {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    column-gap: 10px;
+    row-gap: calc((100vh - var(--bar)*2 - var(--mb-row-h)*2) / 3);
+    --mb-row-h: calc((100vh - var(--bar)*2) / 2.6);
+    padding: calc(var(--bar) + 4vh) 20px 60px;
+    align-items: start;
+    align-content: start;
+  }
+  @media (max-width: 1100px) { .mb-masonry { grid-template-columns: repeat(6, 1fr); } }
+  @media (max-width: 800px)  { .mb-masonry { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 500px)  { .mb-masonry { grid-template-columns: repeat(2, 1fr); } }
+
+  .mb-item {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    --mb-dur: 0.7s;
+    --mb-dy: 40px;
+    opacity: 0;
+    transform: translateY(var(--mb-dy));
+    transition: opacity var(--mb-dur) cubic-bezier(0.16,1,0.3,1), transform var(--mb-dur) cubic-bezier(0.16,1,0.3,1);
+  }
+  .mb-item.visible { opacity: 1; transform: translateY(0); }
+  .mb-item.exit-up { opacity: 0; transform: translateY(calc(var(--mb-dy) * -1));
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.4,0,1,1); }
+
+  .mb-ph {
+    position: relative;
+    width: 100%;
+    background: transparent;
+    overflow: hidden;
+    line-height: 0;
+  }
+  .mb-ph .mb-real {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+  .mb-info { margin-top: 6px; line-height: 1.3; }
+  .mb-info   { margin-top: 8px; }
+  .mb-code   { font-size: 12px; }
+  .mb-author { font-size: 12px; }
+  .mb-src    { font-size: 12px; text-decoration: underline; cursor: pointer; }
+  .mb-drop-hint {
+    text-align: center;
+    font-size: 12px;
+    color: var(--gray);
+    padding: 30px 20px;
+    display: none;
+  }
+  body.edit-mode .mb-drop-hint { display: block; }
+  #page-moodboard.drag-over { outline: 2px dashed var(--accent); outline-offset: -10px; }
+
+  /* ══ LIGHTBOX ══ */
+  .lb {
+    display: none;
+    position: fixed; inset: 0; z-index: 1000;
+    background: var(--bg);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .lb.open { display: flex; }
+  .lb.visible { opacity: 1; }
+
+  .lb-close, .lb-arrow {
+    position: fixed;
+    background: none; border: none;
+    cursor: pointer; color: var(--black);
+    font-family: var(--font);
+  }
+  .lb-close { top: 18px; right: 24px; font-size: 22px; z-index: 1001; }
+  .lb-arrow { top: 50%; transform: translateY(-50%); font-size: 22px; padding: 20px; z-index: 1001; }
+  .lb-arrow.prev { left: 16px; }
+  .lb-arrow.next { right: 16px; }
+  .lb-close:hover, .lb-arrow:hover { opacity: 0.4; }
+
+  .lb-img-wrap { display: flex; align-items: center; justify-content: center; max-width: 90vw; max-height: 75vh; }
+  .lb-img-wrap .mb-ph { background: transparent; max-width: 90vw; max-height: 75vh; }
+  .lb-img-wrap .mb-real { max-width: 90vw; max-height: 75vh; width: auto !important; height: auto !important; }
+  .lb-info { display: none; }
+
+  /* ══ EDIT MODE ══ */
+  body.edit-mode [contenteditable="plaintext-only"] {
+    outline: 1px dashed transparent;
+    outline-offset: 2px;
+    cursor: text;
+    transition: outline-color 0.15s ease;
+  }
+  body.edit-mode [contenteditable="plaintext-only"]:hover {
+    outline-color: rgba(0,0,0,0.2);
+  }
+  body.dark.edit-mode [contenteditable="plaintext-only"]:hover {
+    outline-color: rgba(255,255,255,0.25);
+  }
+  body.edit-mode [contenteditable="plaintext-only"]:focus {
+    outline-color: var(--accent);
+    outline-style: solid;
+    background: var(--drop);
+  }
+
+  /* delete buttons / project toolbar — hidden unless edit mode */
+  .del-btn, .project-toolbar, #add-project-btn { display: none; }
+  body.edit-mode .del-btn {
+    display: block;
+    position: absolute;
+    top: 6px; right: 6px;
+    width: 22px; height: 22px;
+    border: none; border-radius: 50%;
+    background: rgba(0,0,0,0.7); color: #fff;
+    font-size: 14px; line-height: 1; cursor: pointer;
+    z-index: 10;
+  }
+  body.edit-mode .del-btn:hover { background: #c0392b; }
+
+  body.edit-mode .project-toolbar {
+    display: flex; gap: 6px;
+    position: absolute; top: -36px; right: 0;
+    z-index: 50;
+  }
+  .project-toolbar button {
+    width: 28px; height: 28px;
+    border: 1px solid var(--line); background: var(--bg);
+    color: var(--black); cursor: pointer;
+    font-size: 13px; line-height: 1;
+    border-radius: 4px;
+  }
+  .project-toolbar .drag-handle { cursor: grab; }
+  .project-toolbar .drag-handle:active { cursor: grabbing; }
+  .project-toolbar button:hover { background: var(--drop); }
+
+  body.edit-mode #add-project-btn {
+    display: block;
+    margin: 40px auto 60px;
+    padding: 14px 28px;
+    border: 1px dashed var(--gray);
+    background: transparent;
+    color: var(--black);
+    font-family: var(--font);
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  body.edit-mode #add-project-btn:hover {
+    border-color: var(--accent);
+    background: var(--drop);
+  }
+
+  body.edit-mode .project-block {
+    cursor: grab;
+  }
+  body.edit-mode .project-block.dragging { opacity: 0.4; cursor: grabbing; }
+  body.edit-mode .mb-item.dragging { opacity: 0.4; }
+
+  /* hide zone clicks during edit */
+  body.edit-mode .zone { pointer-events: none; }
+
+  /* ══ EDIT TOOLBAR ══ */
+  #edit-toolbar {
+    display: none;
+    position: fixed;
+    bottom: calc(var(--bar) + 16px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 500;
+    background: var(--black);
+    color: var(--bg);
+    padding: 8px;
+    border-radius: 999px;
+    gap: 4px;
+    align-items: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    font-size: 12px;
+  }
+  #edit-toolbar button {
+    border: none; background: transparent; color: inherit;
+    font-family: var(--font); font-size: 12px;
+    padding: 8px 14px; cursor: pointer;
+    border-radius: 999px;
+    line-height: 1;
+  }
+  #edit-toolbar button:hover { background: rgba(255,255,255,0.15); }
+  body.dark #edit-toolbar button:hover { background: rgba(0,0,0,0.3); }
+  #edit-toolbar .sep { width: 1px; height: 16px; background: rgba(255,255,255,0.2); margin: 0 2px; }
+  body.dark #edit-toolbar .sep { background: rgba(0,0,0,0.3); }
+  #save-status { font-size: 11px; opacity: 0.7; padding: 0 10px; min-width: 56px; text-align: center; }
+  #edit-toolbar .label { padding: 0 10px; opacity: 0.6; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  /* edit hint (shown when not editing) */
+  #edit-hint {
+    position: fixed;
+    bottom: calc(var(--bar) + 14px);
+    right: 20px;
+    z-index: 250;
+    font-size: 11px;
+    color: var(--gray);
+    pointer-events: none;
+    letter-spacing: 0.04em;
+  }
+  #edit-hint kbd {
+    font-family: var(--font);
+    border: 1px solid var(--line);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 10px;
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="top-bar">
+  <div id="top-bar-content" style="display:flex;justify-content:space-between;align-items:center;width:100%">
+    <span id="cargo-logo" style="cursor:pointer">Junghyun Kim</span>
+    <span id="nav-right" style="cursor:pointer">About</span>
+  </div>
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+  <div id="bottom-bar-content" style="display:flex;justify-content:space-between;align-items:center;width:100%">
+    <a href="mailto:hello@example.com">Email</a>
+    <a href="https://instagram.com" target="_blank">IG ↗</a>
+  </div>
+</div>
+
+<!-- MID LABELS -->
+<div class="mid-label mid-left" id="mb-btn" style="cursor:pointer">Moodboard</div>
+<div class="mid-label mid-right" id="clock">00:00:00</div>
+
+
+<!-- ════════════════ PORTFOLIO PAGE ════════════════ -->
+<div id="page-portfolio">
+
+  <!-- HERO (text only) -->
+  <section>
+    <div class="wrap">
+      <div class="hero">
+        <div class="hero-text">PORT
+FOLIO</div>
+      </div>
+    </div>
+  </section>
+  </section>
+
+  <!-- PROJECT 1 -->
+  <section class="project-section">
+    <div class="wrap">
+      <div class="slideshow" id="ss1" data-cur="0">
+        <div class="slide active empty-slide"><div class="empty-hint">이미지를 드래그하거나 클릭하세요</div></div>
+        <div class="zone zone-l" onclick="slide('ss1',-1)"></div>
+        <div class="zone zone-r" onclick="slide('ss1',1)"></div>
+        <div class="slide-counter">0 / 0</div>
+      </div>
+      <div class="project-info">
+        <div><div class="pname">Project Name</div><div class="pyear">2047</div></div>
+        <div>
+          <div class="ptags">Dolor Nostrud<br>Consectetur dolor<br>Aute Ipsum de Amet</div>
+          <div class="pdesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porta ex a porta blandit. Suspendisse feugiat justo at mauris molestie molestie. Ut mattis urna sed sem pulvinar, vitae rutrum nulla ultrices.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT 2 -->
+  <section class="project-section">
+    <div class="wrap">
+      <div class="slideshow" id="ss2" data-cur="0">
+        <div class="slide active empty-slide"><div class="empty-hint">이미지를 드래그하거나 클릭하세요</div></div>
+        <div class="zone zone-l" onclick="slide('ss2',-1)"></div>
+        <div class="zone zone-r" onclick="slide('ss2',1)"></div>
+        <div class="slide-counter">0 / 0</div>
+      </div>
+      <div class="project-info">
+        <div><div class="pname">Surface Study</div><div class="pyear">2046</div></div>
+        <div>
+          <div class="ptags">Aliquam Nostrud<br>Vestibulum dolor<br>Porta Ipsum de Amet</div>
+          <div class="pdesc">Cras ut dictum mi. Sed quis lorem semper, elementum mauris vitae, consectetur orci. Aenean fermentum arcu mauris, eu faucibus nisl blandit ac.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT 3 -->
+  <section class="project-section">
+    <div class="wrap">
+      <div class="slideshow" id="ss3" data-cur="0">
+        <div class="slide active empty-slide"><div class="empty-hint">이미지를 드래그하거나 클릭하세요</div></div>
+        <div class="zone zone-l" onclick="slide('ss3',-1)"></div>
+        <div class="zone zone-r" onclick="slide('ss3',1)"></div>
+        <div class="slide-counter">0 / 0</div>
+      </div>
+      <div class="project-info">
+        <div><div class="pname">Vessel Series</div><div class="pyear">2045</div></div>
+        <div>
+          <div class="ptags">Euismod Nostrud<br>Suspendisse dolor<br>Congue Ipsum de Amet</div>
+          <div class="pdesc">Quisque vulputate mauris quis tellus ultrices euismod. Quisque eu purus convallis, gravida.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about-section">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="about-col">
+          <div class="about-col-title">Information</div>
+          <a href="#">Untitled (Profile)</a>
+          <a href="#">hello@example.com</a>
+          <a href="#">Instagram</a>
+          <p class="bio">Cras ut dictum mi. Sed quis lorem semper, elementum mauris vitae, consectetur orci. Cras volutpat eget elit porta facilisis. Aenean fermentum arcu mauris, eu faucibus nisl blandit ac. Proin eget euismod mauris. Quisque vulputate mauris quis tellus ultrices euismod. Quisque eu purus convallis, gravida.</p>
+        </div>
+        <div class="about-col">
+          <div class="about-col-title">Education</div>
+          <div class="cv-entry">
+            <div class="cv-place">Vestibulum Euismod (Ultrices)</div>
+            <div class="cv-place">Suspendisse Aenean Lec</div>
+            <div class="cv-year">2023</div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-place">Aliquam Faucibus Tellus</div>
+            <div class="cv-place">Vestibulum Ultricies</div>
+            <div class="cv-place">Suspendisse Aenean Vestibulum</div>
+          </div>
+          <div class="about-col-title" style="margin-top:20px">Solo Shows</div>
+          <div class="cv-entry">
+            <div class="cv-place">(upcoming) Tincidunt TBA</div>
+            <div class="cv-place">Ultricies Ultricies, Congue Nisl</div>
+            <div class="cv-year">2026</div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-italic">Suspendisse</div>
+            <div class="cv-place">Molestie Aenean, Facilisis Tellus</div>
+            <div class="cv-year">2024</div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-italic">Ultrices</div>
+            <div class="cv-place">Parturient Felis, Pharetra Nibh</div>
+            <div class="cv-year">2023</div>
+          </div>
+        </div>
+        <div class="about-col">
+          <div class="about-col-title">Group Shows</div>
+          <div class="cv-entry">
+            <div class="cv-place">Eu &amp; Fringilla, Collaborative</div>
+            <div class="cv-place">Imperdiet with Quam Sodales</div>
+            <div class="cv-year">2023</div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-italic">Semper</div>
+            <div class="cv-place">Cursus Tempus, Porta Libero</div>
+            <div class="cv-year">2023</div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-italic">Rhoncus Congue</div>
+            <div class="cv-place">Ullamcorper Suspendisse</div>
+            <div class="cv-year">2023</div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-italic">Pellentesque Ornare</div>
+            <div class="cv-place">Porttitor Ultrices, Sagittis Tempor</div>
+            <div class="cv-year">2022</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP BUTTON -->
+  <div style="padding: 12px calc(var(--side)) 24px; text-align: right;">
+    <span onclick="window.scrollTo({top:0,behavior:'smooth'})"
+      style="font-size:13px; cursor:pointer; text-decoration:underline;">Top ↑</span>
+  </div>
+
+</div><!-- /page-portfolio -->
+
+
+<!-- ════════════════ MOODBOARD PAGE ════════════════ -->
+<div id="page-moodboard">
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:140%;background:#b5c4d4;display:flex;align-items:center;justify-content:center;"><span style="font-size:28px;font-weight:900;color:#c0392b;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">LENS</span></div>
+    <div class="mb-info"><div class="mb-code">2-34</div><div class="mb-author">F. Kuenstler</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:80%;background:#d9cfc4;"></div>
+    <div class="mb-info"><div class="mb-code">BB09</div><div class="mb-author">R. Dijkstra</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:120%;background:#e8e4de;"></div>
+    <div class="mb-info"><div class="mb-code">5454-8</div><div class="mb-author">J. Tschichold</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:65%;background:#ece8e0;"></div>
+    <div class="mb-info"><div class="mb-code">65-4</div><div class="mb-author">Printed Card</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:130%;background:#e8c840;"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;text-align:center;line-height:1.2">PLÄNE<br>I–XXX</span></div>
+    <div class="mb-info"><div class="mb-code">6785</div><div class="mb-author">T. Schütte</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:90%;background:#e8e4de;"></div>
+    <div class="mb-info"><div class="mb-code">23-4</div><div class="mb-author">T. De Cordier</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:140%;background:#d0c8b8;"></div>
+    <div class="mb-info"><div class="mb-code">3-3</div><div class="mb-author">J. Rhoades</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:100%;background:#e05030;"></div>
+    <div class="mb-info"><div class="mb-code">8J</div><div class="mb-author">G. Debord</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:100%;background:#c8b890;"></div>
+    <div class="mb-info"><div class="mb-code">SS88</div><div class="mb-author">S. Ford</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:140%;background:#e8e4dc;"></div>
+    <div class="mb-info"><div class="mb-code">345</div><div class="mb-author">R. Filliou</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:80%;background:#e8e8e0;"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:10px;font-size:10px;font-weight:700;text-align:center;line-height:1.4">THE POEM AT THE BOTTOM OF THE LAKE</span></div>
+    <div class="mb-info"><div class="mb-code">001AB</div><div class="mb-author">W. Elliott</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:120%;background:#dcd8d0;"></div>
+    <div class="mb-info"><div class="mb-code">98DF</div><div class="mb-author">M. Broodthaers</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:150%;background:#111;"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;text-align:center;line-height:1.2">MULLICAN<br>DEATH</span></div>
+    <div class="mb-info"><div class="mb-code">000</div><div class="mb-author">M. Mullican</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:90%;background:#d4c8c0;"></div>
+    <div class="mb-info"><div class="mb-code">TT5</div><div class="mb-author">K. Bosse</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:130%;background:#3a6040;"></div>
+    <div class="mb-info"><div class="mb-code">999U</div><div class="mb-author">T. Raworth</div><div class="mb-src">SRC</div></div>
+  </div>
+  <div class="mb-item">
+    <div class="mb-ph" style="padding-bottom:110%;background:#2c3a58;"></div>
+    <div class="mb-info"><div class="mb-code">HD001</div><div class="mb-author">H. Darboven</div><div class="mb-src">SRC</div></div>
+  </div>
+</div><!-- /page-moodboard -->
+
+
+<!-- ════════════════ LIGHTBOX ════════════════ -->
+<div class="lb" id="lb">
+  <button class="lb-close" id="lb-close">×</button>
+  <button class="lb-arrow prev">‹</button>
+  <div class="lb-img-wrap" id="lb-img"></div>
+  <div class="lb-info" id="lb-info"></div>
+  <button class="lb-arrow next">›</button>
+</div>
+
+<!-- ════════════════ EDIT TOOLBAR ════════════════ -->
+<div id="edit-toolbar">
+  <span class="label">EDIT</span>
+  <span id="save-status"></span>
+  <span class="sep"></span>
+  <button id="dark-btn" title="다크모드">☾</button>
+  <button id="export-btn" title="HTML로 내보내기">⬇ HTML</button>
+  <button id="reset-btn" title="모두 초기화">초기화</button>
+  <span class="sep"></span>
+  <button id="close-btn" title="편집 종료 (Cmd+E)">완료</button>
+</div>
+
+<div id="edit-hint"><kbd>⌘</kbd>+<kbd>E</kbd> to edit</div>
+
+<script src="editor.js"></script>
+</body>
+</html>
