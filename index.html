@@ -50,8 +50,15 @@
   
   .top-bar.scrolled, .bottom-bar.scrolled { background: var(--bg); }
   
-  .nav-btn { cursor: pointer; font-size: 13px; user-select: none; color: var(--black); white-space: nowrap; }
-  .nav-btn:hover { text-decoration: underline; }
+  .nav-btn {
+    cursor: pointer; font-size: 13px; user-select: none; color: var(--black); white-space: nowrap;
+    padding: 2px 4px; transition: background 0.2s ease, color 0.2s ease;
+  }
+  .nav-btn:hover {
+    text-decoration: none;
+    background: var(--black);
+    color: var(--bg);
+  }
 
   .mid-label {
     position: fixed; z-index: 200; top: 50%; transform: translateY(-50%);
@@ -88,7 +95,16 @@
     position: relative; z-index: 3; display: flex; flex-direction: column; gap: 10px; 
     font-size: 13px; font-weight: 400; line-height: 1.4;
   }
-  .hero-link:hover { text-decoration: underline; opacity: 0.5; }
+  .hero-link {
+    display: inline-block; align-self: center; padding: 2px 4px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .hero-link:hover {
+    text-decoration: none;
+    opacity: 1;
+    background: var(--black);
+    color: var(--bg);
+  }
 
   /* ══ 섹션 공통 모션 ══ */
   .project-section .wrap, .about-section .wrap {
@@ -125,6 +141,15 @@
   .about-col { padding-right: 28px; }
   .about-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
   .about-col p, .about-col a { font-size: 13px; line-height: 1.6; display: block; color: var(--black); }
+  .about-col a {
+    width: fit-content; padding: 2px 4px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .about-col a:hover {
+    text-decoration: none;
+    background: var(--black);
+    color: var(--bg);
+  }
   .about-col .bio { font-size: 12px; color: var(--gray); line-height: 1.7; margin-top: 12px; }
 
   /* ══ 모바일 최적화 ══ */
@@ -293,7 +318,7 @@ Its visually precarious form creates a sense of uncertainty and curiosity, invit
   </section>
 
   <div style="padding: 20px 20px 120px; text-align: center;">
-    <span onclick="goToHome()" class="nav-btn" style="text-decoration:underline;">Top ↑</span>
+    <span onclick="goToHome()" class="nav-btn">Top ↑</span>
   </div>
 
 </div>
